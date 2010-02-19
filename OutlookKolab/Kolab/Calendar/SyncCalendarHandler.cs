@@ -7,6 +7,7 @@ using OutlookKolab.Kolab.Sync;
 using System.Collections.Generic;
 using OutlookKolab.Kolab.Settings;
 using System.Text;
+using System.Runtime.InteropServices;
 
 namespace OutlookKolab.Kolab.Calendar
 {
@@ -160,7 +161,7 @@ namespace OutlookKolab.Kolab.Calendar
             }
             catch (Exception ex)
             {
-                throw new SyncException("Unable to parse XML Document", ex);
+                throw new SyncException(GetItemText(sync), "Unable to parse XML Document", ex);
             }
 
             var localCal = (Outlook.AppointmentItem)sync.LocalItem;
@@ -169,102 +170,125 @@ namespace OutlookKolab.Kolab.Calendar
                 localCal = (Outlook.AppointmentItem)Folder.Items.Add(Outlook.OlItemType.olAppointmentItem);
             }
 
-            // Android part
-            localCal.Subject = cal.summary;
-            localCal.StartUTC = cal.startdate.ToUniversalTime();
-            localCal.EndUTC = cal.enddate.ToUniversalTime();
-            localCal.AllDayEvent = cal.startdate.TimeOfDay == TimeSpan.Zero;
-            localCal.Body  = cal.body;
-            localCal.Location = cal.location;
+            bool isRecurring = cal.recurrence != null && !string.IsNullOrEmpty(cal.recurrence.cycle);
 
-            // the rest
-            localCal.BusyStatus = cal.GetBusyStatus();
-            localCal.Categories  = cal.categories;
-            // newCal.Duration = calculated by start/end;
-            // newCal.Organizer = cal.organizer != null ? cal.organizer.displayname : string.Empty; ReadOnly ???
-            localCal.ReminderSet = cal.alarm != 0;
-            localCal.ReminderMinutesBeforeStart = cal.alarm;
-            localCal.Sensitivity = cal.GetSensitivity();
+            try
+            {
+                // Android part
+                localCal.Subject = cal.summary;
+                localCal.StartUTC = cal.startdate.ToUniversalTime();
+                localCal.EndUTC = cal.enddate.ToUniversalTime();
+                localCal.AllDayEvent = cal.startdate.TimeOfDay == TimeSpan.Zero;
+                localCal.Body = cal.body;
+                localCal.Location = cal.location;
+
+                // the rest
+                localCal.BusyStatus = cal.GetBusyStatus();
+                localCal.Categories = cal.categories;
+                // newCal.Duration = calculated by start/end;
+                // newCal.Organizer = cal.organizer != null ? cal.organizer.displayname : string.Empty; ReadOnly ???
+                localCal.ReminderSet = cal.alarm != 0;
+                localCal.ReminderMinutesBeforeStart = cal.alarm;
+                localCal.Sensitivity = cal.GetSensitivity();
+            }
+            catch (COMException ex)
+            {
+                throw new SyncException(GetItemText(sync), "Unable to set basic AppointmentItem options", ex);
+            }
 
             // Recurring
-            if (cal.recurrence != null && !string.IsNullOrEmpty(cal.recurrence.cycle))
+            if (isRecurring)
             {
-                // Get or create RecurrencePattern
-                var pattern = localCal.GetRecurrencePattern();
-
-                // Depending on RecurrenceType
-                pattern.RecurrenceType = cal.GetRecurrenceType();
-
-                // Only if valid or not yearly - only outlook 2007 does support yearly recurrences
-                if (cal.recurrence.interval != 0 &&
-                    pattern.RecurrenceType != Microsoft.Office.Interop.Outlook.OlRecurrenceType.olRecursYearly &&
-                    pattern.RecurrenceType != Microsoft.Office.Interop.Outlook.OlRecurrenceType.olRecursYearNth)
+                try
                 {
-                    pattern.Interval = cal.recurrence.interval;
-                }
-                else
-                {
-                    pattern.Interval = 1;
-                }
+                    // Get or create RecurrencePattern
+                    var pattern = localCal.GetRecurrencePattern();
 
-                switch (pattern.RecurrenceType)
-                {
-                    case Outlook.OlRecurrenceType.olRecursDaily:
-                        break;
-                    case Outlook.OlRecurrenceType.olRecursWeekly:
-                        if (cal.recurrence.day != null) pattern.DayOfWeekMask = cal.GetDayOfWeekMask();
-                        break;
-                    case Outlook.OlRecurrenceType.olRecursMonthNth:
-                        if (cal.recurrence.day != null) pattern.DayOfWeekMask = cal.GetDayOfWeekMask();
-                        pattern.Instance = cal.recurrence.daynumber;
-                        break;
-                    case Outlook.OlRecurrenceType.olRecursMonthly:
-                        if (cal.recurrence.daynumber != 0)
-                        {
+                    // Depending on RecurrenceType
+                    pattern.RecurrenceType = cal.GetRecurrenceType();
+
+                    // Only if valid or not yearly - only outlook 2007 does support yearly recurrences
+                    if (cal.recurrence.interval != 0 &&
+                        pattern.RecurrenceType != Microsoft.Office.Interop.Outlook.OlRecurrenceType.olRecursYearly &&
+                        pattern.RecurrenceType != Microsoft.Office.Interop.Outlook.OlRecurrenceType.olRecursYearNth)
+                    {
+                        pattern.Interval = cal.recurrence.interval;
+                    }
+                    else
+                    {
+                        pattern.Interval = 1;
+                    }
+
+                    switch (pattern.RecurrenceType)
+                    {
+                        case Outlook.OlRecurrenceType.olRecursDaily:
+                            break;
+                        case Outlook.OlRecurrenceType.olRecursWeekly:
+                            if (cal.recurrence.day != null) pattern.DayOfWeekMask = cal.GetDayOfWeekMask();
+                            break;
+                        case Outlook.OlRecurrenceType.olRecursMonthNth:
+                            if (cal.recurrence.day != null) pattern.DayOfWeekMask = cal.GetDayOfWeekMask();
+                            pattern.Instance = cal.recurrence.daynumber;
+                            break;
+                        case Outlook.OlRecurrenceType.olRecursMonthly:
+                            if (cal.recurrence.daynumber != 0)
+                            {
+                                pattern.DayOfMonth = cal.recurrence.daynumber;
+                            }
+                            break;
+                        case Outlook.OlRecurrenceType.olRecursYearNth:
+                            pattern.MonthOfYear = cal.GetMonthOfYear();
+                            pattern.Instance = cal.recurrence.daynumber;
+                            if (cal.recurrence.day != null) pattern.DayOfWeekMask = cal.GetDayOfWeekMask();
+                            break;
+                        case Outlook.OlRecurrenceType.olRecursYearly:
                             pattern.DayOfMonth = cal.recurrence.daynumber;
+                            pattern.MonthOfYear = cal.GetMonthOfYear();
+                            break;
+                    }
+                    if (cal.recurrence.range != null && !string.IsNullOrEmpty(cal.recurrence.range.type))
+                    {
+                        if (cal.recurrence.range.type == "none")
+                        {
+                            pattern.NoEndDate = true;
                         }
-                        break;
-                    case Outlook.OlRecurrenceType.olRecursYearNth:
-                        if (cal.recurrence.day != null) pattern.DayOfWeekMask = cal.GetDayOfWeekMask();
-                        pattern.MonthOfYear = cal.GetMonthOfYear();
-                        pattern.Instance = cal.recurrence.daynumber;
-                        break;
-                    case Outlook.OlRecurrenceType.olRecursYearly:
-                        pattern.DayOfMonth = cal.recurrence.daynumber;
-                        pattern.MonthOfYear = cal.GetMonthOfYear();
-                        break;
+                        else if (cal.recurrence.range.type == "date")
+                        {
+                            DateTime tmp;
+                            if (DateTime.TryParse(cal.recurrence.range.Value, out tmp))
+                            {
+                                pattern.PatternEndDate = tmp;
+                            }
+                        }
+                        else if (cal.recurrence.range.type == "number")
+                        {
+                            int tmp;
+                            if (int.TryParse(cal.recurrence.range.Value, out tmp))
+                            {
+                                pattern.Occurrences = tmp;
+                            }
+                        }
+                    }
+                    // cal.GetRecurrenceType(pattern) = cal.recurrence.type;
                 }
-                if (cal.recurrence.range != null && !string.IsNullOrEmpty(cal.recurrence.range.type))
+                catch (COMException ex)
                 {
-                    if (cal.recurrence.range.type == "none")
-                    {
-                        pattern.NoEndDate = true;
-                    }
-                    else if (cal.recurrence.range.type == "date")
-                    {
-                        DateTime tmp;
-                        if (DateTime.TryParse(cal.recurrence.range.Value, out tmp))
-                        {
-                            pattern.PatternEndDate = tmp;
-                        }
-                    }
-                    else if (cal.recurrence.range.type == "number")
-                    {
-                        int tmp;
-                        if (int.TryParse(cal.recurrence.range.Value, out tmp))
-                        {
-                            pattern.Occurrences = tmp;
-                        }
-                    }
+                    throw new SyncException(GetItemText(sync), "Unable to set AppointmentItem recurrence", ex);
                 }
-                // cal.GetRecurrenceType(pattern) = cal.recurrence.type;
             }
             else
             {
                 localCal.ClearRecurrencePattern();
             }
 
-            localCal.Save();
+            try
+            {
+                localCal.Save();
+            }
+            catch (COMException ex)
+            {
+                throw new SyncException(GetItemText(sync), "Unable to save AppointmentItem", ex);
+            }
 
             if (sync.CacheEntry == null)
             {
@@ -390,6 +414,19 @@ namespace OutlookKolab.Kolab.Calendar
             }
 
             return sb.ToString();
+        }
+
+        public override string GetItemText(SyncContext sync)
+        {
+            if ((sync.LocalItem as Outlook.AppointmentItem) != null)
+            {
+                var item  = (Outlook.AppointmentItem)sync.LocalItem;
+                return item.Subject + ": " + item.Start.ToString();
+            }
+            else
+            {
+                return sync.Message.Subject;
+            }
         }
     }
 }

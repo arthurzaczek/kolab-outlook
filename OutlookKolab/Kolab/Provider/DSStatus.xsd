@@ -9,26 +9,46 @@
       </DataSource>
     </xs:appinfo>
   </xs:annotation>
-  <xs:element name="DSStatus" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_DataSetName="DSStatus" msprop:Generator_UserDSName="DSStatus" msprop:EnableTableAdapterManager="true">
+  <xs:element name="DSStatus" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="DSStatus" msprop:Generator_DataSetName="DSStatus" msprop:EnableTableAdapterManager="true">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="StatusEntry" msprop:Generator_UserTableName="StatusEntry" msprop:Generator_RowDeletedName="StatusEntryRowDeleted" msprop:Generator_TableClassName="StatusEntryDataTable" msprop:Generator_RowChangedName="StatusEntryRowChanged" msprop:Generator_RowClassName="StatusEntryRow" msprop:Generator_RowChangingName="StatusEntryRowChanging" msprop:Generator_RowEvArgName="StatusEntryRowChangeEvent" msprop:Generator_RowEvHandlerName="StatusEntryRowChangeEventHandler" msprop:Generator_TablePropName="StatusEntry" msprop:Generator_TableVarName="tableStatusEntry" msprop:Generator_RowDeletingName="StatusEntryRowDeleting">
+        <xs:element name="StatusEntry" msprop:Generator_UserTableName="StatusEntry" msprop:Generator_RowDeletedName="StatusEntryRowDeleted" msprop:Generator_RowChangedName="StatusEntryRowChanged" msprop:Generator_RowClassName="StatusEntryRow" msprop:Generator_RowChangingName="StatusEntryRowChanging" msprop:Generator_RowEvArgName="StatusEntryRowChangeEvent" msprop:Generator_RowEvHandlerName="StatusEntryRowChangeEventHandler" msprop:Generator_TableClassName="StatusEntryDataTable" msprop:Generator_TableVarName="tableStatusEntry" msprop:Generator_RowDeletingName="StatusEntryRowDeleting" msprop:Generator_TablePropName="StatusEntry">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="time" msprop:Generator_UserColumnName="time" msprop:Generator_ColumnPropNameInRow="time" msprop:Generator_ColumnVarNameInTable="columntime" msprop:Generator_ColumnPropNameInTable="timeColumn" type="xs:dateTime" />
-              <xs:element name="task" msprop:Generator_UserColumnName="task" msprop:Generator_ColumnPropNameInRow="task" msprop:Generator_ColumnVarNameInTable="columntask" msprop:Generator_ColumnPropNameInTable="taskColumn" type="xs:string" />
-              <xs:element name="items" msprop:Generator_UserColumnName="items" msprop:Generator_ColumnPropNameInRow="items" msprop:Generator_ColumnVarNameInTable="columnitems" msprop:Generator_ColumnPropNameInTable="itemsColumn" type="xs:int" default="0" />
-              <xs:element name="localChanged" msprop:Generator_UserColumnName="localChanged" msprop:Generator_ColumnPropNameInRow="localChanged" msprop:Generator_ColumnVarNameInTable="columnlocalChanged" msprop:Generator_ColumnPropNameInTable="localChangedColumn" type="xs:int" default="0" />
-              <xs:element name="remoteChanged" msprop:Generator_UserColumnName="remoteChanged" msprop:Generator_ColumnPropNameInRow="remoteChanged" msprop:Generator_ColumnVarNameInTable="columnremoteChanged" msprop:Generator_ColumnPropNameInTable="remoteChangedColumn" type="xs:int" default="0" />
-              <xs:element name="localNew" msprop:Generator_UserColumnName="localNew" msprop:Generator_ColumnPropNameInRow="localNew" msprop:Generator_ColumnVarNameInTable="columnlocalNew" msprop:Generator_ColumnPropNameInTable="localNewColumn" type="xs:int" default="0" />
-              <xs:element name="remoteNew" msprop:Generator_UserColumnName="remoteNew" msprop:Generator_ColumnPropNameInRow="remoteNew" msprop:Generator_ColumnVarNameInTable="columnremoteNew" msprop:Generator_ColumnPropNameInTable="remoteNewColumn" type="xs:int" default="0" />
-              <xs:element name="localDeleted" msprop:Generator_UserColumnName="localDeleted" msprop:Generator_ColumnPropNameInRow="localDeleted" msprop:Generator_ColumnVarNameInTable="columnlocalDeleted" msprop:Generator_ColumnPropNameInTable="localDeletedColumn" type="xs:int" default="0" />
-              <xs:element name="remoteDeleted" msprop:Generator_UserColumnName="remoteDeleted" msprop:Generator_ColumnPropNameInRow="remoteDeleted" msprop:Generator_ColumnVarNameInTable="columnremoteDeleted" msprop:Generator_ColumnPropNameInTable="remoteDeletedColumn" type="xs:int" default="0" />
-              <xs:element name="conflicted" msprop:Generator_UserColumnName="conflicted" msprop:Generator_ColumnPropNameInRow="conflicted" msprop:Generator_ColumnVarNameInTable="columnconflicted" msprop:Generator_ColumnPropNameInTable="conflictedColumn" type="xs:int" default="0" />
+              <xs:element name="time" msprop:Generator_UserColumnName="time" msprop:Generator_ColumnVarNameInTable="columntime" msprop:Generator_ColumnPropNameInRow="time" msprop:Generator_ColumnPropNameInTable="timeColumn" type="xs:dateTime" />
+              <xs:element name="task" msprop:Generator_UserColumnName="task" msprop:Generator_ColumnVarNameInTable="columntask" msprop:Generator_ColumnPropNameInRow="task" msprop:Generator_ColumnPropNameInTable="taskColumn" type="xs:string" />
+              <xs:element name="items" msprop:Generator_UserColumnName="items" msprop:Generator_ColumnVarNameInTable="columnitems" msprop:Generator_ColumnPropNameInRow="items" msprop:Generator_ColumnPropNameInTable="itemsColumn" type="xs:int" default="0" />
+              <xs:element name="localChanged" msprop:Generator_UserColumnName="localChanged" msprop:Generator_ColumnVarNameInTable="columnlocalChanged" msprop:Generator_ColumnPropNameInRow="localChanged" msprop:Generator_ColumnPropNameInTable="localChangedColumn" type="xs:int" default="0" />
+              <xs:element name="remoteChanged" msprop:Generator_UserColumnName="remoteChanged" msprop:Generator_ColumnVarNameInTable="columnremoteChanged" msprop:Generator_ColumnPropNameInRow="remoteChanged" msprop:Generator_ColumnPropNameInTable="remoteChangedColumn" type="xs:int" default="0" />
+              <xs:element name="localNew" msprop:Generator_UserColumnName="localNew" msprop:Generator_ColumnVarNameInTable="columnlocalNew" msprop:Generator_ColumnPropNameInRow="localNew" msprop:Generator_ColumnPropNameInTable="localNewColumn" type="xs:int" default="0" />
+              <xs:element name="remoteNew" msprop:Generator_UserColumnName="remoteNew" msprop:Generator_ColumnVarNameInTable="columnremoteNew" msprop:Generator_ColumnPropNameInRow="remoteNew" msprop:Generator_ColumnPropNameInTable="remoteNewColumn" type="xs:int" default="0" />
+              <xs:element name="localDeleted" msprop:Generator_UserColumnName="localDeleted" msprop:Generator_ColumnVarNameInTable="columnlocalDeleted" msprop:Generator_ColumnPropNameInRow="localDeleted" msprop:Generator_ColumnPropNameInTable="localDeletedColumn" type="xs:int" default="0" />
+              <xs:element name="remoteDeleted" msprop:Generator_UserColumnName="remoteDeleted" msprop:Generator_ColumnVarNameInTable="columnremoteDeleted" msprop:Generator_ColumnPropNameInRow="remoteDeleted" msprop:Generator_ColumnPropNameInTable="remoteDeletedColumn" type="xs:int" default="0" />
+              <xs:element name="conflicted" msprop:Generator_UserColumnName="conflicted" msprop:Generator_ColumnVarNameInTable="columnconflicted" msprop:Generator_ColumnPropNameInRow="conflicted" msprop:Generator_ColumnPropNameInTable="conflictedColumn" type="xs:int" default="0" />
+              <xs:element name="errors" msprop:Generator_UserColumnName="errors" msprop:Generator_ColumnPropNameInRow="errors" msprop:Generator_ColumnVarNameInTable="columnerrors" msprop:Generator_ColumnPropNameInTable="errorsColumn" type="xs:int" default="0" />
+              <xs:element name="ID" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="1" msprop:Generator_UserColumnName="ID" msprop:Generator_ColumnVarNameInTable="columnID" msprop:Generator_ColumnPropNameInRow="ID" msprop:Generator_ColumnPropNameInTable="IDColumn" type="xs:int" />
+              <xs:element name="Error" msprop:Generator_UserTableName="Error" msprop:Generator_RowDeletedName="ErrorRowDeleted" msprop:Generator_RowChangedName="ErrorRowChanged" msprop:Generator_RowClassName="ErrorRow" msprop:Generator_RowChangingName="ErrorRowChanging" msprop:Generator_RowEvArgName="ErrorRowChangeEvent" msprop:Generator_RowEvHandlerName="ErrorRowChangeEventHandler" msprop:Generator_TableClassName="ErrorDataTable" msprop:Generator_TableVarName="tableError" msprop:Generator_RowDeletingName="ErrorRowDeleting" msprop:Generator_TablePropName="Error" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="fk_Status" msprop:Generator_UserColumnName="fk_Status" msprop:Generator_ColumnVarNameInTable="columnfk_Status" msprop:Generator_ColumnPropNameInRow="fk_Status" msprop:Generator_ColumnPropNameInTable="fk_StatusColumn" type="xs:int" />
+                    <xs:element name="Message" msprop:Generator_UserColumnName="Message" msprop:Generator_ColumnVarNameInTable="columnMessage" msprop:Generator_ColumnPropNameInRow="Message" msprop:Generator_ColumnPropNameInTable="MessageColumn" type="xs:string" minOccurs="0" />
+                    <xs:element name="Exception" msprop:Generator_UserColumnName="Exception" msprop:Generator_ColumnVarNameInTable="columnException" msprop:Generator_ColumnPropNameInRow="Exception" msprop:Generator_ColumnPropNameInTable="ExceptionColumn" type="xs:string" minOccurs="0" />
+                    <xs:element name="Item" msprop:Generator_UserColumnName="Item" msprop:Generator_ColumnPropNameInRow="Item" msprop:Generator_ColumnVarNameInTable="columnItem" msprop:Generator_ColumnPropNameInTable="ItemColumn" type="xs:string" minOccurs="0" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
       </xs:choice>
     </xs:complexType>
+    <xs:unique name="StatusEntryKey1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:StatusEntry" />
+      <xs:field xpath="mstns:ID" />
+    </xs:unique>
+    <xs:keyref name="FK_StatusEntry_Error" refer="StatusEntryKey1" msdata:IsNested="true" msprop:rel_Generator_UserRelationName="FK_StatusEntry_Error" msprop:rel_Generator_RelationVarName="relationFK_StatusEntry_Error" msprop:rel_Generator_UserChildTable="Error" msprop:rel_Generator_UserParentTable="StatusEntry" msprop:rel_Generator_ParentPropName="StatusEntryRow" msprop:rel_Generator_ChildPropName="GetErrorRows" msdata:AcceptRejectRule="Cascade">
+      <xs:selector xpath=".//mstns:Error" />
+      <xs:field xpath="mstns:fk_Status" />
+    </xs:keyref>
   </xs:element>
 </xs:schema>

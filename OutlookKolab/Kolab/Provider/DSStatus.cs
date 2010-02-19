@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using OutlookKolab.Kolab.Sync;
 namespace OutlookKolab.Kolab.Provider {
     
     
@@ -65,6 +66,13 @@ namespace OutlookKolab.Kolab.Provider {
             public int incrementConflicted()
             {
                 return ++conflicted;
+            }
+
+            public int incrementErrors(SyncException ex)
+            {
+                DSStatus ds = (DSStatus)this.Table.DataSet;
+                ds.Error.AddErrorRow(this, ex.Message, ex.ToString(), ex.Item);
+                return ++errors;
             }
         }
     }

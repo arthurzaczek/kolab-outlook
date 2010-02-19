@@ -16,7 +16,7 @@ namespace OutlookKolab.Kolab.Sync
         protected AbstractSyncHandler(DSSettings settings, DSStatus dsStatus, Outlook.Application app)
         {
             this.app = app;
-            status = dsStatus.StatusEntry.AddStatusEntryRow(DateTime.Now, "", 0, 0, 0, 0, 0, 0, 0, 0);
+            status = dsStatus.StatusEntry.AddStatusEntryRow(DateTime.Now, "", 0, 0, 0, 0, 0, 0, 0, 0, 0);
             this.settings = settings;
         }
 
@@ -34,6 +34,8 @@ namespace OutlookKolab.Kolab.Sync
         public abstract String GetIMAPStoreID();
         public abstract String GetOutlookFolderName();
         public abstract String GetOutlookStoreID();
+
+        public abstract string GetItemText(SyncContext sync);
 
         public abstract bool hasLocalChanges(SyncContext sync);
         public abstract bool hasLocalItem(SyncContext sync);
@@ -145,38 +147,38 @@ namespace OutlookKolab.Kolab.Sync
 
         private static void CleanOutlookTempFolder()
         {
-            try
-            {
-                var hkcu = Microsoft.Win32.Registry.CurrentUser;
-                var key = hkcu.OpenSubKey(@"Software\Microsoft\Office\11.0\Outlook\Security");
-                if(key == null)
-                {
-                    key = hkcu.OpenSubKey(@"Software\Microsoft\Office\12.0\Outlook\Security");                    
-                }
-                if (key != null)
-                {
-                    var path = key.GetValue("OutlookSecureTempFolder", string.Empty) as string;
-                    if (!string.IsNullOrEmpty(path) && Directory.Exists(path))
-                    {
-                        foreach (var f in Directory.GetFiles(path, "kolab*.xml"))
-                        {
-                            try
-                            {
-                                File.Delete(f);
-                            }
-                            catch
-                            {
-                                // realy dont care
-                            }
-                        }
-                    }
-                }
-            }
-            catch(Exception ex)
-            {
-                // I don't care
-                Log.w("outlook", ex.ToString());
-            }
+            //try
+            //{
+            //    var hkcu = Microsoft.Win32.Registry.CurrentUser;
+            //    var key = hkcu.OpenSubKey(@"Software\Microsoft\Office\11.0\Outlook\Security");
+            //    if(key == null)
+            //    {
+            //        key = hkcu.OpenSubKey(@"Software\Microsoft\Office\12.0\Outlook\Security");                    
+            //    }
+            //    if (key != null)
+            //    {
+            //        var path = key.GetValue("OutlookSecureTempFolder", string.Empty) as string;
+            //        if (!string.IsNullOrEmpty(path) && Directory.Exists(path))
+            //        {
+            //            foreach (var f in Directory.GetFiles(path, "kolab*.xml"))
+            //            {
+            //                try
+            //                {
+            //                    File.Delete(f);
+            //                }
+            //                catch
+            //                {
+            //                    // realy dont care
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
+            //catch(Exception ex)
+            //{
+            //    // I don't care
+            //    Log.w("outlook", ex.ToString());
+            //}
         }
 
         private string extractXml(Outlook.MailItem message)
@@ -197,7 +199,7 @@ namespace OutlookKolab.Kolab.Sync
                 }
                 catch (Exception ex)
                 {
-                    throw new SyncException("Unable to save attachment", ex);
+                    throw new SyncException(message.Subject, "Unable to save attachment", ex);
                 }
                 finally
                 {
@@ -207,7 +209,7 @@ namespace OutlookKolab.Kolab.Sync
             }
             else
             {
-                throw new SyncException("Message " + message.Subject + " has not attachment");
+                throw new SyncException(message.Subject, "Message " + message.Subject + " has not attachment");
             }
             return result;
         }

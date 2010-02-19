@@ -7,6 +7,7 @@ using OutlookKolab.Kolab.Sync;
 using System.Collections.Generic;
 using OutlookKolab.Kolab.Settings;
 using System.Text;
+using System.Runtime.InteropServices;
 
 namespace OutlookKolab.Kolab.Constacts
 {
@@ -150,7 +151,7 @@ namespace OutlookKolab.Kolab.Constacts
             }
             catch (Exception ex)
             {
-                throw new SyncException("Unable to parse XML Document", ex);
+                throw new SyncException(GetItemText(sync), "Unable to parse XML Document", ex);
             }
 
             var person = (Outlook.ContactItem)sync.LocalItem;
@@ -158,129 +159,144 @@ namespace OutlookKolab.Kolab.Constacts
             {
                 person = (Outlook.ContactItem)Folder.Items.Add(Outlook.OlItemType.olContactItem);
             }
-            if (contact.name != null) person.FullName = contact.name.fullname;
 
-            if (contact.phone != null)
+            try
             {
-                foreach (var phone in contact.phone)
+                if (contact.name != null) person.FullName = contact.name.fullname;
+
+                if (contact.phone != null)
                 {
-                    switch (phone.type)
+                    foreach (var phone in contact.phone)
                     {
-                        case "primary":
-                            person.PrimaryTelephoneNumber = phone.number;
-                            break;
-                        case "business1":
-                            person.BusinessTelephoneNumber = phone.number;
-                            break;
-                        case "business2":
-                            person.Business2TelephoneNumber = phone.number;
-                            break;
-                        case "businessfax":
-                            person.BusinessFaxNumber = phone.number;
-                            break;
-                        case "company":
-                            person.CompanyMainTelephoneNumber = phone.number;
-                            break;
-                        case "assistant":
-                            person.AssistantTelephoneNumber = phone.number;
-                            break;
-                        case "callback":
-                            person.CallbackTelephoneNumber = phone.number;
-                            break;
-                        case "other":
-                            person.OtherTelephoneNumber = phone.number;
-                            break;
-                        case "home1":
-                            person.HomeTelephoneNumber = phone.number;
-                            break;
-                        case "home2":
-                            person.Home2TelephoneNumber = phone.number;
-                            break;
-                        case "homefax":
-                            person.HomeFaxNumber = phone.number;
-                            break;
-                        case "mobile":
-                            person.MobileTelephoneNumber = phone.number;
-                            break;
-                        case "isdn":
-                            person.ISDNNumber = phone.number;
-                            break;
-                        case "pager":
-                            person.PagerNumber = phone.number;
-                            break;
-                        case "radio":
-                            person.RadioTelephoneNumber = phone.number;
-                            break;
-                        case "telex":
-                            person.TelexNumber = phone.number;
-                            break;
-                        case "ttytdd":
-                            person.TTYTDDTelephoneNumber = phone.number;
-                            break;
-                        case "car":
-                            person.CarTelephoneNumber = phone.number;
-                            break;
+                        switch (phone.type)
+                        {
+                            case "primary":
+                                person.PrimaryTelephoneNumber = phone.number;
+                                break;
+                            case "business1":
+                                person.BusinessTelephoneNumber = phone.number;
+                                break;
+                            case "business2":
+                                person.Business2TelephoneNumber = phone.number;
+                                break;
+                            case "businessfax":
+                                person.BusinessFaxNumber = phone.number;
+                                break;
+                            case "company":
+                                person.CompanyMainTelephoneNumber = phone.number;
+                                break;
+                            case "assistant":
+                                person.AssistantTelephoneNumber = phone.number;
+                                break;
+                            case "callback":
+                                person.CallbackTelephoneNumber = phone.number;
+                                break;
+                            case "other":
+                                person.OtherTelephoneNumber = phone.number;
+                                break;
+                            case "home1":
+                                person.HomeTelephoneNumber = phone.number;
+                                break;
+                            case "home2":
+                                person.Home2TelephoneNumber = phone.number;
+                                break;
+                            case "homefax":
+                                person.HomeFaxNumber = phone.number;
+                                break;
+                            case "mobile":
+                                person.MobileTelephoneNumber = phone.number;
+                                break;
+                            case "isdn":
+                                person.ISDNNumber = phone.number;
+                                break;
+                            case "pager":
+                                person.PagerNumber = phone.number;
+                                break;
+                            case "radio":
+                                person.RadioTelephoneNumber = phone.number;
+                                break;
+                            case "telex":
+                                person.TelexNumber = phone.number;
+                                break;
+                            case "ttytdd":
+                                person.TTYTDDTelephoneNumber = phone.number;
+                                break;
+                            case "car":
+                                person.CarTelephoneNumber = phone.number;
+                                break;
+                        }
+                    }
+                }
+
+                if (contact.address != null)
+                {
+                    foreach (var adr in contact.address)
+                    {
+                        switch (adr.type)
+                        {
+                            case "home":
+                                person.HomeAddressCity = adr.locality;
+                                person.HomeAddressCountry = adr.country;
+                                person.HomeAddressState = adr.region;
+                                person.HomeAddressPostalCode = adr.postalcode;
+                                person.HomeAddressStreet = adr.street;
+                                break;
+                            case "business":
+                                person.BusinessAddressCity = adr.locality;
+                                person.BusinessAddressCountry = adr.country;
+                                person.BusinessAddressState = adr.region;
+                                person.BusinessAddressPostalCode = adr.postalcode;
+                                person.BusinessAddressStreet = adr.street;
+                                break;
+                            case "other":
+                                person.OtherAddressCity = adr.locality;
+                                person.OtherAddressCountry = adr.country;
+                                person.OtherAddressState = adr.region;
+                                person.OtherAddressPostalCode = adr.postalcode;
+                                person.OtherAddressStreet = adr.street;
+                                break;
+                        }
+                    }
+                }
+
+                if (contact.email != null)
+                {
+                    int counter = 1;
+                    foreach (var email in contact.email)
+                    {
+                        switch (counter)
+                        {
+                            case 1:
+                                person.Email1Address = email.smtpaddress;
+                                person.Email1DisplayName = email.displayname;
+                                break;
+                            case 2:
+                                person.Email2Address = email.smtpaddress;
+                                person.Email2DisplayName = email.displayname;
+                                break;
+                            case 3:
+                                person.Email3Address = email.smtpaddress;
+                                person.Email3DisplayName = email.displayname;
+                                break;
+                        }
+
+                        counter++;
                     }
                 }
             }
-
-            if (contact.address != null)
+            catch (COMException ex)
             {
-                foreach (var adr in contact.address)
-                {
-                    switch (adr.type)
-                    {
-                        case "home":
-                            person.HomeAddressCity = adr.locality;
-                            person.HomeAddressCountry = adr.country;
-                            person.HomeAddressState = adr.region;
-                            person.HomeAddressPostalCode = adr.postalcode;
-                            person.HomeAddressStreet = adr.street;
-                            break;
-                        case "business":
-                            person.BusinessAddressCity = adr.locality;
-                            person.BusinessAddressCountry = adr.country;
-                            person.BusinessAddressState = adr.region;
-                            person.BusinessAddressPostalCode = adr.postalcode;
-                            person.BusinessAddressStreet = adr.street;
-                            break;
-                        case "other":
-                            person.OtherAddressCity = adr.locality;
-                            person.OtherAddressCountry = adr.country;
-                            person.OtherAddressState = adr.region;
-                            person.OtherAddressPostalCode = adr.postalcode;
-                            person.OtherAddressStreet = adr.street;
-                            break;
-                    }
-                }
+                throw new SyncException(GetItemText(sync), "Unable to set basic ContactItem options", ex);
             }
 
-            if (contact.email != null)
+            try
             {
-                int counter = 1;
-                foreach (var email in contact.email)
-                {
-                    switch (counter)
-                    {
-                        case 1:
-                            person.Email1Address = email.smtpaddress;
-                            person.Email1DisplayName = email.displayname;
-                            break;
-                        case 2:
-                            person.Email2Address = email.smtpaddress;
-                            person.Email2DisplayName = email.displayname;
-                            break;
-                        case 3:
-                            person.Email3Address = email.smtpaddress;
-                            person.Email3DisplayName = email.displayname;
-                            break;
-                    }
-
-                    counter++;
-                }
+                person.Save();
             }
-
-            person.Save();
+            catch (COMException ex)
+            {
+                throw new SyncException(GetItemText(sync), "Unable to save ContactItem", ex);
+            }            
 
             if (sync.CacheEntry == null)
             {
@@ -385,6 +401,19 @@ namespace OutlookKolab.Kolab.Constacts
             sb.AppendLine("email1: " + contact.Email3Address + " (" + contact.Email3DisplayName + ")");
 
             return sb.ToString();
+        }
+
+        public override string GetItemText(SyncContext sync)
+        {
+            if ((sync.LocalItem as Outlook.ContactItem) != null)
+            {
+                var item = (Outlook.ContactItem)sync.LocalItem;
+                return item.FullName;
+            }
+            else
+            {
+                return sync.Message.Subject;
+            }
         }
     }
 }

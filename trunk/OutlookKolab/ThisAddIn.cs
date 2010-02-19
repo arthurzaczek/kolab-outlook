@@ -87,6 +87,7 @@ namespace OutlookKolab
             statusButton = (Office.CommandBarButton)toolBar.Controls.Add(1, missing, missing, missing, true);
             statusButton.Style = Office.MsoButtonStyle.msoButtonCaption;
             statusButton.Caption = "Idle";
+            statusButton.Click += new Office._CommandBarButtonEvents_ClickEventHandler(logButton_Click);
         }
         #endregion
 
@@ -119,7 +120,6 @@ namespace OutlookKolab
             {
                 if (statusButton != null && syncButton != null)
                 {
-                    statusButton.Caption = "Sync finished";
                     syncButton.Caption = "Sync";
                 }
             }
@@ -131,7 +131,6 @@ namespace OutlookKolab
             {
                 if (statusButton != null && syncButton != null)
                 {
-                    statusButton.Caption = "Sync is running";
                     syncButton.Caption = "Stop";
                 }
             }

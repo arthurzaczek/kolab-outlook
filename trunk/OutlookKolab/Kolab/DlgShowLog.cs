@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using OutlookKolab.Kolab.Provider;
 
 namespace OutlookKolab.Kolab
 {
@@ -39,10 +40,22 @@ namespace OutlookKolab.Kolab
 
         private void btnClearLog_Click(object sender, EventArgs e)
         {
-            dsStatus1.StatusEntry.Rows.Clear();
+            foreach (var r in dsStatus1.StatusEntry.Rows.Cast<DSStatus.StatusEntryRow>().ToList())
+            {
+                r.Delete();
+            }
             dsStatus1.AcceptChanges();
             dsStatus1.Save();
             dsStatus1.ReLoad();
+        }
+
+        private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            var row = dsStatus1.StatusEntry[e.RowIndex];
+            if (row.errors > 0)
+            {
+                e.CellStyle.BackColor = Color.LightCoral;
+            }
         }
     }
 }

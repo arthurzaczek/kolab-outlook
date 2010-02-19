@@ -179,6 +179,10 @@
     <Compile Include="Kolab\Helper.cs" />
     <Compile Include="Kolab\Log.cs" />
     <Compile Include="Kolab\MAPI.cs" />
+    <Compile Include="Kolab\Provider\DSLocalCache.cs">
+      <DependentUpon>DSLocalCache.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Kolab\Provider\DSLocalCache.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

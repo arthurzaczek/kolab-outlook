@@ -1,4 +1,24 @@
-﻿using System.Reflection;
+﻿/*
+ * Copyright 2010 Arthur Zaczek <arthur@dasz.at>, dasz.at OG; All rights reserved.
+ * Copyright 2010 David Schmitt <david@dasz.at>, dasz.at OG; All rights reserved.
+ *
+ *  This file is part of Kolab Sync for Outlook.
+
+ *  Kolab Sync for Outlook is free software: you can redistribute it
+ *  and/or modify it under the terms of the GNU General Public License
+ *  as published by the Free Software Foundation, either version 3 of
+ *  the License, or (at your option) any later version.
+
+ *  Kolab Sync for Outlook is distributed in the hope that it will be
+ *  useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+ *  of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *  General Public License for more details.
+
+ *  You should have received a copy of the GNU General Public License
+ *  along with Kolab Sync for Outlook.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security;
@@ -6,12 +26,12 @@ using System.Security;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("OutlookKolab")]
+[assembly: AssemblyTitle("Kolab Sync for Outlook")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("OutlookKolab")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2009")]
+[assembly: AssemblyCompany("dasz.at OG")]
+[assembly: AssemblyProduct("Kolab Sync for Outlook")]
+[assembly: AssemblyCopyright("Copyright © dasz.at 2010")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

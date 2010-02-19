@@ -1,4 +1,4 @@
 #summary All you need to build this project.
 #labels Featured
 
-For compiling this project you need the [http://msdn.microsoft.com/en-us/library/bb398242.aspx Visual Studio Office Tools], which are part of Visual Studio 2008 Professional Edition (and others), and the [http://msdn.microsoft.com/en-us/library/kh3965hw.aspx Primary Interop Assemblies] for Office 2007.
+For compiling this project you need the [http://msdn.microsoft.com/en-us/library/bb398242.aspx Visual Studio Office Tools], which are part of Visual Studio 2008 Professional Edition (and others), the [http://www.microsoft.com/downloads/details.aspx?familyid=54EB3A5A-0E52-40F9-A2D1-EECD7A092DCB&displaylang=en VSTO runtime v3.0], and the [http://msdn.microsoft.com/en-us/library/kh3965hw.aspx Primary Interop Assemblies] for Office 2007.

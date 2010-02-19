@@ -18,27 +18,9 @@
  *  along with Kolab Sync for Outlook.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace OutlookKolab.Kolab.Sync
+namespace OutlookKolab.Kolab.Provider
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-
-    public class SyncException : Exception
+    public partial class DSLocalCache
     {
-        public SyncException(string item, string message)
-            : base(message)
-        {
-            this.Item = item;
-        }
-
-        public SyncException(string item, string message, Exception inner)
-            : base(message, inner)
-        {
-            this.Item = item;
-        }
-
-        public string Item { get; private set; }
     }
 }

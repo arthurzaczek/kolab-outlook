@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="contact">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="uid" type="xs:string" />
+        <xs:element name="body" type="xs:string" />
+        <xs:element name="categories" type="xs:string" />
+        <xs:element name="creation-date" type="xs:dateTime" />
+        <xs:element name="last-modification-date" type="xs:dateTime" />
+        <xs:element name="sensitivity" type="xs:string" />
+        <xs:element name="inline-attachment" type="xs:string" />
+        <xs:element name="link-attachment" type="xs:string" />
+        <xs:element name="product-id" type="xs:string" />
+        <xs:element name="name">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="given-name" type="xs:string" />
+              <xs:element name="middle-names" type="xs:string" />
+              <xs:element name="last-name" type="xs:string" />
+              <xs:element name="full-name" type="xs:string" />
+              <xs:element name="initials" type="xs:string" />
+              <xs:element name="prefix" type="xs:string" />
+              <xs:element name="suffix" type="xs:string" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="free-busy-url" type="xs:string" />
+        <xs:element name="organization" type="xs:string" />
+        <xs:element name="web-page" type="xs:string" />
+        <xs:element name="im-address" type="xs:string" />
+        <xs:element name="department" type="xs:string" />
+        <xs:element name="office-location" type="xs:string" />
+        <xs:element name="profession" type="xs:string" />
+        <xs:element name="job-title" type="xs:string" />
+        <xs:element name="manager-name" type="xs:string" />
+        <xs:element name="assistant" type="xs:string" />
+        <xs:element name="nick-name" type="xs:string" />
+        <xs:element name="spouse-name" type="xs:string" />
+        <xs:element name="birthday" type="xs:dateTime" />
+        <xs:element name="anniversary" type="xs:string" />
+        <xs:element name="picture" type="xs:string" />
+        <xs:element name="children" type="xs:string" />
+        <xs:element name="gender" type="xs:string" />
+        <xs:element name="language" type="xs:string" />
+        <xs:element maxOccurs="unbounded" name="phone">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="type" type="xs:string" />
+              <xs:element name="number" type="xs:string" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element maxOccurs="unbounded" name="email">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="display-name" type="xs:string" />
+              <xs:element name="smtp-address" type="xs:string" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element maxOccurs="unbounded" name="address">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="type" type="xs:string" />
+              <xs:element name="street" type="xs:string" />
+              <xs:element name="locality" type="xs:string" />
+              <xs:element name="region" type="xs:string" />
+              <xs:element name="postal-code" type="xs:string" />
+              <xs:element name="country" type="xs:string" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="preferred-address" type="xs:string" />
+        <xs:element name="latitude" type="xs:decimal" />
+        <xs:element name="longitude" type="xs:decimal" />
+      </xs:sequence>
+      <xs:attribute name="version" type="xs:decimal" use="required" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

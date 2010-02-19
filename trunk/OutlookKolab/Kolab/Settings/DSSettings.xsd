@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DSSettings" targetNamespace="http://tempuri.org/DSSettings.xsd" xmlns:mstns="http://tempuri.org/DSSettings.xsd" xmlns="http://tempuri.org/DSSettings.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DSSettings" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_DataSetName="DSSettings" msprop:Generator_UserDSName="DSSettings" msprop:EnableTableAdapterManager="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Settings" msprop:Generator_UserTableName="Settings" msprop:Generator_RowDeletedName="SettingsRowDeleted" msprop:Generator_TableClassName="SettingsDataTable" msprop:Generator_RowChangedName="SettingsRowChanged" msprop:Generator_RowClassName="SettingsRow" msprop:Generator_RowChangingName="SettingsRowChanging" msprop:Generator_RowEvArgName="SettingsRowChangeEvent" msprop:Generator_RowEvHandlerName="SettingsRowChangeEventHandler" msprop:Generator_TablePropName="Settings" msprop:Generator_TableVarName="tableSettings" msprop:Generator_RowDeletingName="SettingsRowDeleting">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ContactsIMAPFolder" msprop:Generator_UserColumnName="ContactsIMAPFolder" msprop:Generator_ColumnPropNameInRow="ContactsIMAPFolder" msprop:Generator_ColumnVarNameInTable="columnContactsIMAPFolder" msprop:Generator_ColumnPropNameInTable="ContactsIMAPFolderColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="ContactsIMAPStore" msprop:Generator_UserColumnName="ContactsIMAPStore" msprop:Generator_ColumnPropNameInRow="ContactsIMAPStore" msprop:Generator_ColumnVarNameInTable="columnContactsIMAPStore" msprop:Generator_ColumnPropNameInTable="ContactsIMAPStoreColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="CalendarIMAPFolder" msprop:Generator_UserColumnName="CalendarIMAPFolder" msprop:Generator_ColumnPropNameInRow="CalendarIMAPFolder" msprop:Generator_ColumnVarNameInTable="columnCalendarIMAPFolder" msprop:Generator_ColumnPropNameInTable="CalendarIMAPFolderColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="CalendarIMAPStore" msprop:Generator_UserColumnName="CalendarIMAPStore" msprop:Generator_ColumnPropNameInRow="CalendarIMAPStore" msprop:Generator_ColumnVarNameInTable="columnCalendarIMAPStore" msprop:Generator_ColumnPropNameInTable="CalendarIMAPStoreColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="ContactsOutlookFolder" msprop:Generator_UserColumnName="ContactsOutlookFolder" msprop:Generator_ColumnPropNameInRow="ContactsOutlookFolder" msprop:Generator_ColumnVarNameInTable="columnContactsOutlookFolder" msprop:Generator_ColumnPropNameInTable="ContactsOutlookFolderColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="ContactsOutlookStore" msprop:Generator_UserColumnName="ContactsOutlookStore" msprop:Generator_ColumnPropNameInRow="ContactsOutlookStore" msprop:Generator_ColumnVarNameInTable="columnContactsOutlookStore" msprop:Generator_ColumnPropNameInTable="ContactsOutlookStoreColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="CalendarOutlookFolder" msprop:Generator_UserColumnName="CalendarOutlookFolder" msprop:Generator_ColumnPropNameInRow="CalendarOutlookFolder" msprop:Generator_ColumnVarNameInTable="columnCalendarOutlookFolder" msprop:Generator_ColumnPropNameInTable="CalendarOutlookFolderColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="CalendarOutlookStore" msprop:Generator_UserColumnName="CalendarOutlookStore" msprop:Generator_ColumnPropNameInRow="CalendarOutlookStore" msprop:Generator_ColumnVarNameInTable="columnCalendarOutlookStore" msprop:Generator_ColumnPropNameInTable="CalendarOutlookStoreColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

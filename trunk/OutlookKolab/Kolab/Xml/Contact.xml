@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<contact version="1.0">
+  <!-- Common fields -->
+  <uid>(string, no default)</uid>
+  <body>(string, default empty)</body>
+  <categories>(string, default empty)</categories>
+  <creation-date>1978-01-01T01:00:00Z</creation-date>
+  <last-modification-date>1978-01-01T01:00:00Z</last-modification-date>
+  <sensitivity>(string, default public)</sensitivity>
+  <inline-attachment>(string, no default)</inline-attachment>
+  <link-attachment>(string, no default)</link-attachment>
+  <product-id>(string, default empty)</product-id>
+
+  <!-- Contact specific fields -->
+  <name>
+    <given-name>(string, default empty)</given-name>
+    <middle-names>(string, default empty)</middle-names>
+    <last-name>(string, default empty)</last-name>
+    <full-name>(string, default empty)</full-name>
+    <initials>(string, default empty)</initials>
+    <prefix>(string, default empty)</prefix>
+    <suffix>(string, default empty)</suffix>
+  </name>
+  <free-busy-url>(string, default empty)</free-busy-url>
+  <organization>(string, default empty)</organization>
+  <web-page>(string, default empty)</web-page>
+  <im-address>(string, default empty)</im-address>
+  <department>(string, default empty)</department>
+  <office-location>(string, default empty)</office-location>
+  <profession>(string, default empty)</profession>
+  <job-title>(string, default empty)</job-title>
+  <manager-name>(string, default empty)</manager-name>
+  <assistant>(string, default empty)</assistant>
+  <nick-name>(string, default empty)</nick-name>
+  <spouse-name>(string, default empty)</spouse-name>
+  <birthday>1978-01-01T01:00:00Z</birthday>
+  <anniversary>(date, no default)</anniversary>
+  <picture>(string(attachment filename), default empty)</picture>
+  <children>(string, default empty)</children>
+  <gender>(string, default empty)</gender>
+  <language>(string, default empty)</language>
+  <phone>
+    <type>(string, no default)</type>
+    <number>(string, default empty)</number>
+  </phone>
+  <phone>
+    <type>(string, no default)</type>
+    <number>(string, default empty)</number>
+  </phone>
+  <phone>
+    <type>(string, no default)</type>
+    <number>(string, default empty)</number>
+  </phone>
+  <email>
+    <display-name>(string, default empty)</display-name>
+    <smtp-address>(string, default empty)</smtp-address>
+  </email>
+  <email>
+    <display-name>(string, default empty)</display-name>
+    <smtp-address>(string, default empty)</smtp-address>
+  </email>
+  <email>
+    <display-name>(string, default empty)</display-name>
+    <smtp-address>(string, default empty)</smtp-address>
+  </email>
+  <address>
+    <type>(string, default home)</type>
+    <street>(string, default empty)</street>
+    <locality>(string, default empty)</locality>
+    <region>(string, default empty)</region>
+    <postal-code>(string, default empty)</postal-code>
+    <country>(string, default empty)</country>
+  </address>
+  <address>
+    <type>(string, default home)</type>
+    <street>(string, default empty)</street>
+    <locality>(string, default empty)</locality>
+    <region>(string, default empty)</region>
+    <postal-code>(string, default empty)</postal-code>
+    <country>(string, default empty)</country>
+  </address>
+  <address>
+    <type>(string, default home)</type>
+    <street>(string, default empty)</street>
+    <locality>(string, default empty)</locality>
+    <region>(string, default empty)</region>
+    <postal-code>(string, default empty)</postal-code>
+    <country>(string, default empty)</country>
+  </address>
+  <preferred-address>(string, default none)</preferred-address>
+  <latitude>1.0</latitude>
+  <longitude>1.0</longitude>
+</contact>

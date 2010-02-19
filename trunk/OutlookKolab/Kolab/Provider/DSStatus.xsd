@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DSStatus" targetNamespace="http://tempuri.org/DSStatus.xsd" xmlns:mstns="http://tempuri.org/DSStatus.xsd" xmlns="http://tempuri.org/DSStatus.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DSStatus" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_DataSetName="DSStatus" msprop:Generator_UserDSName="DSStatus" msprop:EnableTableAdapterManager="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="StatusEntry" msprop:Generator_UserTableName="StatusEntry" msprop:Generator_RowDeletedName="StatusEntryRowDeleted" msprop:Generator_TableClassName="StatusEntryDataTable" msprop:Generator_RowChangedName="StatusEntryRowChanged" msprop:Generator_RowClassName="StatusEntryRow" msprop:Generator_RowChangingName="StatusEntryRowChanging" msprop:Generator_RowEvArgName="StatusEntryRowChangeEvent" msprop:Generator_RowEvHandlerName="StatusEntryRowChangeEventHandler" msprop:Generator_TablePropName="StatusEntry" msprop:Generator_TableVarName="tableStatusEntry" msprop:Generator_RowDeletingName="StatusEntryRowDeleting">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="time" msprop:Generator_UserColumnName="time" msprop:Generator_ColumnPropNameInRow="time" msprop:Generator_ColumnVarNameInTable="columntime" msprop:Generator_ColumnPropNameInTable="timeColumn" type="xs:dateTime" />
+              <xs:element name="task" msprop:Generator_UserColumnName="task" msprop:Generator_ColumnPropNameInRow="task" msprop:Generator_ColumnVarNameInTable="columntask" msprop:Generator_ColumnPropNameInTable="taskColumn" type="xs:string" />
+              <xs:element name="items" msprop:Generator_UserColumnName="items" msprop:Generator_ColumnPropNameInRow="items" msprop:Generator_ColumnVarNameInTable="columnitems" msprop:Generator_ColumnPropNameInTable="itemsColumn" type="xs:int" default="0" />
+              <xs:element name="localChanged" msprop:Generator_UserColumnName="localChanged" msprop:Generator_ColumnPropNameInRow="localChanged" msprop:Generator_ColumnVarNameInTable="columnlocalChanged" msprop:Generator_ColumnPropNameInTable="localChangedColumn" type="xs:int" default="0" />
+              <xs:element name="remoteChanged" msprop:Generator_UserColumnName="remoteChanged" msprop:Generator_ColumnPropNameInRow="remoteChanged" msprop:Generator_ColumnVarNameInTable="columnremoteChanged" msprop:Generator_ColumnPropNameInTable="remoteChangedColumn" type="xs:int" default="0" />
+              <xs:element name="localNew" msprop:Generator_UserColumnName="localNew" msprop:Generator_ColumnPropNameInRow="localNew" msprop:Generator_ColumnVarNameInTable="columnlocalNew" msprop:Generator_ColumnPropNameInTable="localNewColumn" type="xs:int" default="0" />
+              <xs:element name="remoteNew" msprop:Generator_UserColumnName="remoteNew" msprop:Generator_ColumnPropNameInRow="remoteNew" msprop:Generator_ColumnVarNameInTable="columnremoteNew" msprop:Generator_ColumnPropNameInTable="remoteNewColumn" type="xs:int" default="0" />
+              <xs:element name="localDeleted" msprop:Generator_UserColumnName="localDeleted" msprop:Generator_ColumnPropNameInRow="localDeleted" msprop:Generator_ColumnVarNameInTable="columnlocalDeleted" msprop:Generator_ColumnPropNameInTable="localDeletedColumn" type="xs:int" default="0" />
+              <xs:element name="remoteDeleted" msprop:Generator_UserColumnName="remoteDeleted" msprop:Generator_ColumnPropNameInRow="remoteDeleted" msprop:Generator_ColumnVarNameInTable="columnremoteDeleted" msprop:Generator_ColumnPropNameInTable="remoteDeletedColumn" type="xs:int" default="0" />
+              <xs:element name="conflicted" msprop:Generator_UserColumnName="conflicted" msprop:Generator_ColumnPropNameInRow="conflicted" msprop:Generator_ColumnVarNameInTable="columnconflicted" msprop:Generator_ColumnPropNameInTable="conflictedColumn" type="xs:int" default="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

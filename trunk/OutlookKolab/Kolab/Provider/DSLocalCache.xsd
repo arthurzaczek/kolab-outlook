@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DSLocalCache" targetNamespace="http://tempuri.org/DSLocalCache.xsd" xmlns:mstns="http://tempuri.org/DSLocalCache.xsd" xmlns="http://tempuri.org/DSLocalCache.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DSLocalCache" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_DataSetName="DSLocalCache" msprop:Generator_UserDSName="DSLocalCache" msprop:EnableTableAdapterManager="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="CacheEntry" msprop:Generator_UserTableName="CacheEntry" msprop:Generator_RowDeletedName="CacheEntryRowDeleted" msprop:Generator_TableClassName="CacheEntryDataTable" msprop:Generator_RowChangedName="CacheEntryRowChanged" msprop:Generator_RowClassName="CacheEntryRow" msprop:Generator_RowChangingName="CacheEntryRowChanging" msprop:Generator_RowEvArgName="CacheEntryRowChangeEvent" msprop:Generator_RowEvHandlerName="CacheEntryRowChangeEventHandler" msprop:Generator_TablePropName="CacheEntry" msprop:Generator_TableVarName="tableCacheEntry" msprop:Generator_RowDeletingName="CacheEntryRowDeleting">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="localId" msprop:Generator_UserColumnName="localId" msprop:Generator_ColumnPropNameInRow="localId" msprop:Generator_ColumnVarNameInTable="columnlocalId" msprop:Generator_ColumnPropNameInTable="localIdColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="remoteSize" msprop:Generator_UserColumnName="remoteSize" msprop:Generator_ColumnPropNameInRow="remoteSize" msprop:Generator_ColumnVarNameInTable="columnremoteSize" msprop:Generator_ColumnPropNameInTable="remoteSizeColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="remoteChangedDate" msprop:Generator_UserColumnName="remoteChangedDate" msprop:Generator_ColumnPropNameInRow="remoteChangedDate" msprop:Generator_ColumnVarNameInTable="columnremoteChangedDate" msprop:Generator_ColumnPropNameInTable="remoteChangedDateColumn" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="localHash" msprop:Generator_UserColumnName="localHash" msprop:Generator_ColumnPropNameInRow="localHash" msprop:Generator_ColumnVarNameInTable="columnlocalHash" msprop:Generator_ColumnPropNameInTable="localHashColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="remoteId" msprop:Generator_UserColumnName="remoteId" msprop:Generator_ColumnPropNameInRow="remoteId" msprop:Generator_ColumnVarNameInTable="columnremoteId" msprop:Generator_ColumnPropNameInTable="remoteIdColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="remoteImapUid" msprop:Generator_UserColumnName="remoteImapUid" msprop:Generator_ColumnPropNameInRow="remoteImapUid" msprop:Generator_ColumnVarNameInTable="columnremoteImapUid" msprop:Generator_ColumnPropNameInTable="remoteImapUidColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

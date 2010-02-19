@@ -62,7 +62,7 @@ namespace OutlookKolapMAPIHelper {
 						if(outlook_entryid.cb && (outlook_flag & 4))
 						{
 							System::Text::StringBuilder^ sb = gcnew System::Text::StringBuilder();
-							for(int i=0;i<outlook_entryid.cb;i++)
+							for(unsigned int i=0;i<outlook_entryid.cb;i++)
 							{
 								sb->AppendFormat("{0:X2}", outlook_entryid.lpb[i]);
 							}

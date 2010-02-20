@@ -58,25 +58,33 @@ namespace OutlookKolab.Kolab.Sync
                 var settings = Settings.DSSettings.Load();
                 ISyncHandler handler = null;
 
-                if (IsStopping) return;
+                if (IsStopping)
+                {
+                    StatusHandler.writeStatus("Sync aborted");
+                    return;
+                }
 
                 handler = new SyncContactsHandler(settings, dsStatus, app);
                 if (shouldProcess(handler))
                 {
                     _status = handler.getStatus();
                     sync(handler);
-                    hasErrors = _status.errors > 0;
+                    hasErrors |= _status.errors > 0;
                     dsStatus.Save();
                 }
 
-                if (IsStopping) return;
+                if (IsStopping)
+                {
+                    StatusHandler.writeStatus("Sync aborted");
+                    return;
+                }
 
                 handler = new SyncCalendarHandler(settings, dsStatus, app);
                 if (shouldProcess(handler))
                 {
                     _status = handler.getStatus();
                     sync(handler);
-                    hasErrors = _status.errors > 0;
+                    hasErrors |= _status.errors > 0;
                     dsStatus.Save();
                 }
                 _status = null;
@@ -216,6 +224,10 @@ namespace OutlookKolab.Kolab.Sync
                         Log.e("sync", ex.ToString());
                         status.incrementErrors(ex);
                     }
+                    finally
+                    {
+                        cache.Save();
+                    }
 
                     if (sync.CacheEntry != null && sync.CacheEntry.RowState != System.Data.DataRowState.Detached)
                     {
@@ -267,6 +279,10 @@ namespace OutlookKolab.Kolab.Sync
                         Log.e("sync", ex.ToString());
                         status.incrementErrors(ex);
                     }
+                    finally
+                    {
+                        cache.Save();
+                    }
                 }
             }
             finally
@@ -282,7 +298,7 @@ namespace OutlookKolab.Kolab.Sync
     
         private void ShowErrorDialog(Exception ex)
         {
-            MessageBox.Show(ex.ToString(), "Fatal error during sync", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            Helper.HandleError("Fatal error during sync", ex);
         }
     }
 }

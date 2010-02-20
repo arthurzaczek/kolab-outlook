@@ -3,6 +3,7 @@
  * Copyright 2010 David Schmitt <david@dasz.at>, dasz.at OG; All rights reserved.
  *
  *  This file is part of Kolab Sync for Outlook.
+using System.Windows.Forms;
 
  *  Kolab Sync for Outlook is free software: you can redistribute it
  *  and/or modify it under the terms of the GNU General Public License
@@ -54,6 +55,17 @@ namespace OutlookKolab.Kolab
         public static bool IsValid(this DateTime dt)
         {
             return dt.Year > 1900 && dt.Year < 2500;
+        }
+
+        public static void HandleError(Exception ex)
+        {
+            HandleError("Error", ex);
+        }
+
+        public static void HandleError(string caption, Exception ex)
+        {
+            Log.e("generic", ex.ToString());
+            MessageBox.Show(ex.ToString(), caption, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }

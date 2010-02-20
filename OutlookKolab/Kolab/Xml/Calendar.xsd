@@ -30,7 +30,6 @@
               <xs:element name="interval" type="xs:int" />
               <xs:element maxOccurs="unbounded" name="day" type="xs:string" />
               <xs:element name="daynumber" type="xs:int" />
-              <xs:element name="date" type="xs:int" />
               <xs:element name="month" type="xs:string" />
               <xs:element name="range">
                 <xs:complexType>

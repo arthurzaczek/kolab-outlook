@@ -197,17 +197,20 @@ namespace OutlookKolab.Kolab.Calendar
             {
                 // Android part
                 localCal.Subject = cal.summary;
-                localCal.StartUTC = cal.startdate.ToUniversalTime();
-                localCal.EndUTC = cal.enddate.ToUniversalTime();
-                localCal.AllDayEvent = cal.startdate.TimeOfDay == TimeSpan.Zero;
+                if (!isRecurring)
+                {
+                    localCal.StartUTC = cal.startdate.ToUniversalTime();
+                    localCal.EndUTC = cal.enddate.ToUniversalTime();
+                    localCal.AllDayEvent = cal.startdate.TimeOfDay == TimeSpan.Zero;
+                }
                 localCal.Body = cal.body;
                 localCal.Location = cal.location;
 
                 // the rest
                 localCal.BusyStatus = cal.GetBusyStatus();
                 localCal.Categories = cal.categories;
-                // newCal.Duration = calculated by start/end;
-                // newCal.Organizer = cal.organizer != null ? cal.organizer.displayname : string.Empty; ReadOnly ???
+                // localCal.Duration = calculated by start/end;
+                // localCal.Organizer = cal.organizer != null ? cal.organizer.displayname : string.Empty; ReadOnly ???
                 localCal.ReminderSet = cal.alarm != 0;
                 localCal.ReminderMinutesBeforeStart = cal.alarm;
                 localCal.Sensitivity = cal.GetSensitivity();
@@ -227,6 +230,23 @@ namespace OutlookKolab.Kolab.Calendar
 
                     // Depending on RecurrenceType
                     pattern.RecurrenceType = cal.GetRecurrenceType();
+
+                    // Time
+                    pattern.PatternStartDate = cal.startdate.Date;
+                    // pattern.PatternEndDate = set by range
+                    DateTime startDate = cal.startdate;
+                    if (startDate.Kind == DateTimeKind.Utc) startDate = startDate.ToLocalTime();
+                    var startTime = startDate.TimeOfDay;
+
+                    DateTime endDate = cal.enddate;
+                    if (endDate.Kind == DateTimeKind.Utc) endDate = endDate.ToLocalTime();
+                    var endTime = startDate.TimeOfDay;
+
+                    var duration = endDate - startDate;
+
+                    pattern.StartTime = DateTime.MinValue + startTime;
+                    pattern.EndTime = DateTime.MinValue + endTime;
+                    pattern.Duration = (int)duration.TotalMinutes; 
 
                     // Only if valid or not yearly - only outlook 2007 does support yearly recurrences
                     if (cal.recurrence.interval != 0 &&
@@ -290,7 +310,6 @@ namespace OutlookKolab.Kolab.Calendar
                             }
                         }
                     }
-                    // cal.GetRecurrenceType(pattern) = cal.recurrence.type;
                 }
                 catch (COMException ex)
                 {
@@ -340,9 +359,9 @@ namespace OutlookKolab.Kolab.Calendar
         {
             cal.lastmodificationdate = lastmodificationdate;
             cal.summary = source.Subject;
-            // Start/EndUTC does not spezify DateTime.Kind == Utc!
-            cal.startdate = source.AllDayEvent ? source.Start.ToUniversalTime().Date : source.Start.ToUniversalTime();
-            cal.enddate = source.AllDayEvent ? source.End.ToUniversalTime().Date : source.End.ToUniversalTime();
+            // StartUTC/EndUTC does not specify DateTime.Kind == Utc!
+            cal.startdate = source.AllDayEvent ? source.Start.Date : source.Start.ToUniversalTime();
+            cal.enddate = source.AllDayEvent ? source.End.Date : source.End.ToUniversalTime();
             // cal.startdate.TimeOfDay == TimeSpan.Zero = source.AllDayEvent; 
             cal.body = source.Body;
             cal.location = source.Location;

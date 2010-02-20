@@ -40,19 +40,31 @@ namespace OutlookKolab.Kolab.Provider
 
         public LocalCacheProvider(LocalCacheProviderType type)
         {
-            switch (type)
-            {
-                case LocalCacheProviderType.Contacts:
-                    filename = Path.Combine(Helper.StorePath, "ContactsCache.xml");
-                    break;
-                case LocalCacheProviderType.Calendar:
-                    filename = Path.Combine(Helper.StorePath, "CalendarCache.xml");
-                    break;
-            }
-
+            filename = GetFileName(type);
             cache = Load(filename);
         }
 
+        private static string GetFileName(LocalCacheProviderType type)
+        {
+            switch (type)
+            {
+                case LocalCacheProviderType.Contacts:
+                    return Path.Combine(Helper.StorePath, "ContactsCache.xml");
+                case LocalCacheProviderType.Calendar:
+                    return Path.Combine(Helper.StorePath, "CalendarCache.xml");
+                default:
+                    throw new ArgumentOutOfRangeException("type");
+            }
+        }
+
+        public static void Delete(LocalCacheProviderType type)
+        {
+            var filename = GetFileName(type);
+            if (File.Exists(filename))
+            {
+                File.Delete(filename);
+            }
+        }
 
         private static DSLocalCache Load(string filename)
         {
@@ -109,7 +121,7 @@ namespace OutlookKolab.Kolab.Provider
                                 + entry.remoteChangedDate.ToString("HH:mm:ss.fff") + ", getSentDate="
                                 + message.LastModificationTime.ToString("HH:mm:ss.fff"));
                     }
-                    if (entry.remoteId!=message.Subject)
+                    if (entry.remoteId != message.Subject)
                     {
                         Log.d("syncisSame", "getRemoteId=" + entry.remoteId
                                 + ", getSubject=" + message.Subject);

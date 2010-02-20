@@ -178,7 +178,6 @@
     </Compile>
     <Compile Include="Kolab\Helper.cs" />
     <Compile Include="Kolab\Log.cs" />
-    <Compile Include="Kolab\MAPI.cs" />
     <Compile Include="Kolab\Provider\DSLocalCache.cs">
       <DependentUpon>DSLocalCache.xsd</DependentUpon>
       <SubType>Component</SubType>

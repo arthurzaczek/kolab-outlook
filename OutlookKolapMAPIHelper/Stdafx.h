@@ -28,6 +28,11 @@
 #include "initguid.h"
 #include "mapi.h"
 #include "mapidefs.h"
+
+#define INITGUID
 #define USES_IID_IMAPIFolder
+#define USES_IID_IMessage
+#define USES_IID_IAttachment
 #include "mapiguid.h"
+#include "mapiutil.h"
 

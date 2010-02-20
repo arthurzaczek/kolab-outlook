@@ -30,7 +30,6 @@
     <day>(string, no default)</day>
     <day>(string, no default)</day>
     <daynumber>1</daynumber>
-    <date>1</date>
     <month>(string, no default></month>
     <range type="rangetype">(date or number or nothing, no default)</range>
     <exclusion>1978-01-01T01:00:00Z</exclusion>

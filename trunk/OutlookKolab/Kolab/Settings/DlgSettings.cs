@@ -8,6 +8,7 @@
  *  and/or modify it under the terms of the GNU General Public License
  *  as published by the Free Software Foundation, either version 3 of
  *  the License, or (at your option) any later version.
+using OutlookKolab.Kolab.Provider;
 
  *  Kolab Sync for Outlook is distributed in the hope that it will be
  *  useful, but WITHOUT ANY WARRANTY; without even the implied warranty
@@ -40,8 +41,15 @@ namespace OutlookKolab.Kolab.Settings
 
         public static void Show(Outlook.Application app)
         {
-            DlgSettings dlg = new DlgSettings(app);
-            dlg.ShowDialog();
+            try
+            {
+                DlgSettings dlg = new DlgSettings(app);
+                dlg.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                Helper.HandleError(ex);
+            }
         }
 
         private DlgSettings(Outlook.Application app)
@@ -77,8 +85,15 @@ namespace OutlookKolab.Kolab.Settings
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            dsSettings.Save();
-            this.Close();
+            try
+            {
+                dsSettings.Save();
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                Helper.HandleError(ex);
+            }
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -88,62 +103,164 @@ namespace OutlookKolab.Kolab.Settings
 
         private void btnSelectContactsFolder_Click(object sender, EventArgs e)
         {
-            var fld = app.Session.PickFolder();
-            settings.ContactsIMAPFolder = fld.EntryID;
-            settings.ContactsIMAPStore = fld.StoreID;
-            BindTo();
+            try
+            {
+                var fld = app.Session.PickFolder();
+                settings.ContactsIMAPFolder = fld.EntryID;
+                settings.ContactsIMAPStore = fld.StoreID;
+                BindTo();
+            }
+            catch (Exception ex)
+            {
+                Helper.HandleError(ex);
+            }
         }
 
         private void btnSelectCalendarFolder_Click(object sender, EventArgs e)
         {
-            var fld = app.Session.PickFolder();
-            settings.CalendarIMAPFolder = fld.EntryID;
-            settings.CalendarIMAPStore = fld.StoreID;
-            BindTo();
+            try
+            {
+                var fld = app.Session.PickFolder();
+                settings.CalendarIMAPFolder = fld.EntryID;
+                settings.CalendarIMAPStore = fld.StoreID;
+                BindTo();
+            }
+            catch (Exception ex)
+            {
+                Helper.HandleError(ex);
+            }
         }
 
         private void btnSelectOutlookContactsFolder_Click(object sender, EventArgs e)
         {
-            var fld = app.Session.PickFolder();
-            settings.ContactsOutlookFolder = fld.EntryID;
-            settings.ContactsOutlookStore = fld.StoreID;
-            BindTo();
+            try
+            {
+                var fld = app.Session.PickFolder();
+                settings.ContactsOutlookFolder = fld.EntryID;
+                settings.ContactsOutlookStore = fld.StoreID;
+                BindTo();
+            }
+            catch (Exception ex)
+            {
+                Helper.HandleError(ex);
+            }
         }
 
         private void btnSelectOutlookCalendarFolder_Click(object sender, EventArgs e)
         {
-            var fld = app.Session.PickFolder();
-            settings.CalendarOutlookFolder = fld.EntryID;
-            settings.CalendarOutlookStore = fld.StoreID;
-            BindTo();
+            try
+            {
+                var fld = app.Session.PickFolder();
+                settings.CalendarOutlookFolder = fld.EntryID;
+                settings.CalendarOutlookStore = fld.StoreID;
+                BindTo();
+            }
+            catch (Exception ex)
+            {
+                Helper.HandleError(ex);
+            }
         }
 
         private void btnClearContactsFolder_Click(object sender, EventArgs e)
         {
-            settings.ContactsIMAPFolder = "";
-            settings.ContactsIMAPStore = "";
-            BindTo();
+            try
+            {
+                settings.ContactsIMAPFolder = "";
+                settings.ContactsIMAPStore = "";
+                BindTo();
+            }
+            catch (Exception ex)
+            {
+                Helper.HandleError(ex);
+            }
         }
 
         private void btnClearOutlookContactsFolder_Click(object sender, EventArgs e)
         {
-            settings.ContactsOutlookFolder = "";
-            settings.ContactsOutlookStore = "";
-            BindTo();
+            try
+            {
+                settings.ContactsOutlookFolder = "";
+                settings.ContactsOutlookStore = "";
+                BindTo();
+            }
+            catch (Exception ex)
+            {
+                Helper.HandleError(ex);
+            }
         }
 
         private void btnClearCalendarFolder_Click(object sender, EventArgs e)
         {
-            settings.CalendarIMAPFolder = "";
-            settings.CalendarIMAPStore = "";
-            BindTo();
+            try
+            {
+                settings.CalendarIMAPFolder = "";
+                settings.CalendarIMAPStore = "";
+                BindTo();
+            }
+            catch (Exception ex)
+            {
+                Helper.HandleError(ex);
+            }
         }
 
         private void btnClearOutlookCalendarFolder_Click(object sender, EventArgs e)
         {
-            settings.CalendarOutlookFolder = "";
-            settings.CalendarOutlookStore = "";
-            BindTo();
+            try
+            {
+                settings.CalendarOutlookFolder = "";
+                settings.CalendarOutlookStore = "";
+                BindTo();
+            }
+            catch (Exception ex)
+            {
+                Helper.HandleError(ex);
+            }
+        }
+
+        private void btnDeleteCache_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (MessageBox.Show("Are you sure that you want to delete your Contacts and Calendar Cache?", "Warning", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    LocalCacheProvider.Delete(LocalCacheProviderType.Contacts);
+                    LocalCacheProvider.Delete(LocalCacheProviderType.Calendar);
+                }
+            }
+            catch (Exception ex)
+            {
+                Helper.HandleError(ex);
+            }
+        }
+
+        private void btnDeleteContactsCache_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (MessageBox.Show("Are you sure that you want to delete your Contacts Cache?", "Warning", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    LocalCacheProvider.Delete(LocalCacheProviderType.Contacts);
+                }
+            }
+            catch (Exception ex)
+            {
+                Helper.HandleError(ex);
+            }
+        }
+
+        private void btnDeleteCalendarCache_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (MessageBox.Show("Are you sure that you want to delete your Calendar Cache?", "Warning", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    LocalCacheProvider.Delete(LocalCacheProviderType.Calendar);
+                }
+            }
+            catch (Exception ex)
+            {
+                Helper.HandleError(ex);
+            }
         }
     }
 }

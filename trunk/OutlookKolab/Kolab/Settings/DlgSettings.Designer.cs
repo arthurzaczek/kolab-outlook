@@ -31,6 +31,8 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnClearOutlookContactsFolder = new System.Windows.Forms.Button();
+            this.btnClearContactsFolder = new System.Windows.Forms.Button();
             this.btnSelectOutlookContactsFolder = new System.Windows.Forms.Button();
             this.txtContactsOutlookFolder = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -38,16 +40,17 @@
             this.txtContactsIMAPFolder = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnClearOutlookCalendarFolder = new System.Windows.Forms.Button();
+            this.btnClearCalendarFolder = new System.Windows.Forms.Button();
             this.btnSelectOutlookCalendarFolder = new System.Windows.Forms.Button();
             this.btnSelectCalendarFolder = new System.Windows.Forms.Button();
             this.txtCalendarOutlookFolder = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.txtCalendarIMAPFolder = new System.Windows.Forms.TextBox();
-            this.btnClearContactsFolder = new System.Windows.Forms.Button();
-            this.btnClearOutlookContactsFolder = new System.Windows.Forms.Button();
-            this.btnClearCalendarFolder = new System.Windows.Forms.Button();
-            this.btnClearOutlookCalendarFolder = new System.Windows.Forms.Button();
+            this.btnDeleteCache = new System.Windows.Forms.Button();
+            this.btnDeleteContactsCache = new System.Windows.Forms.Button();
+            this.btnDeleteCalendarCache = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -78,6 +81,7 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.btnDeleteContactsCache);
             this.groupBox1.Controls.Add(this.btnClearOutlookContactsFolder);
             this.groupBox1.Controls.Add(this.btnClearContactsFolder);
             this.groupBox1.Controls.Add(this.btnSelectOutlookContactsFolder);
@@ -92,6 +96,28 @@
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Contacts";
+            // 
+            // btnClearOutlookContactsFolder
+            // 
+            this.btnClearOutlookContactsFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClearOutlookContactsFolder.Location = new System.Drawing.Point(469, 52);
+            this.btnClearOutlookContactsFolder.Name = "btnClearOutlookContactsFolder";
+            this.btnClearOutlookContactsFolder.Size = new System.Drawing.Size(75, 23);
+            this.btnClearOutlookContactsFolder.TabIndex = 7;
+            this.btnClearOutlookContactsFolder.Text = "Clear";
+            this.btnClearOutlookContactsFolder.UseVisualStyleBackColor = true;
+            this.btnClearOutlookContactsFolder.Click += new System.EventHandler(this.btnClearOutlookContactsFolder_Click);
+            // 
+            // btnClearContactsFolder
+            // 
+            this.btnClearContactsFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClearContactsFolder.Location = new System.Drawing.Point(469, 26);
+            this.btnClearContactsFolder.Name = "btnClearContactsFolder";
+            this.btnClearContactsFolder.Size = new System.Drawing.Size(75, 23);
+            this.btnClearContactsFolder.TabIndex = 6;
+            this.btnClearContactsFolder.Text = "Clear";
+            this.btnClearContactsFolder.UseVisualStyleBackColor = true;
+            this.btnClearContactsFolder.Click += new System.EventHandler(this.btnClearContactsFolder_Click);
             // 
             // btnSelectOutlookContactsFolder
             // 
@@ -157,6 +183,7 @@
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.btnDeleteCalendarCache);
             this.groupBox2.Controls.Add(this.btnClearOutlookCalendarFolder);
             this.groupBox2.Controls.Add(this.btnClearCalendarFolder);
             this.groupBox2.Controls.Add(this.btnSelectOutlookCalendarFolder);
@@ -171,6 +198,28 @@
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Calendar";
+            // 
+            // btnClearOutlookCalendarFolder
+            // 
+            this.btnClearOutlookCalendarFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClearOutlookCalendarFolder.Location = new System.Drawing.Point(469, 49);
+            this.btnClearOutlookCalendarFolder.Name = "btnClearOutlookCalendarFolder";
+            this.btnClearOutlookCalendarFolder.Size = new System.Drawing.Size(75, 23);
+            this.btnClearOutlookCalendarFolder.TabIndex = 9;
+            this.btnClearOutlookCalendarFolder.Text = "Clear";
+            this.btnClearOutlookCalendarFolder.UseVisualStyleBackColor = true;
+            this.btnClearOutlookCalendarFolder.Click += new System.EventHandler(this.btnClearOutlookCalendarFolder_Click);
+            // 
+            // btnClearCalendarFolder
+            // 
+            this.btnClearCalendarFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClearCalendarFolder.Location = new System.Drawing.Point(469, 23);
+            this.btnClearCalendarFolder.Name = "btnClearCalendarFolder";
+            this.btnClearCalendarFolder.Size = new System.Drawing.Size(75, 23);
+            this.btnClearCalendarFolder.TabIndex = 8;
+            this.btnClearCalendarFolder.Text = "Clear";
+            this.btnClearCalendarFolder.UseVisualStyleBackColor = true;
+            this.btnClearCalendarFolder.Click += new System.EventHandler(this.btnClearCalendarFolder_Click);
             // 
             // btnSelectOutlookCalendarFolder
             // 
@@ -232,55 +281,45 @@
             this.txtCalendarIMAPFolder.Size = new System.Drawing.Size(294, 20);
             this.txtCalendarIMAPFolder.TabIndex = 4;
             // 
-            // btnClearContactsFolder
+            // btnDeleteCache
             // 
-            this.btnClearContactsFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClearContactsFolder.Location = new System.Drawing.Point(469, 26);
-            this.btnClearContactsFolder.Name = "btnClearContactsFolder";
-            this.btnClearContactsFolder.Size = new System.Drawing.Size(75, 23);
-            this.btnClearContactsFolder.TabIndex = 6;
-            this.btnClearContactsFolder.Text = "Clear";
-            this.btnClearContactsFolder.UseVisualStyleBackColor = true;
-            this.btnClearContactsFolder.Click += new System.EventHandler(this.btnClearContactsFolder_Click);
+            this.btnDeleteCache.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnDeleteCache.Location = new System.Drawing.Point(12, 327);
+            this.btnDeleteCache.Name = "btnDeleteCache";
+            this.btnDeleteCache.Size = new System.Drawing.Size(99, 23);
+            this.btnDeleteCache.TabIndex = 4;
+            this.btnDeleteCache.Text = "Delete Cache";
+            this.btnDeleteCache.UseVisualStyleBackColor = true;
+            this.btnDeleteCache.Click += new System.EventHandler(this.btnDeleteCache_Click);
             // 
-            // btnClearOutlookContactsFolder
+            // btnDeleteContactsCache
             // 
-            this.btnClearOutlookContactsFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClearOutlookContactsFolder.Location = new System.Drawing.Point(469, 52);
-            this.btnClearOutlookContactsFolder.Name = "btnClearOutlookContactsFolder";
-            this.btnClearOutlookContactsFolder.Size = new System.Drawing.Size(75, 23);
-            this.btnClearOutlookContactsFolder.TabIndex = 7;
-            this.btnClearOutlookContactsFolder.Text = "Clear";
-            this.btnClearOutlookContactsFolder.UseVisualStyleBackColor = true;
-            this.btnClearOutlookContactsFolder.Click += new System.EventHandler(this.btnClearOutlookContactsFolder_Click);
+            this.btnDeleteContactsCache.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnDeleteContactsCache.Location = new System.Drawing.Point(9, 120);
+            this.btnDeleteContactsCache.Name = "btnDeleteContactsCache";
+            this.btnDeleteContactsCache.Size = new System.Drawing.Size(99, 23);
+            this.btnDeleteContactsCache.TabIndex = 5;
+            this.btnDeleteContactsCache.Text = "Delete Cache";
+            this.btnDeleteContactsCache.UseVisualStyleBackColor = true;
+            this.btnDeleteContactsCache.Click += new System.EventHandler(this.btnDeleteContactsCache_Click);
             // 
-            // btnClearCalendarFolder
+            // btnDeleteCalendarCache
             // 
-            this.btnClearCalendarFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClearCalendarFolder.Location = new System.Drawing.Point(469, 23);
-            this.btnClearCalendarFolder.Name = "btnClearCalendarFolder";
-            this.btnClearCalendarFolder.Size = new System.Drawing.Size(75, 23);
-            this.btnClearCalendarFolder.TabIndex = 8;
-            this.btnClearCalendarFolder.Text = "Clear";
-            this.btnClearCalendarFolder.UseVisualStyleBackColor = true;
-            this.btnClearCalendarFolder.Click += new System.EventHandler(this.btnClearCalendarFolder_Click);
-            // 
-            // btnClearOutlookCalendarFolder
-            // 
-            this.btnClearOutlookCalendarFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClearOutlookCalendarFolder.Location = new System.Drawing.Point(469, 49);
-            this.btnClearOutlookCalendarFolder.Name = "btnClearOutlookCalendarFolder";
-            this.btnClearOutlookCalendarFolder.Size = new System.Drawing.Size(75, 23);
-            this.btnClearOutlookCalendarFolder.TabIndex = 9;
-            this.btnClearOutlookCalendarFolder.Text = "Clear";
-            this.btnClearOutlookCalendarFolder.UseVisualStyleBackColor = true;
-            this.btnClearOutlookCalendarFolder.Click += new System.EventHandler(this.btnClearOutlookCalendarFolder_Click);
+            this.btnDeleteCalendarCache.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnDeleteCalendarCache.Location = new System.Drawing.Point(9, 120);
+            this.btnDeleteCalendarCache.Name = "btnDeleteCalendarCache";
+            this.btnDeleteCalendarCache.Size = new System.Drawing.Size(99, 23);
+            this.btnDeleteCalendarCache.TabIndex = 8;
+            this.btnDeleteCalendarCache.Text = "Delete Cache";
+            this.btnDeleteCalendarCache.UseVisualStyleBackColor = true;
+            this.btnDeleteCalendarCache.Click += new System.EventHandler(this.btnDeleteCalendarCache_Click);
             // 
             // DlgSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(574, 362);
+            this.Controls.Add(this.btnDeleteCache);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnOK);
@@ -318,5 +357,8 @@
         private System.Windows.Forms.Button btnClearOutlookContactsFolder;
         private System.Windows.Forms.Button btnClearOutlookCalendarFolder;
         private System.Windows.Forms.Button btnClearCalendarFolder;
+        private System.Windows.Forms.Button btnDeleteCache;
+        private System.Windows.Forms.Button btnDeleteContactsCache;
+        private System.Windows.Forms.Button btnDeleteCalendarCache;
     }
 }

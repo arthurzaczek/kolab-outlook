@@ -73,7 +73,37 @@ namespace OutlookKolab.Kolab
         private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             var row = dsStatus1.StatusEntry[e.RowIndex];
-            if (row.errors > 0)
+
+            if (e.ColumnIndex == 3 && row.localChanged > 0)
+            {
+                e.CellStyle.BackColor = Color.LightGreen;
+            }
+            if (e.ColumnIndex == 4 && row.remoteChanged > 0)
+            {
+                e.CellStyle.BackColor = Color.LightGreen;
+            }
+            if (e.ColumnIndex == 5 && row.localNew > 0)
+            {
+                e.CellStyle.BackColor = Color.LightGreen;
+            }
+            if (e.ColumnIndex == 6 && row.remoteNew > 0)
+            {
+                e.CellStyle.BackColor = Color.LightGreen;
+            }
+            if (e.ColumnIndex == 7 && row.localDeleted > 0)
+            {
+                e.CellStyle.BackColor = Color.LightGreen;
+            }
+            if (e.ColumnIndex == 8 && row.remoteDeleted > 0)
+            {
+                e.CellStyle.BackColor = Color.LightGreen;
+            }
+
+            if (e.ColumnIndex == 9 && row.conflicted > 0)
+            {
+                e.CellStyle.BackColor = Color.LightCoral;
+            }
+            if (e.ColumnIndex == 10 && row.errors > 0)
             {
                 e.CellStyle.BackColor = Color.LightCoral;
             }

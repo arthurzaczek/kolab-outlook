@@ -325,8 +325,6 @@ namespace OutlookKolab.Kolab.Xml {
 
         private int daynumberField;
 
-        private int dateField;
-        
         private string monthField;
         
         private eventRecurrenceRange rangeField;
@@ -367,17 +365,6 @@ namespace OutlookKolab.Kolab.Xml {
             }
             set {
                 this.daynumberField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public int date
-        {
-            get {
-                return this.dateField;
-            }
-            set {
-                this.dateField = value;
             }
         }
         

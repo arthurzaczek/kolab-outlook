@@ -28,9 +28,46 @@ using namespace System::Collections::Generic;
 
 namespace OutlookKolapMAPIHelper {
 
-	public ref class IMAPFolderHelper
+	public ref class IMAPHelper
 	{
 	public:
+		System::String^ ReadAttachment(System::IntPtr^ outlookAttachment)
+		{
+			System::String^ result = "";
+
+			IUnknown* iUnkn = static_cast<IUnknown*>(outlookAttachment->ToPointer());
+			LPATTACH a = 0;
+			HRESULT hr;
+			if(hr = iUnkn->QueryInterface(IID_IAttachment, (void**)&a))
+			{
+				return result;
+			}
+
+			LPSTREAM stream = 0;
+			if (SUCCEEDED(hr = a->OpenProperty(PR_ATTACH_DATA_BIN, (LPIID)&IID_IStream, 0, MAPI_MODIFY, (LPUNKNOWN*)&stream)))
+			{
+				STATSTG statInfo;
+				stream->Stat(&statInfo, STATFLAG_NONAME);
+				if(statInfo.cbSize.HighPart == 0) // dont read large attachments
+				{
+					ULONG size = statInfo.cbSize.LowPart;
+					unsigned char* buffer = (unsigned char*)malloc(size + 1);
+					memset(buffer, 0, size + 1);
+					ULONG readBytes;
+					stream->Read(buffer, size, &readBytes);
+					System::IO::UnmanagedMemoryStream^ ms = gcnew System::IO::UnmanagedMemoryStream(buffer, size + 1);
+					System::IO::StreamReader^ sr = gcnew System::IO::StreamReader(ms, System::Text::Encoding::UTF8);
+					result = sr->ReadToEnd();
+					free(buffer);
+				}
+			}
+
+			if(stream) stream->Release();
+			if(a) a->Release();
+
+			return result;
+		}
+
 		List<System::String^>^ GetDeletedEntryIDs(System::IntPtr^ outlookFolder)
 		{
 			List<System::String^>^ result = gcnew List<System::String^>();

@@ -165,66 +165,21 @@ namespace OutlookKolab.Kolab.Sync
             message.Delete();
         }
 
-        private static void CleanOutlookTempFolder()
-        {
-            //try
-            //{
-            //    var hkcu = Microsoft.Win32.Registry.CurrentUser;
-            //    var key = hkcu.OpenSubKey(@"Software\Microsoft\Office\11.0\Outlook\Security");
-            //    if(key == null)
-            //    {
-            //        key = hkcu.OpenSubKey(@"Software\Microsoft\Office\12.0\Outlook\Security");                    
-            //    }
-            //    if (key != null)
-            //    {
-            //        var path = key.GetValue("OutlookSecureTempFolder", string.Empty) as string;
-            //        if (!string.IsNullOrEmpty(path) && Directory.Exists(path))
-            //        {
-            //            foreach (var f in Directory.GetFiles(path, "kolab*.xml"))
-            //            {
-            //                try
-            //                {
-            //                    File.Delete(f);
-            //                }
-            //                catch
-            //                {
-            //                    // realy dont care
-            //                }
-            //            }
-            //        }
-            //    }
-            //}
-            //catch(Exception ex)
-            //{
-            //    // I don't care
-            //    Log.w("outlook", ex.ToString());
-            //}
-        }
-
         private string extractXml(Outlook.MailItem message)
         {
-            CleanOutlookTempFolder();
             string result = null;
             Outlook.Attachment a = message.Attachments.Cast<Outlook.Attachment>().FirstOrDefault();
             if (a != null)
             {
-                var tmp = Path.GetTempFileName();
+                OutlookKolapMAPIHelper.IMAPHelper mapi = new OutlookKolapMAPIHelper.IMAPHelper();
+                IntPtr ptr = System.Runtime.InteropServices.Marshal.GetIUnknownForObject(a.MAPIOBJECT);
                 try
                 {
-                    a.SaveAsFile(tmp);
-                    using (var f = File.OpenText(tmp))
-                    {
-                        result = f.ReadToEnd();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    throw new SyncException(message.Subject, "Unable to save attachment", ex);
+                    result = mapi.ReadAttachment(ptr);
                 }
                 finally
                 {
-                    try { File.Delete(tmp); }
-                    catch { }
+                    System.Runtime.InteropServices.Marshal.Release(ptr);
                 }
             }
             else

@@ -125,10 +125,16 @@ namespace OutlookKolab.Kolab.Sync
                 ILookup<string, string> deletedEntryIDs = null;
                 try
                 {
-                    OutlookKolapMAPIHelper.IMAPFolderHelper mapi = new OutlookKolapMAPIHelper.IMAPFolderHelper();
+                    OutlookKolapMAPIHelper.IMAPHelper mapi = new OutlookKolapMAPIHelper.IMAPHelper();
                     IntPtr ptr = System.Runtime.InteropServices.Marshal.GetIUnknownForObject(sourceFolder.MAPIOBJECT);
-                    deletedEntryIDs = mapi.GetDeletedEntryIDs(ptr).ToLookup(i => i);
-                    System.Runtime.InteropServices.Marshal.Release(ptr);
+                    try
+                    {
+                        deletedEntryIDs = mapi.GetDeletedEntryIDs(ptr).ToLookup(i => i);
+                    }
+                    finally
+                    {
+                        System.Runtime.InteropServices.Marshal.Release(ptr);
+                    }
                 }
                 catch (Exception ex)
                 {

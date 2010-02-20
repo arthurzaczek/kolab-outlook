@@ -27,6 +27,7 @@ namespace OutlookKolab.Kolab
     using System.Linq;
     using System.Text;
     using System.Xml;
+    using System.Windows.Forms;
     
     public static class Helper
     {

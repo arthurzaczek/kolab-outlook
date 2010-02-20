@@ -32,6 +32,7 @@ namespace OutlookKolab.Kolab.Settings
     using System.Windows.Forms;
 
     using Outlook = Microsoft.Office.Interop.Outlook;
+    using OutlookKolab.Kolab.Provider;
     
     public partial class DlgSettings : Form
     {

@@ -42,12 +42,15 @@ namespace OutlookKolab.Kolab.Sync
         bool hasLocalChanges(SyncContext sync);
 
         void createLocalItemFromServer(SyncContext sync);
-        void createServerItemFromLocal(Outlook.Folder targetFolder, SyncContext sync, string localId);
+        void createServerItemFromLocal(Outlook.Folder imapFolder, SyncContext sync, string localId);
 
         void updateLocalItemFromServer(SyncContext sync);
-        void updateServerItemFromLocal(Outlook.Folder targetFolder, SyncContext sync);
+        void updateServerItemFromLocal(Outlook.Folder imapFolder, SyncContext sync);
 
         void deleteLocalItem(SyncContext sync);
         void deleteServerItem(SyncContext sync);
+
+        string GetItemText(SyncContext sync);
+        string getMessageBodyText(SyncContext sync);
     }
 }

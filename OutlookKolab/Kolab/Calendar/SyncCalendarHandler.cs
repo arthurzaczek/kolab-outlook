@@ -412,7 +412,7 @@ namespace OutlookKolab.Kolab.Calendar
             return Xml.XmlHelper.ToString(cal);
         }
 
-        protected override string getMessageBodyText(SyncContext sync)
+        public override string getMessageBodyText(SyncContext sync)
         {
             var cal = getLocalItem(sync);
             StringBuilder sb = new StringBuilder();

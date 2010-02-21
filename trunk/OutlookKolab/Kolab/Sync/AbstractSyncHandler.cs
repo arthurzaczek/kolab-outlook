@@ -63,7 +63,7 @@ namespace OutlookKolab.Kolab.Sync
         protected abstract String getMimeType();
         
         protected abstract String writeXml(SyncContext sync);
-        protected abstract String getMessageBodyText(SyncContext sync);
+        public abstract String getMessageBodyText(SyncContext sync);
 
         protected abstract void updateLocalItemFromServer(SyncContext sync, string xml);
         protected abstract string updateServerItemFromLocal(SyncContext sync, string xml);
@@ -114,7 +114,7 @@ namespace OutlookKolab.Kolab.Sync
             }
         }
 
-        public void createServerItemFromLocal(Outlook.Folder targetFolder, SyncContext sync, string localId)
+        public void createServerItemFromLocal(Outlook.Folder imapFolder, SyncContext sync, string localId)
         {
             Log.i("sync", "Uploading: #" + localId);
 
@@ -125,12 +125,12 @@ namespace OutlookKolab.Kolab.Sync
 
             entry.localId = localId;
             String xml = writeXml(sync);
-            sync.Message = wrapXmlInMessage(targetFolder, sync, xml);
+            sync.Message = wrapXmlInMessage(imapFolder, sync, xml);
 
             updateCacheEntryFromMessage(sync);
         }
 
-        public void updateServerItemFromLocal(Outlook.Folder targetFolder, SyncContext sync)
+        public void updateServerItemFromLocal(Outlook.Folder imapFolder, SyncContext sync)
         {
             Log.i("sync", "Update item on Server: #" + sync.CacheEntry.localId);
 
@@ -141,7 +141,7 @@ namespace OutlookKolab.Kolab.Sync
             // Create & Upload new Message  
             // IMAP needs a new Message uploaded
             var msgToDelete = sync.Message;
-            sync.Message = wrapXmlInMessage(targetFolder, sync, xml);
+            sync.Message = wrapXmlInMessage(imapFolder, sync, xml);
             DeleteIMAPMessage(msgToDelete);
             updateCacheEntryFromMessage(sync);
         }
@@ -189,9 +189,9 @@ namespace OutlookKolab.Kolab.Sync
             return result;
         }
 
-        private Outlook.MailItem wrapXmlInMessage(Outlook.Folder targetFolder, SyncContext sync, String xml)
+        private Outlook.MailItem wrapXmlInMessage(Outlook.Folder imapFolder, SyncContext sync, String xml)
         {
-            Outlook.MailItem result = (Outlook.MailItem)targetFolder.Items.Add(Outlook.OlItemType.olMailItem);
+            Outlook.MailItem result = (Outlook.MailItem)imapFolder.Items.Add(Outlook.OlItemType.olMailItem);
             result.Subject = sync.CacheEntry.remoteId;
             result.Body = getMessageBodyText(sync);
             var tmpfilename = Path.GetTempFileName();
@@ -210,8 +210,8 @@ namespace OutlookKolab.Kolab.Sync
             //result.PropertyAccessor.SetProperty("http://schemas.microsoft.com/mapi/proptag/0x0E060040", now);
 
             result.Save();
-            result.Move(targetFolder);
-            targetFolder.Items.ResetColumns();
+            result.Move(imapFolder);
+            imapFolder.Items.ResetColumns();
 
             File.Delete(filename);
             return result;

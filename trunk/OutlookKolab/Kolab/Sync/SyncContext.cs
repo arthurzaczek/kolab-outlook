@@ -33,5 +33,8 @@ namespace OutlookKolab.Kolab.Sync
         public object LocalItem { get; set; }
         public DSLocalCache.CacheEntryRow CacheEntry { get; set; }
         public Outlook.MailItem Message { get; set; }
+
+        public string LocalItemText { get; set; }
+        public string RemoteItemText { get; set; }
     }
 }

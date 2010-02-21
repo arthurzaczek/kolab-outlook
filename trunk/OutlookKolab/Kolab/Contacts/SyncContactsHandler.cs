@@ -385,7 +385,7 @@ namespace OutlookKolab.Kolab.Constacts
             return Xml.XmlHelper.ToString(contact);
         }
 
-        protected override string getMessageBodyText(SyncContext sync)
+        public override string getMessageBodyText(SyncContext sync)
         {
             var contact = getLocalItem(sync);
             StringBuilder sb = new StringBuilder();

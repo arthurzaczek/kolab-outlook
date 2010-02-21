@@ -117,7 +117,7 @@ namespace OutlookKolab.Kolab.Sync
             try
             {
                 // 1. retrieve list of all imap message headers
-                var sourceFolder = (Outlook.Folder)app.Session.GetFolderFromID(handler.GetIMAPFolderName(), handler.GetIMAPStoreID());
+                var imapFolder = (Outlook.Folder)app.Session.GetFolderFromID(handler.GetIMAPFolderName(), handler.GetIMAPStoreID());
 
                 Dictionary<string, bool> processedEntries = new Dictionary<string, bool>();
                 DSStatus.StatusEntryRow status = handler.getStatus();
@@ -126,7 +126,7 @@ namespace OutlookKolab.Kolab.Sync
                 try
                 {
                     OutlookKolapMAPIHelper.IMAPHelper mapi = new OutlookKolapMAPIHelper.IMAPHelper();
-                    IntPtr ptr = System.Runtime.InteropServices.Marshal.GetIUnknownForObject(sourceFolder.MAPIOBJECT);
+                    IntPtr ptr = System.Runtime.InteropServices.Marshal.GetIUnknownForObject(imapFolder.MAPIOBJECT);
                     try
                     {
                         deletedEntryIDs = mapi.GetDeletedEntryIDs(ptr).ToLookup(i => i);
@@ -142,8 +142,8 @@ namespace OutlookKolab.Kolab.Sync
                     throw;
                 }
 
-
-                var msgList = sourceFolder.Items.OfType<Outlook.MailItem>().ToList();
+                var conflictList = new List<SyncContext>();
+                var msgList = imapFolder.Items.OfType<Outlook.MailItem>().ToList();
                 foreach (var msg in msgList)
                 {
                     if (IsStopping) return;
@@ -197,7 +197,7 @@ namespace OutlookKolab.Kolab.Sync
                                     {
                                         Log.i("sync", "local changes found: updating ServerItem from Local");
                                         status.incrementRemoteChanged();
-                                        handler.updateServerItemFromLocal(sourceFolder, sync);
+                                        handler.updateServerItemFromLocal(imapFolder, sync);
                                     }
                                 }
                                 else
@@ -214,7 +214,17 @@ namespace OutlookKolab.Kolab.Sync
                                 {
                                     Log.i("sync", "local changes found: conflicting");
                                     status.incrementConflicted();
-                                    ShowConflictDialog();
+                                    if (sync.LocalItem != null)
+                                    {
+                                        sync.LocalItemText = handler.GetItemText(sync);
+                                    }
+                                    else
+                                    {
+                                        sync.LocalItemText = "<deleted>";
+                                    }
+                                    sync.RemoteItemText = "remote changed";
+
+                                    conflictList.Add(sync);
                                 }
                                 else
                                 {
@@ -277,7 +287,7 @@ namespace OutlookKolab.Kolab.Sync
                         {
                             Log.i("sync", "9.c not found in local cache: creating on server");
                             status.incrementRemoteNew();
-                            handler.createServerItemFromLocal(sourceFolder, sync, localId);
+                            handler.createServerItemFromLocal(imapFolder, sync, localId);
                         }
                     }
                     catch (SyncException ex)
@@ -290,16 +300,17 @@ namespace OutlookKolab.Kolab.Sync
                         cache.Save();
                     }
                 }
+
+                // Conflict resolution
+                if (conflictList.Count > 0)
+                {
+                    DlgConflictDialog.Show(handler, imapFolder, conflictList);
+                }
             }
             finally
             {
                 cache.Save();
             }
-        }
-
-        private void ShowConflictDialog()
-        {
-            // StatusHandler.writeStatus("sync conflict");
         }
     
         private void ShowErrorDialog(Exception ex)

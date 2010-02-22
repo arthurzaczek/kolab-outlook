@@ -34,7 +34,6 @@ Global
 		{2F07E9BE-7FBA-4938-846B-D8E884354805}.Debug|Win32.ActiveCfg = Debug|Win32
 		{2F07E9BE-7FBA-4938-846B-D8E884354805}.Debug|Win32.Build.0 = Debug|Win32
 		{2F07E9BE-7FBA-4938-846B-D8E884354805}.Debug|x86.ActiveCfg = Debug|Win32
-		{2F07E9BE-7FBA-4938-846B-D8E884354805}.Debug|x86.Build.0 = Debug|Win32
 		{2F07E9BE-7FBA-4938-846B-D8E884354805}.Release|Mixed Platforms.ActiveCfg = Release|Win32
 		{2F07E9BE-7FBA-4938-846B-D8E884354805}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{2F07E9BE-7FBA-4938-846B-D8E884354805}.Release|Win32.ActiveCfg = Release|Win32
@@ -42,25 +41,17 @@ Global
 		{2F07E9BE-7FBA-4938-846B-D8E884354805}.Release|x86.ActiveCfg = Release|Win32
 		{27BBA58D-6DAC-460D-BB4E-B2E6A221817F}.Debug|Mixed Platforms.ActiveCfg = Debug
 		{27BBA58D-6DAC-460D-BB4E-B2E6A221817F}.Debug|Win32.ActiveCfg = Debug
-		{27BBA58D-6DAC-460D-BB4E-B2E6A221817F}.Debug|Win32.Build.0 = Debug
 		{27BBA58D-6DAC-460D-BB4E-B2E6A221817F}.Debug|x86.ActiveCfg = Debug
-		{27BBA58D-6DAC-460D-BB4E-B2E6A221817F}.Debug|x86.Build.0 = Debug
 		{27BBA58D-6DAC-460D-BB4E-B2E6A221817F}.Release|Mixed Platforms.ActiveCfg = Release
 		{27BBA58D-6DAC-460D-BB4E-B2E6A221817F}.Release|Win32.ActiveCfg = Release
-		{27BBA58D-6DAC-460D-BB4E-B2E6A221817F}.Release|Win32.Build.0 = Release
 		{27BBA58D-6DAC-460D-BB4E-B2E6A221817F}.Release|x86.ActiveCfg = Release
-		{27BBA58D-6DAC-460D-BB4E-B2E6A221817F}.Release|x86.Build.0 = Release
 		{F54DB35E-13D4-40B1-BDAA-0033A7C52D74}.Debug|Mixed Platforms.ActiveCfg = Debug
 		{F54DB35E-13D4-40B1-BDAA-0033A7C52D74}.Debug|Win32.ActiveCfg = Debug
-		{F54DB35E-13D4-40B1-BDAA-0033A7C52D74}.Debug|Win32.Build.0 = Debug
 		{F54DB35E-13D4-40B1-BDAA-0033A7C52D74}.Debug|x86.ActiveCfg = Debug
-		{F54DB35E-13D4-40B1-BDAA-0033A7C52D74}.Debug|x86.Build.0 = Debug
 		{F54DB35E-13D4-40B1-BDAA-0033A7C52D74}.Release|Mixed Platforms.ActiveCfg = Release
 		{F54DB35E-13D4-40B1-BDAA-0033A7C52D74}.Release|Mixed Platforms.Build.0 = Release
 		{F54DB35E-13D4-40B1-BDAA-0033A7C52D74}.Release|Win32.ActiveCfg = Release
-		{F54DB35E-13D4-40B1-BDAA-0033A7C52D74}.Release|Win32.Build.0 = Release
 		{F54DB35E-13D4-40B1-BDAA-0033A7C52D74}.Release|x86.ActiveCfg = Release
-		{F54DB35E-13D4-40B1-BDAA-0033A7C52D74}.Release|x86.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

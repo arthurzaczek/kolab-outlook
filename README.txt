@@ -23,6 +23,7 @@ regsvr32 "C:\Program Files\Microsoft Visual Studio 9.0\VC\vcpackages\VCProjectEn
 
 (see http://blogs.msdn.com/jjameson/archive/2009/11/07/compiling-c-projects-with-team-foundation-build.aspx)
 
+Add "C:\Program Files\Microsoft Visual Studio 9.0\VC\vcpackages" to your PATH environment variable
 
 Compile the DevInstaller project on a Windows Machine which has a Visual Studio
 2008 Professional Edition SP1 with full VSTO support installed and install that

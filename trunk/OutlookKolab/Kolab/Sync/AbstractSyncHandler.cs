@@ -31,12 +31,13 @@ namespace OutlookKolab.Kolab.Sync
     using OutlookKolab.Kolab.Settings;
     using Outlook = Microsoft.Office.Interop.Outlook;
 
-    public abstract class AbstractSyncHandler : ISyncHandler
+    public abstract class AbstractSyncHandler
+        : ISyncHandler, IDisposable
     {
         protected AbstractSyncHandler(DSSettings settings, DSStatus dsStatus, Outlook.Application app)
         {
             this.app = app;
-            status = dsStatus.StatusEntry.AddStatusEntryRow(DateTime.Now, "", 0, 0, 0, 0, 0, 0, 0, 0, 0);
+            status = dsStatus.StatusEntry.AddStatusEntryRow(DateTime.Now, String.Empty, 0, 0, 0, 0, 0, 0, 0, 0, 0);
             this.settings = settings;
         }
 
@@ -46,7 +47,7 @@ namespace OutlookKolab.Kolab.Sync
 
         private Outlook.Folder fld = null;
 
-       
+
         public abstract IEnumerable<string> getAllLocalItemIDs();
         public abstract LocalCacheProvider getLocalCacheProvider();
 
@@ -61,7 +62,7 @@ namespace OutlookKolab.Kolab.Sync
         public abstract bool hasLocalItem(SyncContext sync);
 
         protected abstract String getMimeType();
-        
+
         protected abstract String writeXml(SyncContext sync);
         public abstract String getMessageBodyText(SyncContext sync);
 
@@ -97,6 +98,8 @@ namespace OutlookKolab.Kolab.Sync
 
         public void createLocalItemFromServer(SyncContext sync)
         {
+            if (sync == null) { throw new ArgumentNullException("sync"); }
+
             Log.d("sync", "Downloading item ...");
             var xml = extractXml(sync.Message);
             updateLocalItemFromServer(sync, xml);
@@ -116,6 +119,10 @@ namespace OutlookKolab.Kolab.Sync
 
         public void createServerItemFromLocal(Outlook.Folder imapFolder, SyncContext sync, string localId)
         {
+            if (imapFolder == null) { throw new ArgumentNullException("imapFolder"); }
+            if (sync == null) { throw new ArgumentNullException("sync"); }
+            if (String.IsNullOrEmpty(localId)) { throw new ArgumentNullException("localId"); }
+
             Log.i("sync", "Uploading: #" + localId);
 
             // initialize cache entry with values that should go
@@ -132,6 +139,9 @@ namespace OutlookKolab.Kolab.Sync
 
         public void updateServerItemFromLocal(Outlook.Folder imapFolder, SyncContext sync)
         {
+            if (imapFolder == null) { throw new ArgumentNullException("imapFolder"); }
+            if (sync == null) { throw new ArgumentNullException("sync"); }
+
             Log.i("sync", "Update item on Server: #" + sync.CacheEntry.localId);
 
             string doc = extractXml(sync.Message);
@@ -148,6 +158,8 @@ namespace OutlookKolab.Kolab.Sync
 
         public void deleteLocalItem(SyncContext sync)
         {
+            if (sync == null) { throw new ArgumentNullException("sync"); }
+
             Log.i("sync", "Deleting locally: " + sync.CacheEntry.localHash);
             deleteLocalItem(sync.CacheEntry.localId);
             getLocalCacheProvider().deleteEntry(sync.CacheEntry);
@@ -155,6 +167,8 @@ namespace OutlookKolab.Kolab.Sync
 
         public void deleteServerItem(SyncContext sync)
         {
+            if (sync == null) { throw new ArgumentNullException("sync"); }
+
             Log.i("sync", "Deleting from server: " + sync.Message.Subject);
             DeleteIMAPMessage(sync.Message);
             getLocalCacheProvider().deleteEntry(sync.CacheEntry);
@@ -223,5 +237,18 @@ namespace OutlookKolab.Kolab.Sync
             File.Delete(filename);
             return result;
         }
+
+        #region IDisposable Members
+
+        public void Dispose()
+        {
+            if (settings != null)
+            {
+                settings.Dispose();
+                settings = null;
+            }
+        }
+
+        #endregion
     }
 }

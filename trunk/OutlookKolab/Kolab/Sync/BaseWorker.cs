@@ -28,17 +28,17 @@ namespace OutlookKolab.Kolab.Sync
     
     public abstract class BaseWorker
     {
+        private static readonly object _lock = new object();
+
         private static Thread thread;
         protected Outlook.Application app;
-
-        private static String SYNC_ROOT = "SYNC";
 
         private static bool _isRunning = false;
         public static bool IsRunning
         {
             get
             {
-                lock (SYNC_ROOT)
+                lock (_lock)
                 {
                     return _isRunning;
                 }
@@ -50,7 +50,7 @@ namespace OutlookKolab.Kolab.Sync
         {
             get
             {
-                lock (SYNC_ROOT)
+                lock (_lock)
                 {
                     return _isStopping;
                 }
@@ -64,7 +64,7 @@ namespace OutlookKolab.Kolab.Sync
 
         public void Start()
         {
-            lock (SYNC_ROOT)
+            lock (_lock)
             {
                 if (_isRunning) return;
                 _isRunning = true;
@@ -77,7 +77,7 @@ namespace OutlookKolab.Kolab.Sync
         public static void Stop()
         {
             Thread tmp;
-            lock (SYNC_ROOT)
+            lock (_lock)
             {
                 _isStopping = true;
                 tmp = thread;
@@ -95,7 +95,7 @@ namespace OutlookKolab.Kolab.Sync
             {
                 Log.e("worker", ex.ToString());
             }
-            lock (SYNC_ROOT)
+            lock (_lock)
             {
                 _isRunning = false;
                 _isStopping = false;

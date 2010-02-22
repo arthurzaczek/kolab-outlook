@@ -339,4 +339,8 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <PropertyGroup>
+    <PostBuildEvent>powershell -command $(SolutionDir)gendarme.ps1 -SolutionDir:$(SolutionDir)
+type $(SolutionDir)\OutlookKolab\bin\gendarme.txt</PostBuildEvent>
+  </PropertyGroup>
 </Project>

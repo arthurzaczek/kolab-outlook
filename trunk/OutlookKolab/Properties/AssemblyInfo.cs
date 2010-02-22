@@ -18,6 +18,7 @@
  *  along with Kolab Sync for Outlook.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using System;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -57,3 +58,5 @@ using System.Security;
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
 [assembly: SecurityTransparent()]
+
+[assembly: CLSCompliant(false)]

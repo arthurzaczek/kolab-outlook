@@ -140,6 +140,8 @@ namespace OutlookKolab.Kolab.Calendar
 
         public override bool hasLocalChanges(SyncContext sync)
         {
+            if (sync == null) { throw new ArgumentNullException("sync"); }
+
             Log.i("sync", "Checking for local changes: #" + sync.CacheEntry.localId);
             var cal = getLocalItem(sync);
             String entryHash = sync.CacheEntry.localHash;
@@ -458,9 +460,11 @@ namespace OutlookKolab.Kolab.Calendar
 
         public override string GetItemText(SyncContext sync)
         {
-            if ((sync.LocalItem as Outlook.AppointmentItem) != null)
+            if (sync == null) { throw new ArgumentNullException("sync"); }
+
+            var item = sync.LocalItem as Outlook.AppointmentItem;
+            if (item != null)
             {
-                var item  = (Outlook.AppointmentItem)sync.LocalItem;
                 return item.Subject + ": " + item.Start.ToString();
             }
             else

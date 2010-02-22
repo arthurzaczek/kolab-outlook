@@ -34,6 +34,7 @@ namespace OutlookKolab.Kolab.Provider
     }
 
     public class LocalCacheProvider
+        : IDisposable
     {
         DSLocalCache cache;
         string filename;
@@ -132,5 +133,18 @@ namespace OutlookKolab.Kolab.Provider
 
             return result;
         }
+
+        #region IDisposable Members
+
+        public void Dispose()
+        {
+            if (cache != null)
+            {
+                cache.Dispose();
+                cache = null;
+            }
+        }
+
+        #endregion
     }
 }

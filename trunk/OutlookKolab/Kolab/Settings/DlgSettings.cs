@@ -8,7 +8,6 @@
  *  and/or modify it under the terms of the GNU General Public License
  *  as published by the Free Software Foundation, either version 3 of
  *  the License, or (at your option) any later version.
-using OutlookKolab.Kolab.Provider;
 
  *  Kolab Sync for Outlook is distributed in the hope that it will be
  *  useful, but WITHOUT ANY WARRANTY; without even the implied warranty
@@ -18,7 +17,6 @@ using OutlookKolab.Kolab.Provider;
  *  You should have received a copy of the GNU General Public License
  *  along with Kolab Sync for Outlook.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 
 namespace OutlookKolab.Kolab.Settings
 {
@@ -33,7 +31,7 @@ namespace OutlookKolab.Kolab.Settings
 
     using Outlook = Microsoft.Office.Interop.Outlook;
     using OutlookKolab.Kolab.Provider;
-    
+
     public partial class DlgSettings : Form
     {
         Outlook.Application app;
@@ -44,8 +42,10 @@ namespace OutlookKolab.Kolab.Settings
         {
             try
             {
-                DlgSettings dlg = new DlgSettings(app);
-                dlg.ShowDialog();
+                using (var dlg = new DlgSettings(app))
+                {
+                    dlg.ShowDialog();
+                }
             }
             catch (Exception ex)
             {
@@ -76,11 +76,11 @@ namespace OutlookKolab.Kolab.Settings
 
             if (!string.IsNullOrEmpty(settings.CalendarIMAPFolder) && !string.IsNullOrEmpty(settings.CalendarIMAPStore))
                 txtCalendarIMAPFolder.Text = app.Session.GetFolderFromID(settings.CalendarIMAPFolder, settings.CalendarIMAPStore).FullFolderPath;
-            else 
+            else
                 txtCalendarIMAPFolder.Text = "";
             if (!string.IsNullOrEmpty(settings.CalendarOutlookFolder) && !string.IsNullOrEmpty(settings.CalendarOutlookStore))
                 txtCalendarOutlookFolder.Text = app.Session.GetFolderFromID(settings.CalendarOutlookFolder, settings.CalendarOutlookStore).FullFolderPath;
-            else 
+            else
                 txtCalendarOutlookFolder.Text = "";
         }
 

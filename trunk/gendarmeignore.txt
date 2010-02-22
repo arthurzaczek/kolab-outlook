@@ -1,0 +1,50 @@
+R: Gendarme.Rules.Performance.AvoidUncalledPrivateCodeRule
+# generated code
+M: OutlookKolab.WindowFormRegionCollection OutlookKolab.ThisFormRegionCollection::get_Item(Microsoft.Office.Interop.Outlook.Explorer)
+M: OutlookKolab.WindowFormRegionCollection OutlookKolab.ThisFormRegionCollection::get_Item(Microsoft.Office.Interop.Outlook.Inspector)
+
+R: Gendarme.Rules.Correctness.CheckParametersNullityInVisibleMethodsRule
+# generated code
+M: System.Xml.Schema.XmlSchemaComplexType OutlookKolab.Kolab.Settings.DSSettings::GetTypedDataSetSchema(System.Xml.Schema.XmlSchemaSet)
+M: System.Xml.Schema.XmlSchemaComplexType OutlookKolab.Kolab.Settings.DSSettings/SettingsDataTable::GetTypedTableSchema(System.Xml.Schema.XmlSchemaSet)
+M: System.Xml.Schema.XmlSchemaComplexType OutlookKolab.Kolab.Provider.DSStatus::GetTypedDataSetSchema(System.Xml.Schema.XmlSchemaSet)
+M: System.Int32 OutlookKolab.Kolab.Provider.DSStatus/StatusEntryRow::incrementErrors(OutlookKolab.Kolab.Sync.SyncException)
+M: System.Xml.Schema.XmlSchemaComplexType OutlookKolab.Kolab.Provider.DSStatus/StatusEntryDataTable::GetTypedTableSchema(System.Xml.Schema.XmlSchemaSet)
+M: System.Xml.Schema.XmlSchemaComplexType OutlookKolab.Kolab.Provider.DSStatus/ErrorDataTable::GetTypedTableSchema(System.Xml.Schema.XmlSchemaSet)
+M: System.Xml.Schema.XmlSchemaComplexType OutlookKolab.Kolab.Provider.DSLocalCache::GetTypedDataSetSchema(System.Xml.Schema.XmlSchemaSet)
+M: System.Xml.Schema.XmlSchemaComplexType OutlookKolab.Kolab.Provider.DSLocalCache/CacheEntryDataTable::GetTypedTableSchema(System.Xml.Schema.XmlSchemaSet)
+
+R: Gendarme.Rules.Correctness.EnsureLocalDisposalRule
+# generated code
+M: System.Void OutlookKolab.Kolab.Settings.DSSettings::.ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)
+M: System.Void OutlookKolab.Kolab.Settings.DSSettings::ReadXmlSerializable(System.Xml.XmlReader)
+M: System.Xml.Schema.XmlSchema OutlookKolab.Kolab.Settings.DSSettings::GetSchemaSerializable()
+M: System.Xml.Schema.XmlSchemaComplexType OutlookKolab.Kolab.Settings.DSSettings::GetTypedDataSetSchema(System.Xml.Schema.XmlSchemaSet)
+M: System.Xml.Schema.XmlSchemaComplexType OutlookKolab.Kolab.Settings.DSSettings/SettingsDataTable::GetTypedTableSchema(System.Xml.Schema.XmlSchemaSet)
+M: System.Void OutlookKolab.Kolab.Provider.DSStatus::.ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)
+M: System.Void OutlookKolab.Kolab.Provider.DSStatus::ReadXmlSerializable(System.Xml.XmlReader)
+M: System.Xml.Schema.XmlSchema OutlookKolab.Kolab.Provider.DSStatus::GetSchemaSerializable()
+M: System.Xml.Schema.XmlSchemaComplexType OutlookKolab.Kolab.Provider.DSStatus::GetTypedDataSetSchema(System.Xml.Schema.XmlSchemaSet)
+M: System.Xml.Schema.XmlSchemaComplexType OutlookKolab.Kolab.Provider.DSStatus/StatusEntryDataTable::GetTypedTableSchema(System.Xml.Schema.XmlSchemaSet)
+M: System.Xml.Schema.XmlSchemaComplexType OutlookKolab.Kolab.Provider.DSStatus/ErrorDataTable::GetTypedTableSchema(System.Xml.Schema.XmlSchemaSet)
+M: System.Void OutlookKolab.Kolab.Provider.DSLocalCache::.ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)
+M: System.Void OutlookKolab.Kolab.Provider.DSLocalCache::ReadXmlSerializable(System.Xml.XmlReader)
+M: System.Xml.Schema.XmlSchema OutlookKolab.Kolab.Provider.DSLocalCache::GetSchemaSerializable()
+M: System.Xml.Schema.XmlSchemaComplexType OutlookKolab.Kolab.Provider.DSLocalCache::GetTypedDataSetSchema(System.Xml.Schema.XmlSchemaSet)
+M: System.Xml.Schema.XmlSchemaComplexType OutlookKolab.Kolab.Provider.DSLocalCache/CacheEntryDataTable::GetTypedTableSchema(System.Xml.Schema.XmlSchemaSet)
+# false positive: local variable is not scope of IDispoable
+M: System.Void OutlookKolab.Kolab.Sync.SyncWorker::sync(OutlookKolab.Kolab.Sync.ISyncHandler)
+
+R: Gendarme.Rules.Serialization.CallBaseMethodsOnISerializableTypesRule
+# generated code
+T: OutlookKolab.Kolab.Settings.DSSettings
+T: OutlookKolab.Kolab.Provider.DSStatus
+T: OutlookKolab.Kolab.Provider.DSLocalCache
+
+###############################################################################
+##  GLOBAL IGNORES  ###########################################################
+###############################################################################
+
+# Flags mostly generated code, which generally has little cohesion.
+R: Gendarme.Rules.Maintainability.AvoidLackOfCohesionOfMethodsRule
+A: OutlookKolab

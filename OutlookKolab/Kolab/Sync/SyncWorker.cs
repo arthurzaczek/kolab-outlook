@@ -125,11 +125,10 @@ namespace OutlookKolab.Kolab.Sync
                 ILookup<string, string> deletedEntryIDs = null;
                 try
                 {
-                    OutlookKolapMAPIHelper.IMAPHelper mapi = new OutlookKolapMAPIHelper.IMAPHelper();
                     IntPtr ptr = System.Runtime.InteropServices.Marshal.GetIUnknownForObject(imapFolder.MAPIOBJECT);
                     try
                     {
-                        deletedEntryIDs = mapi.GetDeletedEntryIDs(ptr).ToLookup(i => i);
+                        deletedEntryIDs = OutlookKolapMAPIHelper.IMAPHelper.GetDeletedEntryIDs(ptr).ToLookup(i => i);
                     }
                     finally
                     {
@@ -192,10 +191,10 @@ namespace OutlookKolab.Kolab.Sync
                                 Log.d("sync", "7.a/d cur=localdb");
                                 if (handler.hasLocalItem(sync))
                                 {
-                                    Log.d("sync", "7.a check for local changes and upload them");
+                                    Log.d("sync", "7.a check for local changes");
                                     if (handler.hasLocalChanges(sync))
                                     {
-                                        Log.i("sync", "local changes found: updating ServerItem from Local");
+                                        Log.i("sync", "local changes found => updating ServerItem from Local");
                                         status.incrementRemoteChanged();
                                         handler.updateServerItemFromLocal(imapFolder, sync);
                                     }
@@ -228,7 +227,7 @@ namespace OutlookKolab.Kolab.Sync
                                 }
                                 else
                                 {
-                                    Log.i("sync", "no local changes found: updating local item from server");
+                                    Log.i("sync", "no local changes found => updating local item from server");
                                     status.incrementLocalChanged();
                                     handler.updateLocalItemFromServer(sync);
                                 }
@@ -279,13 +278,13 @@ namespace OutlookKolab.Kolab.Sync
                         sync.CacheEntry = cache.getEntryFromLocalId(localId);
                         if (sync.CacheEntry != null)
                         {
-                            Log.i("sync", "9.b found in local cache: deleting locally");
+                            Log.i("sync", "9.b found in local cache => deleting locally");
                             status.incrementLocalDeleted();
                             handler.deleteLocalItem(sync);
                         }
                         else
                         {
-                            Log.i("sync", "9.c not found in local cache: creating on server");
+                            Log.i("sync", "9.c not found in local cache => creating on server");
                             status.incrementRemoteNew();
                             handler.createServerItemFromLocal(imapFolder, sync, localId);
                         }

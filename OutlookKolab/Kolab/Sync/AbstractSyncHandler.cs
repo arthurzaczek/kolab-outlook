@@ -90,7 +90,7 @@ namespace OutlookKolab.Kolab.Sync
 
         private void updateCacheEntryFromMessage(SyncContext sync)
         {
-            sync.CacheEntry.remoteChangedDate = sync.Message.LastModificationTime;
+            sync.CacheEntry.remoteChangedDate = sync.Message.GetChangedDate();
             sync.CacheEntry.remoteId = sync.Message.Subject;
             sync.CacheEntry.remoteSize = sync.Message.Size;
         }
@@ -171,11 +171,10 @@ namespace OutlookKolab.Kolab.Sync
             Outlook.Attachment a = message.Attachments.Cast<Outlook.Attachment>().FirstOrDefault();
             if (a != null)
             {
-                OutlookKolapMAPIHelper.IMAPHelper mapi = new OutlookKolapMAPIHelper.IMAPHelper();
                 IntPtr ptr = System.Runtime.InteropServices.Marshal.GetIUnknownForObject(a.MAPIOBJECT);
                 try
                 {
-                    result = mapi.ReadAttachment(ptr);
+                    result = OutlookKolapMAPIHelper.IMAPHelper.ReadAttachment(ptr);
                 }
                 finally
                 {
@@ -205,13 +204,21 @@ namespace OutlookKolab.Kolab.Sync
 
             result.UnRead = false;
 
-            // TODO: das geht nicht
-            //result.PropertyAccessor.SetProperty("http://schemas.microsoft.com/mapi/proptag/0x00390040", now);
-            //result.PropertyAccessor.SetProperty("http://schemas.microsoft.com/mapi/proptag/0x0E060040", now);
+            var now = DateTime.Now;
+            IntPtr ptr = System.Runtime.InteropServices.Marshal.GetIUnknownForObject(result.MAPIOBJECT);
+            try
+            {
+                OutlookKolapMAPIHelper.IMAPHelper.SetSentDate(ptr, now);
+            }
+            finally
+            {
+                System.Runtime.InteropServices.Marshal.Release(ptr);
+            }
 
             result.Save();
             result.Move(imapFolder);
-            imapFolder.Items.ResetColumns();
+
+            result = (Outlook.MailItem)imapFolder.Items[sync.CacheEntry.remoteId];
 
             File.Delete(filename);
             return result;

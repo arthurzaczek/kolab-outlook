@@ -28,6 +28,7 @@ namespace OutlookKolab.Kolab
     using System.Text;
     using System.Xml;
     using System.Windows.Forms;
+    using Outlook = Microsoft.Office.Interop.Outlook;
     
     public static class Helper
     {
@@ -67,6 +68,16 @@ namespace OutlookKolab.Kolab
         {
             Log.e("generic", ex.ToString());
             MessageBox.Show(ex.ToString(), caption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        public static DateTime GetChangedDate(this Outlook.MailItem item)
+        {
+            DateTime result = item.SentOn;
+            if (result.Year < 1970 || result.Year > 3000)
+            {
+                result = item.ReceivedTime;
+            }
+            return result;
         }
     }
 }

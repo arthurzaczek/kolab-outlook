@@ -51,56 +51,60 @@ namespace OutlookKolab.Kolab.Sync
         {
             StatusHandler.writeStatus("Starting Sync");
             StatusHandler.notifySyncStarted();
-            var dsStatus = DSStatus.Load();
-            bool hasErrors = false;
-            try
+            using (var dsStatus = DSStatus.Load())
+            using (var settings = Settings.DSSettings.Load())
             {
-                var settings = Settings.DSSettings.Load();
-                ISyncHandler handler = null;
-
-                if (IsStopping)
+                bool hasErrors = false;
+                try
                 {
-                    StatusHandler.writeStatus("Sync aborted");
-                    return;
+                    if (IsStopping)
+                    {
+                        StatusHandler.writeStatus("Sync aborted");
+                        return;
+                    }
+
+                    using (var handler = new SyncContactsHandler(settings, dsStatus, app))
+                    {
+                        if (shouldProcess(handler))
+                        {
+                            _status = handler.getStatus();
+                            sync(handler);
+                            hasErrors |= _status.errors > 0;
+                            dsStatus.Save();
+                        }
+
+                        if (IsStopping)
+                        {
+                            StatusHandler.writeStatus("Sync aborted");
+                            return;
+                        }
+                    }
+
+                    using (var handler = new SyncCalendarHandler(settings, dsStatus, app))
+                    {
+                        if (shouldProcess(handler))
+                        {
+                            _status = handler.getStatus();
+                            sync(handler);
+                            hasErrors |= _status.errors > 0;
+                            dsStatus.Save();
+                        }
+                        _status = null;
+
+                        StatusHandler.writeStatus(hasErrors ? "Sync errors" : "Sync finished");
+                    }
                 }
-
-                handler = new SyncContactsHandler(settings, dsStatus, app);
-                if (shouldProcess(handler))
+                catch (Exception ex)
                 {
-                    _status = handler.getStatus();
-                    sync(handler);
-                    hasErrors |= _status.errors > 0;
+                    Log.e("sync", ex.ToString());
+                    StatusHandler.writeStatus("Sync error");
+                    ShowErrorDialog(ex);
+                }
+                finally
+                {
                     dsStatus.Save();
+                    StatusHandler.notifySyncFinished();
                 }
-
-                if (IsStopping)
-                {
-                    StatusHandler.writeStatus("Sync aborted");
-                    return;
-                }
-
-                handler = new SyncCalendarHandler(settings, dsStatus, app);
-                if (shouldProcess(handler))
-                {
-                    _status = handler.getStatus();
-                    sync(handler);
-                    hasErrors |= _status.errors > 0;
-                    dsStatus.Save();
-                }
-                _status = null;
-
-                StatusHandler.writeStatus(hasErrors ? "Sync errors" : "Sync finished");
-            }
-            catch (Exception ex)
-            {
-                Log.e("sync", ex.ToString());
-                StatusHandler.writeStatus("Sync error");
-                ShowErrorDialog(ex);
-            }
-            finally
-            {
-                dsStatus.Save();
-                StatusHandler.notifySyncFinished();
             }
         }
 
@@ -311,7 +315,7 @@ namespace OutlookKolab.Kolab.Sync
                 cache.Save();
             }
         }
-    
+
         private void ShowErrorDialog(Exception ex)
         {
             Helper.HandleError("Fatal error during sync", ex);

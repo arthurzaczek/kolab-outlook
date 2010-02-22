@@ -23,10 +23,16 @@ namespace OutlookKolab.Kolab.Sync
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Runtime.Serialization;
     using System.Text;
 
+    [Serializable]
     public class SyncException : Exception
     {
+        public SyncException()
+        {
+        }
+
         public SyncException(string item, string message)
             : base(message)
         {
@@ -37,6 +43,11 @@ namespace OutlookKolab.Kolab.Sync
             : base(message, inner)
         {
             this.Item = item;
+        }
+
+        protected SyncException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
         }
 
         public string Item { get; private set; }

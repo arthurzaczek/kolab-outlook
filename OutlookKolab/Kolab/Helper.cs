@@ -66,12 +66,16 @@ namespace OutlookKolab.Kolab
 
         public static void HandleError(string caption, Exception ex)
         {
+            if (ex == null) { throw new ArgumentNullException("ex"); }
+
             Log.e("generic", ex.ToString());
             MessageBox.Show(ex.ToString(), caption, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         public static DateTime GetChangedDate(this Outlook.MailItem item)
         {
+            if (item == null) { throw new ArgumentNullException("item"); }
+
             DateTime result = item.SentOn;
             if (result.Year < 1970 || result.Year > 3000)
             {

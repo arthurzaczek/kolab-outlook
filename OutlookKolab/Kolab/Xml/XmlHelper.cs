@@ -49,16 +49,20 @@ namespace OutlookKolab.Kolab.Xml
 
         public static string ToString(contact contact)
         {
-            Utf8StringWriter sw = new Utf8StringWriter();
-            contactSer.Serialize(sw, contact);
-            return sw.ToString();
+            using (var sw = new Utf8StringWriter())
+            {
+                contactSer.Serialize(sw, contact);
+                return sw.ToString();
+            }
         }
 
         public static string ToString(@event contact)
         {
-            Utf8StringWriter sw = new Utf8StringWriter();
-            calendarSer.Serialize(sw, contact);
-            return sw.ToString();
+            using (var sw = new Utf8StringWriter())
+            {
+                calendarSer.Serialize(sw, contact);
+                return sw.ToString();
+            }
         }
     }
 }

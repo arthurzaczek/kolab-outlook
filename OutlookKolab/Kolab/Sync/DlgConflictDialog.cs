@@ -18,18 +18,19 @@
  *  along with Kolab Sync for Outlook.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using Outlook = Microsoft.Office.Interop.Outlook;
-
 namespace OutlookKolab.Kolab.Sync
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Data;
+    using System.Drawing;
+    using System.Linq;
+    using System.Text;
+    using System.Windows.Forms;
+
+    using Outlook = Microsoft.Office.Interop.Outlook;
+
     public partial class DlgConflictDialog : Form
     {
         private List<SyncContext> conflictList;
@@ -50,8 +51,10 @@ namespace OutlookKolab.Kolab.Sync
         {
             try
             {
-                DlgConflictDialog dlg = new DlgConflictDialog(handler, imapFolder, conflictList);
-                dlg.ShowDialog();
+                using (var dlg = new DlgConflictDialog(handler, imapFolder, conflictList))
+                {
+                    dlg.ShowDialog();
+                }
             }
             catch (Exception ex)
             {

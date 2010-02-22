@@ -35,12 +35,13 @@ namespace OutlookKolab
     public partial class ThisAddIn
     {
         #region Properties/Fields
+        private static readonly object _lock = new object();
+
         Office.CommandBar toolBar;
         Office.CommandBarButton settingsButton;
         Office.CommandBarButton syncButton;
         Office.CommandBarButton logButton;
         Office.CommandBarButton statusButton;
-        private const string SYNC_ROOT = "ThisAddIn_SYNC_ROOT";
         #endregion
 
         #region ToolBar
@@ -123,7 +124,7 @@ namespace OutlookKolab
 
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
         {
-            lock (SYNC_ROOT)
+            lock (_lock)
             {
                 statusButton = null;
                 syncButton = null;
@@ -137,7 +138,7 @@ namespace OutlookKolab
         #region StatusEvents
         void StatusHandler_SyncFinished()
         {
-            lock (SYNC_ROOT)
+            lock (_lock)
             {
                 if (statusButton != null && syncButton != null)
                 {
@@ -148,7 +149,7 @@ namespace OutlookKolab
 
         void StatusHandler_SyncStarted()
         {
-            lock (SYNC_ROOT)
+            lock (_lock)
             {
                 if (statusButton != null && syncButton != null)
                 {
@@ -159,7 +160,7 @@ namespace OutlookKolab
 
         void StatusHandler_SyncStatus(string text)
         {
-            lock (SYNC_ROOT)
+            lock (_lock)
             {
                 if (statusButton != null)
                 {

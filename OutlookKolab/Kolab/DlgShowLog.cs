@@ -41,8 +41,10 @@ namespace OutlookKolab.Kolab
 
         public static new void Show()
         {
-            DlgShowLog dlg = new DlgShowLog();
-            dlg.ShowDialog();
+            using (var dlg = new DlgShowLog())
+            {
+                dlg.ShowDialog();
+            }
         }
 
         private void btnClose_Click(object sender, EventArgs e)

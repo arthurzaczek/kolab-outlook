@@ -63,6 +63,7 @@ namespace OutlookKolab.Kolab.Xml
                 default: return Outlook.OlSensitivity.olNormal;
             }
         }
+
         public string GetSensitivity(Outlook.OlSensitivity s)
         {
             switch (s)
@@ -156,7 +157,6 @@ namespace OutlookKolab.Kolab.Xml
             return result;
         }
 
-
         public static List<string> months = new List<string>() { "january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december" };
 
         public string GetMonth(int month)
@@ -176,9 +176,10 @@ namespace OutlookKolab.Kolab.Xml
             return months.IndexOf(recurrence.month) + 1;
         }
 
-
         public string GetRangeType(Outlook.RecurrencePattern pattern)
         {
+            if (pattern == null) { throw new ArgumentNullException("pattern"); }
+
             if (pattern.NoEndDate)
             {
                 return "none";
@@ -191,11 +192,14 @@ namespace OutlookKolab.Kolab.Xml
             {
                 return "number";
             }
+
             return "none";
         }
 
         public string GetRangeValue(Outlook.RecurrencePattern pattern)
         {
+            if (pattern == null) { throw new ArgumentNullException("pattern"); }
+
             if (!pattern.NoEndDate) return pattern.PatternEndDate.ToString("u");
             if (pattern.Occurrences != 0) return pattern.Occurrences.ToString();
             return "";
@@ -203,16 +207,20 @@ namespace OutlookKolab.Kolab.Xml
 
         public string GetRecurrenceType(Microsoft.Office.Interop.Outlook.RecurrencePattern pattern)
         {
+            if (pattern == null) { throw new ArgumentNullException("pattern"); }
+
             if (pattern.RecurrenceType == Outlook.OlRecurrenceType.olRecursMonthly)
             {
                 if (pattern.DayOfMonth != 0) return "daynumber";
                 return "weekday";
             }
+
             if (pattern.RecurrenceType == Outlook.OlRecurrenceType.olRecursYearly)
             {
                 if (pattern.MonthOfYear != 0 && pattern.DayOfMonth != 0) return "monthday";
                 if (pattern.DayOfWeekMask != 0) return "weekday";
             }
+
             return "";
         }
     }

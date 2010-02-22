@@ -130,6 +130,8 @@ namespace OutlookKolab.Kolab.Constacts
 
         public override bool hasLocalChanges(SyncContext sync)
         {
+            if (sync == null) { throw new ArgumentNullException("sync"); }
+
             Log.i("sync", "Checking for local changes: #" + sync.CacheEntry.localId);
             var contact = getLocalItem(sync);
             String entryHash = sync.CacheEntry.localHash;
@@ -139,6 +141,8 @@ namespace OutlookKolab.Kolab.Constacts
 
         protected override string updateServerItemFromLocal(SyncContext sync, string xml)
         {
+            if (sync == null) { throw new ArgumentNullException("sync"); }
+
             var source = getLocalItem(sync);
             sync.CacheEntry.localHash = getLocalHash(source);
             sync.CacheEntry.remoteChangedDate = DateTime.Now.ToUniversalTime();
@@ -165,6 +169,8 @@ namespace OutlookKolab.Kolab.Constacts
 
         protected override void updateLocalItemFromServer(SyncContext sync, string xml)
         {
+            if (sync == null) { throw new ArgumentNullException("sync"); }
+
             Xml.contact contact = null;
             try
             {
@@ -387,6 +393,8 @@ namespace OutlookKolab.Kolab.Constacts
 
         public override string getMessageBodyText(SyncContext sync)
         {
+            if (sync == null) { throw new ArgumentNullException("sync"); }
+
             var contact = getLocalItem(sync);
             StringBuilder sb = new StringBuilder();
 
@@ -426,9 +434,11 @@ namespace OutlookKolab.Kolab.Constacts
 
         public override string GetItemText(SyncContext sync)
         {
-            if ((sync.LocalItem as Outlook.ContactItem) != null)
+            if (sync == null) { throw new ArgumentNullException("sync"); }
+
+            var item = sync.LocalItem as Outlook.ContactItem;
+            if (item != null)
             {
-                var item = (Outlook.ContactItem)sync.LocalItem;
                 return item.FullName;
             }
             else

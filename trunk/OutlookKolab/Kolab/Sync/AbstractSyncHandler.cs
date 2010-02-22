@@ -219,6 +219,7 @@ namespace OutlookKolab.Kolab.Sync
             result.UnRead = false;
 
             var now = DateTime.Now;
+            now = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second); // Kill miliseconds - not stored on the server
             IntPtr ptr = System.Runtime.InteropServices.Marshal.GetIUnknownForObject(result.MAPIOBJECT);
             try
             {

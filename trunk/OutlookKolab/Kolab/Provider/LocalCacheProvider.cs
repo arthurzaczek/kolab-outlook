@@ -106,7 +106,7 @@ namespace OutlookKolab.Kolab.Provider
         public static bool isSame(DSLocalCache.CacheEntryRow entry, Microsoft.Office.Interop.Outlook.MailItem message)
         {
             bool result = entry != null && message != null
-                && Helper.Equals(entry.remoteChangedDate, message.GetChangedDate())
+                && entry.remoteChangedDate == message.GetChangedDate()
                 && entry.remoteId == message.Subject;
 
             if (!result)
@@ -116,7 +116,7 @@ namespace OutlookKolab.Kolab.Provider
                 if (message == null) Log.d("syncisSame", "message == null");
                 if (entry != null && message != null)
                 {
-                    if (!Helper.Equals(entry.remoteChangedDate, message.GetChangedDate()))
+                    if (entry.remoteChangedDate != message.GetChangedDate())
                     {
                         Log.d("syncisSame", "getRemoteChangedDate="
                                 + entry.remoteChangedDate.ToString("HH:mm:ss.fff") + ", getSentDate="

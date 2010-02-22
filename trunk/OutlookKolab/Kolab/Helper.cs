@@ -49,11 +49,6 @@ namespace OutlookKolab.Kolab
                 Directory.CreateDirectory(StorePath);
         }
 
-        public static bool Equals(DateTime a, DateTime b)
-        {
-            return Math.Abs(a.Subtract(b).TotalMilliseconds) < 1000.0;
-        }
-
         public static bool IsValid(this DateTime dt)
         {
             return dt.Year > 1900 && dt.Year < 2500;
@@ -77,7 +72,7 @@ namespace OutlookKolab.Kolab
             if (item == null) { throw new ArgumentNullException("item"); }
 
             DateTime result = item.SentOn;
-            if (result.Year < 1970 || result.Year > 3000)
+            if (!result.IsValid())
             {
                 result = item.ReceivedTime;
             }

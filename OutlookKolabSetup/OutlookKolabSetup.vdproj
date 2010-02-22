@@ -15,14 +15,8 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_09734321D501419BB5EDF69ACEB464F5"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_26FAD01BD8231DC30E9A3E33FC6900D4"
-        "OwnerKey" = "8:_09734321D501419BB5EDF69ACEB464F5"
+        "OwnerKey" = "8:_F73F4E0AB8334EBD9DAA940354616F14"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -34,13 +28,13 @@
         "Entry"
         {
         "MsmKey" = "8:_3013D3D212A0A142E99BDDA6959BC732"
-        "OwnerKey" = "8:_09734321D501419BB5EDF69ACEB464F5"
+        "OwnerKey" = "8:_F73F4E0AB8334EBD9DAA940354616F14"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_37C56914BCF3633BDD1480212E14475F"
-        "OwnerKey" = "8:_09734321D501419BB5EDF69ACEB464F5"
+        "OwnerKey" = "8:_F73F4E0AB8334EBD9DAA940354616F14"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -82,13 +76,13 @@
         "Entry"
         {
         "MsmKey" = "8:_4E61A937B7B9AB19FCD95A83222EA28F"
-        "OwnerKey" = "8:_09734321D501419BB5EDF69ACEB464F5"
+        "OwnerKey" = "8:_F73F4E0AB8334EBD9DAA940354616F14"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_5F22AD6EC69233D8E703A227039BF5B8"
-        "OwnerKey" = "8:_09734321D501419BB5EDF69ACEB464F5"
+        "OwnerKey" = "8:_F73F4E0AB8334EBD9DAA940354616F14"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -99,14 +93,14 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_7D93451EA8B1571C61C42CF39D405390"
-        "OwnerKey" = "8:_09734321D501419BB5EDF69ACEB464F5"
+        "MsmKey" = "8:_81DAA41162E5DD4402B3E090F5450A57"
+        "OwnerKey" = "8:_F73F4E0AB8334EBD9DAA940354616F14"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_88D25768A98891F5745541F156C62A6D"
-        "OwnerKey" = "8:_09734321D501419BB5EDF69ACEB464F5"
+        "OwnerKey" = "8:_F73F4E0AB8334EBD9DAA940354616F14"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -118,7 +112,7 @@
         "Entry"
         {
         "MsmKey" = "8:_96D333969F3873D02C177300366E07F9"
-        "OwnerKey" = "8:_09734321D501419BB5EDF69ACEB464F5"
+        "OwnerKey" = "8:_F73F4E0AB8334EBD9DAA940354616F14"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -142,7 +136,7 @@
         "Entry"
         {
         "MsmKey" = "8:_B89B524F17E5771D31E457C29B456BD7"
-        "OwnerKey" = "8:_09734321D501419BB5EDF69ACEB464F5"
+        "OwnerKey" = "8:_F73F4E0AB8334EBD9DAA940354616F14"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -154,7 +148,7 @@
         "Entry"
         {
         "MsmKey" = "8:_F21218BC4ABC23C74973A1020B0D1BBF"
-        "OwnerKey" = "8:_09734321D501419BB5EDF69ACEB464F5"
+        "OwnerKey" = "8:_F73F4E0AB8334EBD9DAA940354616F14"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -172,7 +166,7 @@
         "Entry"
         {
         "MsmKey" = "8:_F5D7209E719BAEFC11496EC8A8EF8822"
-        "OwnerKey" = "8:_09734321D501419BB5EDF69ACEB464F5"
+        "OwnerKey" = "8:_F73F4E0AB8334EBD9DAA940354616F14"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -183,14 +177,26 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_7D93451EA8B1571C61C42CF39D405390"
+        "MsmKey" = "8:_F73F4E0AB8334EBD9DAA940354616F14"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_09734321D501419BB5EDF69ACEB464F5"
+        "OwnerKey" = "8:_4E61A937B7B9AB19FCD95A83222EA28F"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_81DAA41162E5DD4402B3E090F5450A57"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_F73F4E0AB8334EBD9DAA940354616F14"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -245,12 +251,6 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_96D333969F3873D02C177300366E07F9"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_4E61A937B7B9AB19FCD95A83222EA28F"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -530,14 +530,14 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_7D93451EA8B1571C61C42CF39D405390"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_81DAA41162E5DD4402B3E090F5450A57"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:OutlookKolapMAPIHelper, Version=1.0.3705.29090, Culture=neutral, processorArchitecture=x86"
+            "AssemblyAsmDisplayName" = "8:OutlookKolapMAPIHelper, Version=1.0.3705.36370, Culture=neutral, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
-                    "_7D93451EA8B1571C61C42CF39D405390"
+                    "_81DAA41162E5DD4402B3E090F5450A57"
                     {
                     "Name" = "8:OutlookKolapMAPIHelper.dll"
                     "Attributes" = "3:512"
@@ -792,14 +792,14 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Kolab sync for Outlook"
-        "ProductCode" = "8:{3F56C546-EFCC-4371-9BF7-AE5879685F88}"
-        "PackageCode" = "8:{7F2E0461-6C6E-4035-AA8C-3527ECB841EA}"
+        "ProductCode" = "8:{9557FB4F-4D72-4818-B9CF-E12772CFAF04}"
+        "PackageCode" = "8:{C731C476-92CC-4946-8790-601B77A8C8E3}"
         "UpgradeCode" = "8:{2B8BB3E4-8604-4585-912B-147C17DC1E51}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.5"
+        "ProductVersion" = "8:1.0.7"
         "Manufacturer" = "8:dasz.at OG"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -1371,7 +1371,7 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_09734321D501419BB5EDF69ACEB464F5"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_F73F4E0AB8334EBD9DAA940354616F14"
             {
             "SourcePath" = "8:..\\OutlookKolab\\obj\\x86\\Release\\OutlookKolab.dll"
             "TargetName" = "8:"
@@ -1390,7 +1390,7 @@
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
-            "ProjectOutputGroupRegister" = "3:3"
+            "ProjectOutputGroupRegister" = "3:1"
             "OutputConfiguration" = "8:"
             "OutputGroupCanonicalName" = "8:Built"
             "OutputProjectGuid" = "8:{09C2B12A-0E25-443C-96F5-8F08A482FB46}"

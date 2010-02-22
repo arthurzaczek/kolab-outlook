@@ -113,6 +113,7 @@ namespace OutlookKolab.Kolab.Sync
             return !string.IsNullOrEmpty(handler.GetIMAPFolderName());
         }
 
+
         private void sync(ISyncHandler handler)
         {
             StatusHandler.writeStatus("Fetching messages");
@@ -120,8 +121,33 @@ namespace OutlookKolab.Kolab.Sync
 
             try
             {
-                // 1. retrieve list of all imap message headers
-                var imapFolder = (Outlook.Folder)app.Session.GetFolderFromID(handler.GetIMAPFolderName(), handler.GetIMAPStoreID());
+                Outlook.Folder imapFolder = null;
+                using (var syncWait = new AutoResetEvent(false))
+                {
+                    // 1. retrieve list of all imap message headers
+                    imapFolder = (Outlook.Folder)app.Session.GetFolderFromID(handler.GetIMAPFolderName(), handler.GetIMAPStoreID());
+                    imapFolder.InAppFolderSyncObject = true;
+
+                    // TODO: Do this for all IMAP Folder at once
+                    var del = new Microsoft.Office.Interop.Outlook.SyncObjectEvents_SyncEndEventHandler(delegate() { syncWait.Set(); });
+                    try
+                    {
+                        app.Session.SyncObjects.AppFolders.SyncEnd += del;
+                        app.Session.SyncObjects.AppFolders.Start();
+
+                        if (!syncWait.WaitOne(new TimeSpan(0, 10, 0))) throw new SyncException("IMAP", "Folder not sync");
+                    }
+                    finally
+                    {
+                        // This causes a nullref exception? 
+                        //outlook.exe Error: 0 : generic: System.NullReferenceException: Object reference not set to an instance of an object.
+                        //   at Microsoft.Office.Interop.Outlook.SyncObjectEvents_EventProvider.remove_SyncEnd(SyncObjectEvents_SyncEndEventHandler )
+                        //   at Microsoft.Office.Interop.Outlook.SyncObjectClass.remove_SyncEnd(SyncObjectEvents_SyncEndEventHandler )
+                        //   at OutlookKolab.Kolab.Sync.SyncWorker.sync(ISyncHandler handler) in P:\OutlookKolab\OutlookKolab\Kolab\Sync\SyncWorker.cs:line 141
+                        //   at OutlookKolab.Kolab.Sync.SyncWorker.Run() in P:\OutlookKolab\OutlookKolab\Kolab\Sync\SyncWorker.cs:line 71
+                        // app.Session.SyncObjects.AppFolders.SyncEnd -= del;
+                    }
+                }
 
                 Dictionary<string, bool> processedEntries = new Dictionary<string, bool>();
                 DSStatus.StatusEntryRow status = handler.getStatus();

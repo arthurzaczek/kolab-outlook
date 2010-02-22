@@ -26,12 +26,37 @@ using namespace System;
 using namespace System::Collections;
 using namespace System::Collections::Generic;
 
+#define HIDOUBLEWORD(x)    ((x>>32) & 0xffffffff)
+#define LODOUBLEWORD(x)    ((x)     & 0xffffffff)
+
 namespace OutlookKolapMAPIHelper {
 
 	public ref class IMAPHelper
 	{
 	public:
-		System::String^ ReadAttachment(System::IntPtr^ outlookAttachment)
+		static void SetSentDate(System::IntPtr^ outlookObject, DateTime^ dt)
+		{
+			IUnknown* iUnkn = static_cast<IUnknown*>(outlookObject->ToPointer());
+			LPMAPIPROP prop = 0;
+			HRESULT hr;
+			if(hr = iUnkn->QueryInterface(IID_IMAPIProp, (void**)&prop))
+			{
+				return;
+			}
+
+			SPropValue value;
+			memset(&value, 0, sizeof(SPropValue));
+			value.ulPropTag = PR_CLIENT_SUBMIT_TIME;
+			__int64 ft = dt->ToFileTimeUtc();
+			value.Value.ft.dwHighDateTime = HIDOUBLEWORD(ft);
+			value.Value.ft.dwLowDateTime = LODOUBLEWORD(ft);
+			
+			hr = prop->SetProps(1, &value, 0);
+
+			prop->Release();
+		}
+
+		static System::String^ ReadAttachment(System::IntPtr^ outlookAttachment)
 		{
 			System::String^ result = "";
 
@@ -68,7 +93,7 @@ namespace OutlookKolapMAPIHelper {
 			return result;
 		}
 
-		List<System::String^>^ GetDeletedEntryIDs(System::IntPtr^ outlookFolder)
+		static List<System::String^>^ GetDeletedEntryIDs(System::IntPtr^ outlookFolder)
 		{
 			List<System::String^>^ result = gcnew List<System::String^>();
 			

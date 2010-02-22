@@ -33,6 +33,7 @@
 #define USES_IID_IMAPIFolder
 #define USES_IID_IMessage
 #define USES_IID_IAttachment
+#define USES_IID_IMAPIProp
 #include "mapiguid.h"
 #include "mapiutil.h"
 

@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OutlookKolapMAPIHelper", "O
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "DevInstaller", "DevInstaller\DevInstaller.vdproj", "{27BBA58D-6DAC-460D-BB4E-B2E6A221817F}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "OutlookKolabSetup", "OutlookKolabSetup\OutlookKolabSetup.vdproj", "{F54DB35E-13D4-40B1-BDAA-0033A7C52D74}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -48,6 +50,18 @@ Global
 		{27BBA58D-6DAC-460D-BB4E-B2E6A221817F}.Release|Win32.Build.0 = Release
 		{27BBA58D-6DAC-460D-BB4E-B2E6A221817F}.Release|x86.ActiveCfg = Release
 		{27BBA58D-6DAC-460D-BB4E-B2E6A221817F}.Release|x86.Build.0 = Release
+		{F54DB35E-13D4-40B1-BDAA-0033A7C52D74}.Debug|Mixed Platforms.ActiveCfg = Debug
+		{F54DB35E-13D4-40B1-BDAA-0033A7C52D74}.Debug|Mixed Platforms.Build.0 = Debug
+		{F54DB35E-13D4-40B1-BDAA-0033A7C52D74}.Debug|Win32.ActiveCfg = Debug
+		{F54DB35E-13D4-40B1-BDAA-0033A7C52D74}.Debug|Win32.Build.0 = Debug
+		{F54DB35E-13D4-40B1-BDAA-0033A7C52D74}.Debug|x86.ActiveCfg = Debug
+		{F54DB35E-13D4-40B1-BDAA-0033A7C52D74}.Debug|x86.Build.0 = Debug
+		{F54DB35E-13D4-40B1-BDAA-0033A7C52D74}.Release|Mixed Platforms.ActiveCfg = Release
+		{F54DB35E-13D4-40B1-BDAA-0033A7C52D74}.Release|Mixed Platforms.Build.0 = Release
+		{F54DB35E-13D4-40B1-BDAA-0033A7C52D74}.Release|Win32.ActiveCfg = Release
+		{F54DB35E-13D4-40B1-BDAA-0033A7C52D74}.Release|Win32.Build.0 = Release
+		{F54DB35E-13D4-40B1-BDAA-0033A7C52D74}.Release|x86.ActiveCfg = Release
+		{F54DB35E-13D4-40B1-BDAA-0033A7C52D74}.Release|x86.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

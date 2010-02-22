@@ -131,7 +131,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="$(NoInherit)"
+				AdditionalDependencies="MAPI32.lib $(NoInherit)"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				TargetMachine="1"

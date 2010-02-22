@@ -99,7 +99,7 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_81DAA41162E5DD4402B3E090F5450A57"
+        "MsmKey" = "8:_7D93451EA8B1571C61C42CF39D405390"
         "OwnerKey" = "8:_09734321D501419BB5EDF69ACEB464F5"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -184,13 +184,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_4E61A937B7B9AB19FCD95A83222EA28F"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_81DAA41162E5DD4402B3E090F5450A57"
+        "OwnerKey" = "8:_7D93451EA8B1571C61C42CF39D405390"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -253,6 +247,12 @@
         "OwnerKey" = "8:_96D333969F3873D02C177300366E07F9"
         "MsmSig" = "8:_UNDEFINED"
         }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_4E61A937B7B9AB19FCD95A83222EA28F"
+        "MsmSig" = "8:_UNDEFINED"
+        }
     }
     "Configurations"
     {
@@ -271,6 +271,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
         "Release"
         {
@@ -522,14 +530,14 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_81DAA41162E5DD4402B3E090F5450A57"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_7D93451EA8B1571C61C42CF39D405390"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:OutlookKolapMAPIHelper, Version=1.0.3705.30383, Culture=neutral, processorArchitecture=x86"
+            "AssemblyAsmDisplayName" = "8:OutlookKolapMAPIHelper, Version=1.0.3705.29090, Culture=neutral, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
-                    "_81DAA41162E5DD4402B3E090F5450A57"
+                    "_7D93451EA8B1571C61C42CF39D405390"
                     {
                     "Name" = "8:OutlookKolapMAPIHelper.dll"
                     "Attributes" = "3:512"
@@ -784,14 +792,14 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Kolab sync for Outlook"
-        "ProductCode" = "8:{021E066C-FD2B-4551-9BE9-E0FA2CCE084F}"
-        "PackageCode" = "8:{04E4242E-7E97-4216-9323-C722A7D26C59}"
+        "ProductCode" = "8:{3F56C546-EFCC-4371-9BF7-AE5879685F88}"
+        "PackageCode" = "8:{7F2E0461-6C6E-4035-AA8C-3527ECB841EA}"
         "UpgradeCode" = "8:{2B8BB3E4-8604-4585-912B-147C17DC1E51}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.4"
+        "ProductVersion" = "8:1.0.5"
         "Manufacturer" = "8:dasz.at OG"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"

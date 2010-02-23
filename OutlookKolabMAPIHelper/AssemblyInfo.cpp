@@ -31,11 +31,11 @@ using namespace System::Security::Permissions;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 //
-[assembly:AssemblyTitleAttribute("OutlookKolapMAPIHelper")];
+[assembly:AssemblyTitleAttribute("OutlookKolabMAPIHelper")];
 [assembly:AssemblyDescriptionAttribute("A helper DLL for the Kolab Sync for Outlook Addin")];
 [assembly:AssemblyConfigurationAttribute("")];
 [assembly:AssemblyCompanyAttribute("dasz.at OG")];
-[assembly:AssemblyProductAttribute("OutlookKolapMAPIHelper")];
+[assembly:AssemblyProductAttribute("OutlookKolabMAPIHelper")];
 [assembly:AssemblyCopyrightAttribute("Copyright (c) dasz.at OG 2010")];
 [assembly:AssemblyTrademarkAttribute("")];
 [assembly:AssemblyCultureAttribute("")];

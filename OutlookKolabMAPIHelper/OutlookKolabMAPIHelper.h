@@ -18,7 +18,7 @@
  *  along with Kolab Sync for Outlook.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// OutlookKolapMAPIHelper.h
+// OutlookKolabMAPIHelper.h
 
 #pragma once
 
@@ -29,7 +29,7 @@ using namespace System::Collections::Generic;
 #define HIDOUBLEWORD(x)    ((x>>32) & 0xffffffff)
 #define LODOUBLEWORD(x)    ((x)     & 0xffffffff)
 
-namespace OutlookKolapMAPIHelper {
+namespace OutlookKolabMAPIHelper {
 
 	public ref class IMAPHelper
 	{

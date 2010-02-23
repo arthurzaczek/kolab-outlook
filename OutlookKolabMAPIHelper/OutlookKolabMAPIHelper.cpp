@@ -22,5 +22,5 @@
 
 #include "stdafx.h"
 
-#include "OutlookKolapMAPIHelper.h"
+#include "OutlookKolabMAPIHelper.h"
 

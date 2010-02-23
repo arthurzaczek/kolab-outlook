@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<event version="1.0">
+  <!-- Common fields -->
+  <uid>(string, no default)</uid>
+  <body>(string, default empty)</body>
+  <categories>(string, default empty)</categories>
+  <creation-date>1978-01-01T01:00:00Z</creation-date>
+  <last-modification-date>1978-01-01T01:00:00Z</last-modification-date>
+  <sensitivity>(string, default public)</sensitivity>
+  <inline-attachment>(string, no default)</inline-attachment>
+  <inline-attachment>(string, no default)</inline-attachment>
+  <inline-attachment>(string, no default)</inline-attachment>
+  <link-attachment>(string, no default)</link-attachment>
+  <link-attachment>(string, no default)</link-attachment>
+  <link-attachment>(string, no default)</link-attachment>
+  <product-id>(string, default empty)</product-id>
+
+  <!-- Incidence fields -->
+  <summary>(string, default empty)</summary>
+  <location>(string, default empty)</location>
+  <organizer>
+    <display-name>(string, default empty)</display-name>
+    <smtp-address>(string, default empty)</smtp-address>
+  </organizer>
+  <start-date>1978-01-01T01:00:00Z</start-date>
+  <alarm>1</alarm>
+  <recurrence cycle="cycletype" type="extra type">
+    <interval>1</interval>
+    <day>(string, no default)</day>
+    <day>(string, no default)</day>
+    <day>(string, no default)</day>
+    <daynumber>1</daynumber>
+    <month>(string, no default></month>
+    <range type="rangetype">(date or number or nothing, no default)</range>
+    <exclusion>1978-01-01T01:00:00Z</exclusion>
+    <exclusion>1978-01-01T01:00:00Z</exclusion>
+    <exclusion>1978-01-01T01:00:00Z</exclusion>
+  </recurrence>
+  <attendee>
+    <display-name>(string, default empty)</display-name>
+    <smtp-address>(string, default empty)</smtp-address>
+    <status>(string, default none)</status>
+    <request-response>true</request-response>
+    <role>(string, default required)</role>
+  </attendee>
+  <attendee>
+    <display-name>(string, default empty)</display-name>
+    <smtp-address>(string, default empty)</smtp-address>
+    <status>(string, default none)</status>
+    <request-response>true</request-response>
+    <role>(string, default required)</role>
+  </attendee>
+  <attendee>
+    <display-name>(string, default empty)</display-name>
+    <smtp-address>(string, default empty)</smtp-address>
+    <status>(string, default none)</status>
+    <request-response>true</request-response>
+    <role>(string, default required)</role>
+  </attendee>
+
+  <!-- Event specific fields -->
+  <show-time-as>(string, default busy)</show-time-as>
+  <color-label>(string, default none)</color-label>
+  <end-date>1978-01-01T01:00:00Z</end-date>
+</event>

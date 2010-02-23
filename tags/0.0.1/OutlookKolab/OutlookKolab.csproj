@@ -1,0 +1,377 @@
+﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!--
+    This section defines project-level properties.
+
+    AssemblyName
+      Name of the output assembly.
+    Configuration
+      Specifies a default value for debug.
+    OutputType
+      Must be "Library" for VSTO.
+    Platform
+      Specifies what CPU the output of this project can run on.
+    NoStandardLibraries
+      Set to "false" for VSTO.
+    RootNamespace
+      In C#, this specifies the namespace given to new files. In VB, all objects are
+      wrapped in this namespace at runtime.
+  -->
+  <PropertyGroup>
+    <ProjectTypeGuids>{BAA0C2D2-18E2-41B9-852F-F413020CAA33};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{09C2B12A-0E25-443C-96F5-8F08A482FB46}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <NoStandardLibraries>false</NoStandardLibraries>
+    <RootNamespace>OutlookKolab</RootNamespace>
+    <AssemblyName>OutlookKolab</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <ManifestCertificateThumbprint>22799D01023EE0E839B8BA0FE33A21620F9CC06E</ManifestCertificateThumbprint>
+    <ManifestKeyFile>..\OutlookKolab.snk</ManifestKeyFile>
+    <SignManifests>true</SignManifests>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <PublishUrl>publish\</PublishUrl>
+    <InstallUrl>
+    </InstallUrl>
+    <TargetCulture>en</TargetCulture>
+    <ApplicationVersion>1.0.0.0</ApplicationVersion>
+    <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>days</UpdateIntervalUnits>
+    <IsWebBootstrapper>False</IsWebBootstrapper>
+  </PropertyGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.VSTORuntime.3.0">
+      <Visible>False</Visible>
+      <ProductName>Visual Studio Tools for the Office system 3.0 Runtime Service Pack 1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <PropertyGroup>
+    <!--
+      OfficeApplication
+        Add-in host application
+    -->
+    <OfficeApplication>Outlook</OfficeApplication>
+  </PropertyGroup>
+  <!--
+    This section defines properties that are set when the "Debug" configuration is selected.
+
+    DebugSymbols
+      If "true", create symbols (.pdb). If "false", do not create symbols.
+    DefineConstants
+      Constants defined for the preprocessor.
+    EnableUnmanagedDebugging
+      If "true", starting the debugger will attach both managed and unmanaged debuggers.
+    Optimize
+      If "true", optimize the build output. If "false", do not optimize.
+    OutputPath
+      Output path of project relative to the project file.
+    WarningLevel
+      Warning level for the compiler.
+  -->
+  <!--
+    This section defines properties that are set when the "Release" configuration is selected.
+
+    DebugSymbols
+      If "true", create symbols (.pdb). If "false", do not create symbols.
+    DefineConstants
+      Constants defined for the preprocessor.
+    EnableUnmanagedDebugging
+      If "true", starting the debugger will attach both managed and unmanaged debuggers.
+    Optimize
+      If "true", optimize the build output. If "false", do not optimize.
+    OutputPath
+      Output path of project relative to the project file.
+    WarningLevel
+      Warning level for the compiler.
+  -->
+  <!--
+    This section enables pre- and post-build steps. However, in VSTO use
+    MSBuild tasks instead of these properties.       
+  -->
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'BuildDepends|x86' ">
+    <OutputPath>bin\x86\BuildDepends\</OutputPath>
+  </PropertyGroup>
+  <!--
+    This section specifies references for the project.
+  -->
+  <ItemGroup>
+    <Reference Include="Accessibility" />
+    <Reference Include="System" />
+    <Reference Include="System.AddIn, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="Microsoft.Office.Tools.v9.0, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Office.Tools.Common.v9.0, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Office.Tools.Outlook.v9.0, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualStudio.Tools.Applications.Runtime.v9.0, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Office, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" />
+    <Reference Include="Microsoft.Office.Interop.Outlook, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" />
+    <Reference Include="stdole, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  </ItemGroup>
+  <!--
+    This section defines the user source files that are part of the project.
+     
+    A "Compile" element specifies a source file to compile.
+    An "EmbeddedResource" element specifies an .resx file for embedded resources.
+    A "None" element specifies a file that is not to be passed to the compiler (for instance, 
+    a text file or XML file).
+    The "AppDesigner" element specifies the directory where the application properties files
+    can be found.
+  -->
+  <ItemGroup>
+    <Compile Include="Kolab\Calendar\SyncCalendarHandler.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Kolab\Contacts\SyncContactsHandler.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Kolab\DlgShowLog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Kolab\DlgShowLog.Designer.cs">
+      <DependentUpon>DlgShowLog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Kolab\Helper.cs" />
+    <Compile Include="Kolab\Log.cs" />
+    <Compile Include="Kolab\Provider\DSLocalCache.cs">
+      <DependentUpon>DSLocalCache.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Kolab\Provider\DSLocalCache.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSLocalCache.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Kolab\Provider\DSStatus.cs">
+      <DependentUpon>DSStatus.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Kolab\Provider\DSStatus.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSStatus.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Kolab\Provider\LocalCacheProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Kolab\Settings\DlgSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Kolab\Settings\DlgSettings.Designer.cs">
+      <DependentUpon>DlgSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Kolab\Settings\DSSettings.cs">
+      <DependentUpon>DSSettings.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Kolab\Settings\DSSettings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DSSettings.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Kolab\StatusHandler.cs" />
+    <Compile Include="Kolab\Sync\AbstractSyncHandler.cs" />
+    <Compile Include="Kolab\Sync\BaseWorker.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Kolab\Sync\DlgConflictDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Kolab\Sync\DlgConflictDialog.Designer.cs">
+      <DependentUpon>DlgConflictDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Kolab\Sync\SyncContext.cs" />
+    <Compile Include="Kolab\Sync\ISyncHandler.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Kolab\Sync\SyncException.cs" />
+    <Compile Include="Kolab\Sync\SyncWorker.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Kolab\Xml\Calendar.cs">
+      <DependentUpon>Calendar.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Kolab\Xml\Contact.cs">
+      <DependentUpon>Contact.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Kolab\Xml\XmlHelper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <EmbeddedResource Include="Kolab\DlgShowLog.resx">
+      <DependentUpon>DlgShowLog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Kolab\Settings\DlgSettings.resx">
+      <DependentUpon>DlgSettings.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Kolab\Sync\DlgConflictDialog.resx">
+      <DependentUpon>DlgConflictDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="Kolab\Provider\DSLocalCache.xsc">
+      <DependentUpon>DSLocalCache.xsd</DependentUpon>
+    </None>
+    <None Include="Kolab\Provider\DSLocalCache.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSLocalCache.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Kolab\Provider\DSLocalCache.xss">
+      <DependentUpon>DSLocalCache.xsd</DependentUpon>
+    </None>
+    <None Include="Kolab\Provider\DSStatus.xsc">
+      <DependentUpon>DSStatus.xsd</DependentUpon>
+    </None>
+    <None Include="Kolab\Provider\DSStatus.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSStatus.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Kolab\Provider\DSStatus.xss">
+      <DependentUpon>DSStatus.xsd</DependentUpon>
+    </None>
+    <None Include="Kolab\Settings\DSSettings.xsc">
+      <DependentUpon>DSSettings.xsd</DependentUpon>
+    </None>
+    <None Include="Kolab\Settings\DSSettings.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DSSettings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Kolab\Settings\DSSettings.xss">
+      <DependentUpon>DSSettings.xsd</DependentUpon>
+    </None>
+    <Compile Include="Kolab\Xml\Calendar.Extensions.cs" />
+    <None Include="Kolab\Xml\Calendar.xsd" />
+    <None Include="Kolab\Xml\Contact.xsd" />
+    <None Include="Properties\DataSources\OutlookKolab.Kolab.Sync.SyncContext.datasource" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="ThisAddIn.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <None Include="ThisAddIn.Designer.xml">
+      <DependentUpon>ThisAddIn.cs</DependentUpon>
+    </None>
+    <Compile Include="ThisAddIn.Designer.cs">
+      <DependentUpon>ThisAddIn.Designer.xml</DependentUpon>
+    </Compile>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Kolab\Xml\Contact.xml" />
+    <Content Include="Kolab\Xml\Calendar.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OutlookKolabMAPIHelper\OutlookKolabMAPIHelper.vcproj">
+      <Project>{2F07E9BE-7FBA-4938-846B-D8E884354805}</Project>
+      <Name>OutlookKolabMAPIHelper</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <!-- Include the build rules for a C# project. -->
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- Include additional build rules for an Office application add-in. -->
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v9.0\OfficeTools\Microsoft.VisualStudio.Tools.Office.Office2007.targets" />
+  <!-- This section defines VSTO properties that describe the host-changeable project properties. -->
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{BAA0C2D2-18E2-41B9-852F-F413020CAA33}">
+        <ProjectProperties HostName="Outlook" HostPackage="{D2B20FF5-A6E5-47E1-90E8-463C6860CB05}" OfficeVersion="12.0" VstxVersion="3.0" ApplicationType="Outlook" Language="cs" TemplatesPath="" DebugInfoExeName="#Software\Microsoft\Office\12.0\Outlook\InstallRoot\Path#outlook.exe" AddItemTemplatesGuid="{6E5EA054-14B1-4B94-B572-EC515AE24E91}" />
+        <Host Name="Outlook" GeneratedCodeNamespace="OutlookKolab" IconIndex="0">
+          <HostItem Name="ThisAddIn" Code="ThisAddIn.cs" CanonicalName="AddIn" CanActivate="false" IconIndex="1" Blueprint="ThisAddIn.Designer.xml" GeneratedCode="ThisAddIn.Designer.cs" />
+        </Host>
+        <ProjectClient>
+          <VSTO_CompatibleProducts ErrorProduct="This project requires Microsoft Office Outlook 2007 and the registered primary interop assemblies, but these are not installed." ErrorPIA="This project references the primary interop assembly for Microsoft Office Outlook 2007, but this primary interop assembly is not installed.">
+            <Product Code="{XX12XXXX-XXXX-XXXX-X000-X000000FF1CE}" Feature="OUTLOOKFiles" PIAFeature="Outlook_PIA" />
+          </VSTO_CompatibleProducts>
+        </ProjectClient>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup>
+    <PostBuildEvent>powershell -command $(SolutionDir)gendarme.ps1 -SolutionDir:$(SolutionDir)
+type $(SolutionDir)\OutlookKolab\bin\gendarme.txt</PostBuildEvent>
+  </PropertyGroup>
+</Project>

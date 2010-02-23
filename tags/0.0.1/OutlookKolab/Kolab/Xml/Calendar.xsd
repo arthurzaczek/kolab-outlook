@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="event">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="uid" type="xs:string" />
+        <xs:element name="body" type="xs:string" />
+        <xs:element name="categories" type="xs:string" />
+        <xs:element name="creation-date" type="xs:dateTime" />
+        <xs:element name="last-modification-date" type="xs:dateTime" />
+        <xs:element name="sensitivity" type="xs:string" />
+        <xs:element maxOccurs="unbounded" name="inline-attachment" type="xs:string" />
+        <xs:element maxOccurs="unbounded" name="link-attachment" type="xs:string" />
+        <xs:element name="product-id" type="xs:string" />
+        <xs:element name="summary" type="xs:string" />
+        <xs:element name="location" type="xs:string" />
+        <xs:element name="organizer">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="display-name" type="xs:string" />
+              <xs:element name="smtp-address" type="xs:string" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="start-date" type="xs:dateTime" />
+        <xs:element name="alarm" type="xs:int" />
+        <xs:element name="recurrence">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="interval" type="xs:int" />
+              <xs:element maxOccurs="unbounded" name="day" type="xs:string" />
+              <xs:element name="daynumber" type="xs:int" />
+              <xs:element name="month" type="xs:string" />
+              <xs:element name="range">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:string">
+                      <xs:attribute name="type" type="xs:string" use="required" />
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+              <xs:element maxOccurs="unbounded" name="exclusion" type="xs:dateTime" />
+            </xs:sequence>
+            <xs:attribute name="cycle" type="xs:string" use="required" />
+            <xs:attribute name="type" type="xs:string" use="required" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element maxOccurs="unbounded" name="attendee">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="display-name" type="xs:string" />
+              <xs:element name="smtp-address" type="xs:string" />
+              <xs:element name="status" type="xs:string" />
+              <xs:element name="request-response" type="xs:boolean" />
+              <xs:element name="role" type="xs:string" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="show-time-as" type="xs:string" />
+        <xs:element name="color-label" type="xs:string" />
+        <xs:element name="end-date" type="xs:dateTime" />
+      </xs:sequence>
+      <xs:attribute name="version" type="xs:decimal" use="required" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

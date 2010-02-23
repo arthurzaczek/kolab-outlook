@@ -22,7 +22,7 @@ if(-not $SolutionDir)
 $OutputDir = $SolutionDir + "\OutlookKolab\bin"
 
 "." > $OutputDir\gendarme.txt
-gendarme.exe --xml $OutputDir\gendarme.xml --severity high+ --ignore $SolutionDir\gendarmeignore.txt $OutputDir\x86\Debug\OutlookKolab.dll # $OutputDir\x86\Debug\OutlookKolapMAPIHelper.dll
+gendarme.exe --xml $OutputDir\gendarme.xml --severity high+ --ignore $SolutionDir\gendarmeignore.txt $OutputDir\x86\Debug\OutlookKolab.dll # $OutputDir\x86\Debug\OutlookKolabMAPIHelper.dll
 convert-withxslt $OutputDir\gendarme.xml $SolutionDir\gendarme.xslt $OutputDir\gendarme.txt
 (get-content $OutputDir\gendarme.txt) -replace '\(\D?(\d+)\)', ' ($1,1)' | set-content $OutputDir\gendarme.txt
 exit 0

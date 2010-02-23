@@ -158,7 +158,7 @@ namespace OutlookKolab.Kolab.Sync
                     IntPtr ptr = System.Runtime.InteropServices.Marshal.GetIUnknownForObject(imapFolder.MAPIOBJECT);
                     try
                     {
-                        deletedEntryIDs = OutlookKolapMAPIHelper.IMAPHelper.GetDeletedEntryIDs(ptr).ToLookup(i => i);
+                        deletedEntryIDs = OutlookKolabMAPIHelper.IMAPHelper.GetDeletedEntryIDs(ptr).ToLookup(i => i);
                     }
                     finally
                     {

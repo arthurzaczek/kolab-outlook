@@ -25,14 +25,15 @@ regsvr32 "C:\Program Files\Microsoft Visual Studio 9.0\VC\vcpackages\VCProjectEn
 
 Add "C:\Program Files\Microsoft Visual Studio 9.0\VC\vcpackages" to your PATH environment variable
 
-Compile the DevInstaller project on a Windows Machine which has a Visual Studio
+Compile the BuildDependenciesInstaller project on a Windows machine which has a Visual Studio
 2008 Professional Edition SP1 with full VSTO support installed and install that
-MSI on your build server. According to MSFT it is ok to violate your VS license in this way:
+MSI on your build server. There is a separate Build Configuration called "BuildDepends" for this.
+According to MSFT it is ok to violate your VS license in this way:
 
 http://social.msdn.microsoft.com/Forums/en-US/vsto/thread/497324ff-a2e0-428c-bc1a-238db0c3d252
 
 ---------------------------
 
-See this blog post for details on what the DevInstaller does:
+See this blog post for details on what the BuildDependenciesInstaller does:
 
 http://kentb.blogspot.com/2008/08/building-vsto-projects-without-visual.html

@@ -188,7 +188,7 @@ namespace OutlookKolab.Kolab.Sync
                 IntPtr ptr = System.Runtime.InteropServices.Marshal.GetIUnknownForObject(a.MAPIOBJECT);
                 try
                 {
-                    result = OutlookKolapMAPIHelper.IMAPHelper.ReadAttachment(ptr);
+                    result = OutlookKolabMAPIHelper.IMAPHelper.ReadAttachment(ptr);
                 }
                 finally
                 {
@@ -223,7 +223,7 @@ namespace OutlookKolab.Kolab.Sync
             IntPtr ptr = System.Runtime.InteropServices.Marshal.GetIUnknownForObject(result.MAPIOBJECT);
             try
             {
-                OutlookKolapMAPIHelper.IMAPHelper.SetSentDate(ptr, now);
+                OutlookKolabMAPIHelper.IMAPHelper.SetSentDate(ptr, now);
             }
             finally
             {

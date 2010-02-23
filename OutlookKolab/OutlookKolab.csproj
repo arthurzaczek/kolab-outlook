@@ -27,7 +27,7 @@
     <AssemblyName>OutlookKolab</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <ManifestCertificateThumbprint>22799D01023EE0E839B8BA0FE33A21620F9CC06E</ManifestCertificateThumbprint>
-    <ManifestKeyFile>OutlookKolab_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>..\OutlookKolab.snk</ManifestKeyFile>
     <SignManifests>true</SignManifests>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <PublishUrl>publish\</PublishUrl>
@@ -141,6 +141,9 @@
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'BuildDepends|x86' ">
+    <OutputPath>bin\x86\BuildDepends\</OutputPath>
   </PropertyGroup>
   <!--
     This section specifies references for the project.
@@ -317,7 +320,6 @@
     <Compile Include="Kolab\Xml\Calendar.Extensions.cs" />
     <None Include="Kolab\Xml\Calendar.xsd" />
     <None Include="Kolab\Xml\Contact.xsd" />
-    <None Include="OutlookKolab_TemporaryKey.pfx" />
     <None Include="Properties\DataSources\OutlookKolab.Kolab.Sync.SyncContext.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -343,9 +345,9 @@
     <Content Include="Kolab\Xml\Calendar.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OutlookKolapMAPIHelper\OutlookKolapMAPIHelper.vcproj">
+    <ProjectReference Include="..\OutlookKolabMAPIHelper\OutlookKolabMAPIHelper.vcproj">
       <Project>{2F07E9BE-7FBA-4938-846B-D8E884354805}</Project>
-      <Name>OutlookKolapMAPIHelper</Name>
+      <Name>OutlookKolabMAPIHelper</Name>
     </ProjectReference>
   </ItemGroup>
   <!-- Include the build rules for a C# project. -->

@@ -51,6 +51,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_499A43CC06695422F1F23C7DB639BAC9"
+        "OwnerKey" = "8:_F73F4E0AB8334EBD9DAA940354616F14"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_4E61A937B7B9AB19FCD95A83222EA28F"
         "OwnerKey" = "8:_96D333969F3873D02C177300366E07F9"
         "MsmSig" = "8:_UNDEFINED"
@@ -89,12 +95,6 @@
         {
         "MsmKey" = "8:_5F22AD6EC69233D8E703A227039BF5B8"
         "OwnerKey" = "8:_3013D3D212A0A142E99BDDA6959BC732"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_81DAA41162E5DD4402B3E090F5450A57"
-        "OwnerKey" = "8:_F73F4E0AB8334EBD9DAA940354616F14"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -184,13 +184,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_4E61A937B7B9AB19FCD95A83222EA28F"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_81DAA41162E5DD4402B3E090F5450A57"
+        "OwnerKey" = "8:_499A43CC06695422F1F23C7DB639BAC9"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -253,9 +247,31 @@
         "OwnerKey" = "8:_96D333969F3873D02C177300366E07F9"
         "MsmSig" = "8:_UNDEFINED"
         }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_4E61A937B7B9AB19FCD95A83222EA28F"
+        "MsmSig" = "8:_UNDEFINED"
+        }
     }
     "Configurations"
     {
+        "BuildDepends"
+        {
+        "DisplayName" = "8:BuildDepends"
+        "IsDebugOnly" = "11:FALSE"
+        "IsReleaseOnly" = "11:FALSE"
+        "OutputFilename" = "8:BuildDepends\\OutlookKolabSetup.msi"
+        "PackageFilesAs" = "3:2"
+        "PackageFileSize" = "3:-2147483648"
+        "CabType" = "3:1"
+        "Compression" = "3:2"
+        "SignOutput" = "11:FALSE"
+        "CertificateFile" = "8:"
+        "PrivateKeyFile" = "8:"
+        "TimeStampServer" = "8:"
+        "InstallerBootstrapper" = "3:2"
+        }
         "Debug"
         {
         "DisplayName" = "8:Debug"
@@ -278,6 +294,19 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Net.Framework.3.5.SP1"
+                    {
+                    "Name" = "8:.NET Framework 3.5 SP1"
+                    "ProductCode" = "8:Microsoft.Net.Framework.3.5.SP1"
+                    }
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Windows.Installer.3.1"
+                    {
+                    "Name" = "8:Windows Installer 3.1"
+                    "ProductCode" = "8:Microsoft.Windows.Installer.3.1"
+                    }
+                }
             }
         }
         "Release"
@@ -468,6 +497,37 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_499A43CC06695422F1F23C7DB639BAC9"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:OutlookKolabMAPIHelper, Version=1.0.3705.36329, Culture=neutral, processorArchitecture=x86"
+                "ScatterAssemblies"
+                {
+                    "_499A43CC06695422F1F23C7DB639BAC9"
+                    {
+                    "Name" = "8:OutlookKolabMAPIHelper.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:OutlookKolabMAPIHelper.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_F61B33347D424D7A8C67924193D136D2"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_4E61A937B7B9AB19FCD95A83222EA28F"
             {
             "AssemblyRegister" = "3:1"
@@ -527,37 +587,6 @@
             "PackageAs" = "3:1"
             "Register" = "3:1"
             "Exclude" = "11:TRUE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_81DAA41162E5DD4402B3E090F5450A57"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:OutlookKolapMAPIHelper, Version=1.0.3705.36370, Culture=neutral, processorArchitecture=x86"
-                "ScatterAssemblies"
-                {
-                    "_81DAA41162E5DD4402B3E090F5450A57"
-                    {
-                    "Name" = "8:OutlookKolapMAPIHelper.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:OutlookKolapMAPIHelper.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_F61B33347D424D7A8C67924193D136D2"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
@@ -1373,7 +1402,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_F73F4E0AB8334EBD9DAA940354616F14"
             {
-            "SourcePath" = "8:..\\OutlookKolab\\obj\\x86\\Release\\OutlookKolab.dll"
+            "SourcePath" = "8:..\\OutlookKolab\\obj\\x86\\BuildDepends\\OutlookKolab.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_F61B33347D424D7A8C67924193D136D2"

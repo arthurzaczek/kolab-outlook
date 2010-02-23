@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
-	Name="OutlookKolapMAPIHelper"
+	Version="9.00"
+	Name="OutlookKolabMAPIHelper"
 	ProjectGUID="{2F07E9BE-7FBA-4938-846B-D8E884354805}"
-	RootNamespace="OutlookKolapMAPIHelper"
+	RootNamespace="OutlookKolabMAPIHelper"
 	Keyword="ManagedCProj"
 	TargetFrameworkVersion="196613"
 	>
@@ -158,6 +158,65 @@
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
+		<Configuration
+			Name="BuildDepends|Win32"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="1"
+			ManagedExtensions="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
 	</Configurations>
 	<References>
 		<AssemblyReference
@@ -187,7 +246,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\OutlookKolapMAPIHelper.cpp"
+				RelativePath=".\OutlookKolabMAPIHelper.cpp"
 				>
 			</File>
 			<File
@@ -217,7 +276,7 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\OutlookKolapMAPIHelper.h"
+				RelativePath=".\OutlookKolabMAPIHelper.h"
 				>
 			</File>
 			<File

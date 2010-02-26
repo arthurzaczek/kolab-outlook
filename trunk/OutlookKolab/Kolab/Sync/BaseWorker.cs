@@ -26,14 +26,32 @@ namespace OutlookKolab.Kolab.Sync
 
     using Outlook = Microsoft.Office.Interop.Outlook;
     
+    /// <summary>
+    /// Abstract base class for all workers. 
+    /// Implements threading and locking.
+    /// This class ensurses that only one worker is running at the same time.
+    /// </summary>
     public abstract class BaseWorker
     {
+        /// <summary>
+        /// lock object
+        /// </summary>
         private static readonly object _lock = new object();
 
+        /// <summary>
+        /// Worker Thread
+        /// </summary>
         private static Thread thread;
+
+        /// <summary>
+        /// Saved Outlook Application Object
+        /// </summary>
         protected Outlook.Application app;
 
         private static bool _isRunning = false;
+        /// <summary>
+        /// Returnes true if a worker is running. Only one worker can run a the same time
+        /// </summary>
         public static bool IsRunning
         {
             get
@@ -46,6 +64,9 @@ namespace OutlookKolab.Kolab.Sync
         }
 
         private static bool _isStopping = false;
+        /// <summary>
+        /// Returnes true if a worker is stopping.
+        /// </summary>
         public static bool IsStopping
         {
             get
@@ -57,11 +78,19 @@ namespace OutlookKolab.Kolab.Sync
             }
         }
 
+        /// <summary>
+        /// Creates a new Worker.
+        /// </summary>
+        /// <param name="app">Outlook Application Object</param>
         public BaseWorker(Outlook.Application app)
         {
             this.app = app;
         }
 
+        /// <summary>
+        /// Starts the worker.
+        /// If a worker is already running this method does nothing.
+        /// </summary>
         public void Start()
         {
             lock (_lock)
@@ -74,17 +103,23 @@ namespace OutlookKolab.Kolab.Sync
             }
         }
 
+        /// <summary>
+        /// Stops a running worker. If no worker is running this method does nothing
+        /// </summary>
         public static void Stop()
         {
             Thread tmp;
             lock (_lock)
             {
-                _isStopping = true;
+                if(_isRunning) _isStopping = true;
                 tmp = thread;
             }
             if (tmp != null) tmp.Join(2000);
         }
 
+        /// <summary>
+        /// Internal Thread Run Method
+        /// </summary>
         private void RunInternal()
         {
             try
@@ -102,6 +137,9 @@ namespace OutlookKolab.Kolab.Sync
             }
         }
 
+        /// <summary>
+        /// The Worker method.
+        /// </summary>
         protected abstract void Run();
     }
 }

@@ -45,6 +45,12 @@ namespace OutlookKolab
         #endregion
 
         #region ToolBar
+        /// <summary>
+        /// Finds a toolbar by name
+        /// </summary>
+        /// <param name="cmdBars">Outlooks CommandBar collection</param>
+        /// <param name="name">Button Name</param>
+        /// <returns>The CommandBar or null if not found</returns>
         private Office.CommandBar FindToolBar(Office.CommandBars cmdBars, string name)
         {
             foreach (var tb in cmdBars.OfType<Office.CommandBar>())
@@ -58,6 +64,12 @@ namespace OutlookKolab
             return null;
         }
 
+        /// <summary>
+        /// Finds a button by caption
+        /// </summary>
+        /// <param name="cmdBar">Outlooks CommandBar</param>
+        /// <param name="name">Buttons caption</param>
+        /// <returns>The Button or null if not found</returns>
         private Office.CommandBarButton FindButton(Office.CommandBar cmdBar, string name)
         {
             foreach (var bt in cmdBar.Controls.OfType<Office.CommandBarButton>())
@@ -71,17 +83,22 @@ namespace OutlookKolab
             return null;
         }
 
+        /// <summary>
+        /// Create/Update the toolbar
+        /// </summary>
         private void CreateToolbar()
         {
             Office.CommandBars cmdBars = this.Application.ActiveExplorer().CommandBars;
 
+            // find/create toolbar
             toolBar = FindToolBar(cmdBars, "Sync Kolab");
             if (toolBar == null)
             {
                 toolBar = cmdBars.Add("Sync Kolab", Office.MsoBarPosition.msoBarTop, false, false);
             }
 
-            // Static buttons
+            // --- Static buttons ---
+            // Settings button
             settingsButton = FindButton(toolBar, "Settings");
             if (settingsButton == null)
             {
@@ -91,6 +108,7 @@ namespace OutlookKolab
             }
             settingsButton.Click += new Office._CommandBarButtonEvents_ClickEventHandler(settingsButton_Click);
 
+            // Log button
             logButton = FindButton(toolBar, "Log");
             if (logButton == null)
             {
@@ -100,12 +118,15 @@ namespace OutlookKolab
             }
             logButton.Click += new Office._CommandBarButtonEvents_ClickEventHandler(logButton_Click);
 
-            // Temp buttons
+            // --- Temp buttons ---
+            // create those buttons temporary because their caption will change on click events
+            // Sync button
             syncButton = (Office.CommandBarButton)toolBar.Controls.Add(1, missing, missing, missing, true);
             syncButton.Style = Office.MsoButtonStyle.msoButtonCaption;
             syncButton.Caption = "Sync";
             syncButton.Click += new Office._CommandBarButtonEvents_ClickEventHandler(syncButton_Click);
 
+            // Status button
             statusButton = (Office.CommandBarButton)toolBar.Controls.Add(1, missing, missing, missing, true);
             statusButton.Style = Office.MsoButtonStyle.msoButtonCaption;
             statusButton.Caption = "Idle";
@@ -114,16 +135,30 @@ namespace OutlookKolab
         #endregion
 
         #region Start/Stop
+        /// <summary>
+        /// AddIn Startup code
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
+            // Create Toolbar
             CreateToolbar();
+
+            // Register Sync Status handler
             StatusHandler.SyncStatus += new SyncStatusHandler(StatusHandler_SyncStatus);
             StatusHandler.SyncStarted += new SyncNotifyHandler(StatusHandler_SyncStarted);
             StatusHandler.SyncFinished += new SyncNotifyHandler(StatusHandler_SyncFinished);
         }
 
+        /// <summary>
+        /// AddIn Shutdown code
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
         {
+            // Remove buttons
             lock (_lock)
             {
                 statusButton = null;
@@ -131,6 +166,8 @@ namespace OutlookKolab
                 logButton = null;
                 settingsButton = null;
             }
+
+            // Stop a running sync
             OutlookKolab.Kolab.Sync.SyncWorker.Stop();
         }
         #endregion
@@ -172,16 +209,31 @@ namespace OutlookKolab
         #endregion
 
         #region ButtonEvents
+        /// <summary>
+        /// Settings Button - shows settings dialog
+        /// </summary>
+        /// <param name="ctrl"></param>
+        /// <param name="cancel"></param>
         private void settingsButton_Click(Office.CommandBarButton ctrl, ref bool cancel)
         {
             OutlookKolab.Kolab.Settings.DlgSettings.Show(this.Application);
         }
 
+        /// <summary>
+        /// Log Button - shows log dialog
+        /// </summary>
+        /// <param name="ctrl"></param>
+        /// <param name="cancel"></param>
         private void logButton_Click(Office.CommandBarButton ctrl, ref bool cancel)
         {
             OutlookKolab.Kolab.DlgShowLog.Show();
         }
 
+        /// <summary>
+        /// Sync Buttton - starts a sync if not running, stops a sync if running.
+        /// </summary>
+        /// <param name="ctrl"></param>
+        /// <param name="cancel"></param>
         private void syncButton_Click(Office.CommandBarButton ctrl, ref bool cancel)
         {
             if (OutlookKolab.Kolab.Sync.SyncWorker.IsRunning)

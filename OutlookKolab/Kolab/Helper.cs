@@ -30,12 +30,28 @@ namespace OutlookKolab.Kolab
     using System.Windows.Forms;
     using Outlook = Microsoft.Office.Interop.Outlook;
     
+    /// <summary>
+    /// Static class with helper methods
+    /// </summary>
     public static class Helper
     {
+        /// <summary>
+        /// StorePath cache
+        /// </summary>
         public static readonly string StorePath;
+        /// <summary>
+        /// SettingsPath cache
+        /// </summary>
         public static readonly string SettingsPath;
+        /// <summary>
+        /// StatusPath cache
+        /// </summary>
         public static readonly string StatusPath;
 
+        /// <summary>
+        /// Static constructor
+        /// fills path/filename caches
+        /// </summary>
         static Helper()
         {
             StorePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"dasz.at\OutlookKolab");
@@ -43,22 +59,41 @@ namespace OutlookKolab.Kolab
             StatusPath = Path.Combine(StorePath, "Status.xml");
         }
 
+        /// <summary>
+        /// Ensurse that the storage path exists
+        /// </summary>
         public static void EnsureStorePath()
         {
             if (!Directory.Exists(StorePath))
                 Directory.CreateDirectory(StorePath);
         }
 
+        /// <summary>
+        /// Checks if a DateTime is valid. Valid means that year is between 1900 and 2500
+        /// </summary>
+        /// <param name="dt">DateTime to check</param>
+        /// <returns>true of Year is between 1900 and 2500</returns>
         public static bool IsValid(this DateTime dt)
         {
             return dt.Year > 1900 && dt.Year < 2500;
         }
 
+        /// <summary>
+        /// Handles an exception. Shows a MessageBox.
+        /// Exception will also be logged.
+        /// </summary>
+        /// <param name="ex">Exception to show</param>
         public static void HandleError(Exception ex)
         {
             HandleError("Error", ex);
         }
 
+        /// <summary>
+        /// Handles an exception. Shows a MessageBox.
+        /// Exception will also be logged.
+        /// </summary>
+        /// <param name="caption">caption of the MessageBox shown</param>
+        /// <param name="ex">Exception to show</param>
         public static void HandleError(string caption, Exception ex)
         {
             if (ex == null) { throw new ArgumentNullException("ex"); }
@@ -67,6 +102,11 @@ namespace OutlookKolab.Kolab
             MessageBox.Show(ex.ToString(), caption, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
+        /// <summary>
+        /// Returns the changedate of an MailItem. First SentOn is inspected. If Emtpy, ReceivedTime is used.
+        /// </summary>
+        /// <param name="item">Outlook MailItem</param>
+        /// <returns>ChangeDate</returns>
         public static DateTime GetChangedDate(this Outlook.MailItem item)
         {
             if (item == null) { throw new ArgumentNullException("item"); }

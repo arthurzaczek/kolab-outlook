@@ -26,15 +26,38 @@ namespace OutlookKolab.Kolab
     using OutlookKolab.Kolab.Provider;
     using Outlook = Microsoft.Office.Interop.Outlook;
 
+    /// <summary>
+    /// Delegate for a simple sync notification
+    /// </summary>
     public delegate void SyncNotifyHandler();
+    /// <summary>
+    /// Delegate for a sync status notification
+    /// </summary>
+    /// <param name="text">notification text</param>
     public delegate void SyncStatusHandler(string text);
 
+    /// <summary>
+    /// Async Status Dispatcher. SyncWorker will send status messages. Anyone can register those messages
+    /// </summary>
     public class StatusHandler
     {
+        /// <summary>
+        /// Sync has started event
+        /// </summary>
         public static event SyncNotifyHandler SyncStarted = null;
+        /// <summary>
+        /// Sync has finished event
+        /// </summary>
         public static event SyncNotifyHandler SyncFinished = null;
+        /// <summary>
+        /// Sync status changed event
+        /// </summary>
         public static event SyncStatusHandler SyncStatus = null;
 
+        /// <summary>
+        /// Send a sync status notification
+        /// </summary>
+        /// <param name="text">notification text</param>
         public static void writeStatus(String text)
         {
             Log.i("status", text);
@@ -45,6 +68,9 @@ namespace OutlookKolab.Kolab
             }
         }
 
+        /// <summary>
+        /// Send a sync finished notification
+        /// </summary>
         public static void notifySyncFinished()
         {
             var temp = SyncFinished;
@@ -54,6 +80,9 @@ namespace OutlookKolab.Kolab
             }
         }
 
+        /// <summary>
+        /// Send a sync start notification
+        /// </summary>
         public static void notifySyncStarted()
         {
             var temp = SyncStarted;

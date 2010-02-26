@@ -35,6 +35,8 @@ namespace OutlookKolab.Kolab.Sync
 
         String GetIMAPFolderName();
         String GetIMAPStoreID();
+        String GetOutlookFolderName();
+        String GetOutlookStoreID();
 
         LocalCacheProvider getLocalCacheProvider();
 

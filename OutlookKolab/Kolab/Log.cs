@@ -25,20 +25,44 @@ namespace OutlookKolab.Kolab
     using System.Linq;
     using System.Text;
     
+    /// <summary>
+    /// Logging Helper class.
+    /// Wrapps Logging support
+    /// </summary>
     public class Log
     {
+        /// <summary>
+        /// Logs a debug message
+        /// </summary>
+        /// <param name="source">logging source</param>
+        /// <param name="msg">message to log</param>
         public static void d(string source, string msg)
         {
-            System.Diagnostics.Trace.TraceInformation(source + ": " + msg);
+            System.Diagnostics.Trace.WriteLine(source + ": " + msg);
         }
+        /// <summary>
+        /// Logs a information message
+        /// </summary>
+        /// <param name="source">logging source</param>
+        /// <param name="msg">message to log</param>
         public static void i(string source, string msg)
         {
             System.Diagnostics.Trace.TraceInformation(source + ": " + msg);
         }
+        /// <summary>
+        /// Logs a warning message
+        /// </summary>
+        /// <param name="source">logging source</param>
+        /// <param name="msg">message to log</param>
         public static void w(string source, string msg)
         {
             System.Diagnostics.Trace.TraceWarning(source + ": " + msg);
         }
+        /// <summary>
+        /// Logs a error message
+        /// </summary>
+        /// <param name="source">logging source</param>
+        /// <param name="msg">message to log</param>
         public static void e(string source, string msg)
         {
             System.Diagnostics.Trace.TraceError(source + ": " + msg);

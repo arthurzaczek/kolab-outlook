@@ -211,7 +211,7 @@ namespace OutlookKolab.Kolab.Sync
                     try
                     {
                         // Fecht deleted entry IDs
-                        deletedEntryIDs = OutlookKolapMAPIHelper.IMAPHelper.GetDeletedEntryIDs(ptr).ToLookup(i => i);
+                        deletedEntryIDs = OutlookKolabMAPIHelper.IMAPHelper.GetDeletedEntryIDs(ptr).ToLookup(i => i);
                     }
                     finally
                     {

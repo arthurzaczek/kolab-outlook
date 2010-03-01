@@ -76,7 +76,7 @@ namespace OutlookKolab.Kolab.Sync
         /// <summary>
         /// Returns the local cache provider of the current handler
         /// </summary>
-        /// <returns></returns>
+        /// <returns>LocalCacheProvider</returns>
         public abstract LocalCacheProvider getLocalCacheProvider();
 
         /// <summary>
@@ -127,7 +127,7 @@ namespace OutlookKolab.Kolab.Sync
         protected abstract String getMimeType();
 
         /// <summary>
-        /// Creates a Kolab XML string
+        /// Creates a Kolab XML string. This method also must update the local cache entry.
         /// </summary>
         /// <param name="sync">current sync context</param>
         /// <returns>xml string</returns>

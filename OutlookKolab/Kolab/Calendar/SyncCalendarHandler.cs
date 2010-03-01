@@ -32,10 +32,22 @@ namespace OutlookKolab.Kolab.Calendar
     using OutlookKolab.Kolab.Sync;
     using Outlook = Microsoft.Office.Interop.Outlook;
 
+    /// <summary>
+    /// Calendar sync handler
+    /// </summary>
     public class SyncCalendarHandler : AbstractSyncHandler
     {
+        /// <summary>
+        /// Local cache provider
+        /// </summary>
         LocalCacheProvider cache = null;
 
+        /// <summary>
+        /// Creates a new calendar sync handler
+        /// </summary>
+        /// <param name="settings">current settings</param>
+        /// <param name="dsStatus">current row</param>
+        /// <param name="app">Outlook Application Object</param>
         public SyncCalendarHandler(DSSettings settings, DSStatus dsStatus, Outlook.Application app)
             : base(settings, dsStatus, app)
         {
@@ -43,34 +55,63 @@ namespace OutlookKolab.Kolab.Calendar
             status.task = "Calendar";
         }
 
+        /// <summary>
+        /// Returns all Entry IDs of all local items
+        /// </summary>
+        /// <returns>List of Entry IDs</returns>
         public override IEnumerable<string> getAllLocalItemIDs()
         {
             return Folder.Items.OfType<Outlook.AppointmentItem>().Select(i => i.EntryID);
         }
 
+        /// <summary>
+        /// Current handlers IMAP Folder Entry ID = Remote Items
+        /// </summary>
+        /// <returns>Entry ID</returns>
         public override string GetIMAPFolderName()
         {
             return settings.Settings[0].CalendarIMAPFolder;
         }
+        /// <summary>
+        /// Current handlers IMAP Folder Store ID = Remote Items
+        /// </summary>
+        /// <returns>Store ID</returns>
         public override string GetIMAPStoreID()
         {
             return settings.Settings[0].CalendarIMAPStore;
         }
 
+        /// <summary>
+        /// Current handlers local Folder Entry ID = Local Items
+        /// </summary>
+        /// <returns>Entry ID</returns>
         public override string GetOutlookFolderName()
         {
             return settings.Settings[0].CalendarOutlookFolder;
         }
+        /// <summary>
+        /// Current handlers local Folder Store ID = Local Items
+        /// </summary>
+        /// <returns>Store ID</returns>
         public override string GetOutlookStoreID()
         {
             return settings.Settings[0].CalendarOutlookStore;
         }
 
+        /// <summary>
+        /// Returns the local cache provider of the current handler
+        /// </summary>
+        /// <returns>LocalCacheProvider</returns>
         public override LocalCacheProvider getLocalCacheProvider()
         {
             return cache;
         }
 
+        /// <summary>
+        /// Retreives a local calendar item. SyncContext will be updated
+        /// </summary>
+        /// <param name="sync">current sync context.</param>
+        /// <returns>Outlook.AppointmentItem or null if not found or item was deleted or moved</returns>
         private Outlook.AppointmentItem getLocalItem(SyncContext sync)
         {
             if (sync.LocalItem != null) return (Outlook.AppointmentItem)sync.LocalItem;
@@ -93,6 +134,11 @@ namespace OutlookKolab.Kolab.Calendar
             return result;
         }
 
+        /// <summary>
+        /// Computes the local hash of the given Outlook AppointmentItem
+        /// </summary>
+        /// <param name="item">Outlook AppointmentItem</param>
+        /// <returns>Hash as string</returns>
         private String getLocalHash(Outlook.AppointmentItem item)
         {
             List<String> contents = new List<String>();
@@ -138,6 +184,11 @@ namespace OutlookKolab.Kolab.Calendar
             return String.Join("|", contents.ToArray());
         }
 
+        /// <summary>
+        /// checks for local changes
+        /// </summary>
+        /// <param name="sync">current sync context</param>
+        /// <returns>true if the local item changes since last sync</returns>
         public override bool hasLocalChanges(SyncContext sync)
         {
             if (sync == null) { throw new ArgumentNullException("sync"); }
@@ -149,11 +200,22 @@ namespace OutlookKolab.Kolab.Calendar
             return entryHash != contactHash;
         }
 
+        /// <summary>
+        /// checks if the local item exits
+        /// </summary>
+        /// <param name="sync">current sync context</param>
+        /// <returns>true if the local item exits</returns>
         public override bool hasLocalItem(SyncContext sync)
         {
             return getLocalItem(sync) != null;
         }
 
+        /// <summary>
+        /// update or create the Kolab XML for a server item from a given local item and server xml
+        /// </summary>
+        /// <param name="sync">current sync context</param>
+        /// <param name="xml">actual Kolab XML</param>
+        /// <returns>new/updated Kolab XML</returns>
         protected override string updateServerItemFromLocal(SyncContext sync, string xml)
         {
             var source = getLocalItem(sync);
@@ -164,19 +226,33 @@ namespace OutlookKolab.Kolab.Calendar
             return writeXml(source, cal, sync.CacheEntry.remoteChangedDate);
         }
 
+        /// <summary>
+        /// Deletes a local item
+        /// </summary>
+        /// <param name="localId">Entry ID</param>
         protected override void deleteLocalItem(string localId)
         {
             var e = app.Session.GetItemFromID(localId, Folder.StoreID) as Outlook.AppointmentItem;
             if (e != null) e.Delete();
         }
 
+        /// <summary>
+        /// Returns the Kolab Mime Type
+        /// </summary>
+        /// <returns>Mime Type - application/x-vnd.kolab.event</returns>
         protected override string getMimeType()
         {
             return "application/x-vnd.kolab.event";
         }
 
+        /// <summary>
+        /// Update or create a local item from a given server item
+        /// </summary>
+        /// <param name="sync">current sync context</param>
+        /// <param name="xml">Kolab XML representing the server item</param>
         protected override void updateLocalItemFromServer(SyncContext sync, string xml)
         {
+            // Parse calendar item from given xml
             Xml.@event cal = null;
             try
             {
@@ -184,15 +260,18 @@ namespace OutlookKolab.Kolab.Calendar
             }
             catch (Exception ex)
             {
+                // Unable to parse -> abort
                 throw new SyncException(GetItemText(sync), "Unable to parse XML Document", ex);
             }
 
+            // Get or add local item
             var localCal = (Outlook.AppointmentItem)sync.LocalItem;
             if (localCal == null)
             {
                 localCal = (Outlook.AppointmentItem)Folder.Items.Add(Outlook.OlItemType.olAppointmentItem);
             }
 
+            // Remember reccuring
             bool isRecurring = cal.recurrence != null && !string.IsNullOrEmpty(cal.recurrence.cycle);
 
             try
@@ -219,6 +298,7 @@ namespace OutlookKolab.Kolab.Calendar
             }
             catch (COMException ex)
             {
+                // Troubles setting properties -> abort
                 throw new SyncException(GetItemText(sync), "Unable to set basic AppointmentItem options", ex);
             }
 
@@ -262,6 +342,7 @@ namespace OutlookKolab.Kolab.Calendar
                         pattern.Interval = 1;
                     }
 
+                    // set properties dependeing on recurrence type
                     switch (pattern.RecurrenceType)
                     {
                         case Outlook.OlRecurrenceType.olRecursDaily:
@@ -289,6 +370,7 @@ namespace OutlookKolab.Kolab.Calendar
                             pattern.MonthOfYear = cal.GetMonthOfYear();
                             break;
                     }
+                    // Set pattern range
                     if (cal.recurrence.range != null && !string.IsNullOrEmpty(cal.recurrence.range.type))
                     {
                         if (cal.recurrence.range.type == "none")
@@ -315,27 +397,33 @@ namespace OutlookKolab.Kolab.Calendar
                 }
                 catch (COMException ex)
                 {
+                    // Troubles setting properties -> abort
                     throw new SyncException(GetItemText(sync), "Unable to set AppointmentItem recurrence", ex);
                 }
             }
             else
             {
+                // No recurrence pattern -> clear
                 localCal.ClearRecurrencePattern();
             }
 
             try
             {
+                // Save local item
                 localCal.Save();
             }
             catch (COMException ex)
             {
+                // Troubles saving local item -> abort
                 throw new SyncException(GetItemText(sync), "Unable to save AppointmentItem", ex);
             }
 
+            // Create local cache entry if a new item was created
             if (sync.CacheEntry == null)
             {
                 sync.CacheEntry = getLocalCacheProvider().createEntry();
             }
+            // Upate local cache entry
             sync.CacheEntry.localId = localCal.EntryID;
             sync.CacheEntry.localHash = getLocalHash(localCal);
 
@@ -348,6 +436,11 @@ namespace OutlookKolab.Kolab.Calendar
             return "ko-ev-" + Guid.NewGuid().ToString();
         }
 
+        /// <summary>
+        /// Creates a Kolab XML string. This method also must update the local cache entry.
+        /// </summary>
+        /// <param name="sync">current sync context</param>
+        /// <returns>xml string</returns>
         protected override string writeXml(SyncContext sync)
         {
             var item = getLocalItem(sync);
@@ -357,6 +450,13 @@ namespace OutlookKolab.Kolab.Calendar
             return writeXml(item, new OutlookKolab.Kolab.Xml.@event(), sync.CacheEntry.remoteChangedDate);
         }
 
+        /// <summary>
+        /// Creates a Kolab XML string.
+        /// </summary>
+        /// <param name="source">Outlook Item</param>
+        /// <param name="cal">destination calendar XML Object</param>
+        /// <param name="lastmodificationdate">last modification date</param>
+        /// <returns></returns>
         private string writeXml(Microsoft.Office.Interop.Outlook.AppointmentItem source, OutlookKolab.Kolab.Xml.@event cal, DateTime lastmodificationdate)
         {
             cal.lastmodificationdate = lastmodificationdate;
@@ -414,11 +514,17 @@ namespace OutlookKolab.Kolab.Calendar
             return Xml.XmlHelper.ToString(cal);
         }
 
+        /// <summary>
+        /// Creates a MailMessage body text
+        /// </summary>
+        /// <param name="sync">current sync context</param>
+        /// <returns>MailMessage body text</returns>
         public override string getMessageBodyText(SyncContext sync)
         {
             var cal = getLocalItem(sync);
             StringBuilder sb = new StringBuilder();
 
+            // Default Properties
             sb.AppendLine("Subject: " + cal.Subject);
             sb.AppendLine("Start: " + cal.Start);
             sb.AppendLine("End: " + cal.End);
@@ -458,6 +564,11 @@ namespace OutlookKolab.Kolab.Calendar
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Short text of the current local item
+        /// </summary>
+        /// <param name="sync">current sync context</param>
+        /// <returns>short text</returns>
         public override string GetItemText(SyncContext sync)
         {
             if (sync == null) { throw new ArgumentNullException("sync"); }

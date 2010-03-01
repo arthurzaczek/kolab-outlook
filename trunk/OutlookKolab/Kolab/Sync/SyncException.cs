@@ -26,30 +26,56 @@ namespace OutlookKolab.Kolab.Sync
     using System.Runtime.Serialization;
     using System.Text;
 
+    /// <summary>
+    /// Sync Exception. This exception counts error items and terminate the sync only for the current item. 
+    /// It does not terminate the sync process.
+    /// </summary>
     [Serializable]
     public class SyncException : Exception
     {
+        /// <summary>
+        /// Creates a empty SyncException
+        /// </summary>
         public SyncException()
         {
         }
 
+        /// <summary>
+        /// Creates a SyncException
+        /// </summary>
+        /// <param name="item">Short descriptive text of the item affected</param>
+        /// <param name="message">Exception message</param>
         public SyncException(string item, string message)
             : base(message)
         {
             this.Item = item;
         }
 
+        /// <summary>
+        /// Creates a SyncException
+        /// </summary>
+        /// <param name="item">Short descriptive text of the item affected</param>
+        /// <param name="message">Exception message</param>
+        /// <param name="inner">inner exception</param>
         public SyncException(string item, string message, Exception inner)
             : base(message, inner)
         {
             this.Item = item;
         }
 
+        /// <summary>
+        /// Creates a SyncException if deserialized
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="context"></param>
         protected SyncException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
 
+        /// <summary>
+        /// Short descriptive text of the item affected
+        /// </summary>
         public string Item { get; private set; }
     }
 }

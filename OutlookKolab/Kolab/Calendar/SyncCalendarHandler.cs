@@ -429,10 +429,13 @@ namespace OutlookKolab.Kolab.Calendar
 
         }
 
+        /// <summary>
+        /// Create Application and Type specific id.
+        /// ko == Kolab Outlook
+        /// </summary>
+        /// <returns>new UID</returns>
         private string getNewUid()
         {
-            // Create Application and Type specific id
-            // kd == Kolab Outlook
             return "ko-ev-" + Guid.NewGuid().ToString();
         }
 
@@ -456,9 +459,10 @@ namespace OutlookKolab.Kolab.Calendar
         /// <param name="source">Outlook Item</param>
         /// <param name="cal">destination calendar XML Object</param>
         /// <param name="lastmodificationdate">last modification date</param>
-        /// <returns></returns>
+        /// <returns>xml string</returns>
         private string writeXml(Microsoft.Office.Interop.Outlook.AppointmentItem source, OutlookKolab.Kolab.Xml.@event cal, DateTime lastmodificationdate)
         {
+            // Basic properties
             cal.lastmodificationdate = lastmodificationdate;
             cal.summary = source.Subject;
             // StartUTC/EndUTC does not specify DateTime.Kind == Utc!

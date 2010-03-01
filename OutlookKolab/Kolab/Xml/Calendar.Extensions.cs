@@ -29,6 +29,10 @@ namespace OutlookKolab.Kolab.Xml
 
     public partial class @event
     {
+        /// <summary>
+        /// Translates Kolab showtimeas to Oulook busy status
+        /// </summary>
+        /// <returns>OlBusyStatus, default: olBusy</returns>
         public Outlook.OlBusyStatus GetBusyStatus()
         {
             switch (this.showtimeas)
@@ -41,6 +45,11 @@ namespace OutlookKolab.Kolab.Xml
             }
         }
 
+        /// <summary>
+        /// Translates Outlook busy status to Kolab showtimeas
+        /// </summary>
+        /// <param name="status">OlBusyStatus</param>
+        /// <returns>showtimeas, default: busy</returns>
         public string GetShowTimeAs(Outlook.OlBusyStatus status)
         {
             switch (status)
@@ -53,6 +62,10 @@ namespace OutlookKolab.Kolab.Xml
             }
         }
 
+        /// <summary>
+        /// Translates Kolab sensitivity to Outlook sensitivity
+        /// </summary>
+        /// <returns>OlSensitivity, default: olNormal</returns>
         public Outlook.OlSensitivity GetSensitivity()
         {
             switch (this.sensitivity)
@@ -64,6 +77,11 @@ namespace OutlookKolab.Kolab.Xml
             }
         }
 
+        /// <summary>
+        /// Translates Outlook sensitivity to Kolab sensitivity
+        /// </summary>
+        /// <param name="s">OlSensitivity</param>
+        /// <returns>sensitivity, default: public</returns>
         public string GetSensitivity(Outlook.OlSensitivity s)
         {
             switch (s)
@@ -76,6 +94,11 @@ namespace OutlookKolab.Kolab.Xml
             }
         }
 
+        /// <summary>
+        /// Translates Outlook recurrence type to Kolab cycle type
+        /// </summary>
+        /// <param name="type">OlRecurrenceType</param>
+        /// <returns>cycle type, default: ""</returns>
         public string GetCycle(Outlook.OlRecurrenceType type)
         {
             switch (type)
@@ -90,6 +113,10 @@ namespace OutlookKolab.Kolab.Xml
             }
         }
 
+        /// <summary>
+        /// Translates Kolab cycle type to Outlook recurrence type
+        /// </summary>
+        /// <returns>OlRecurrenceType, default: olRecursDaily</returns>
         public Outlook.OlRecurrenceType GetRecurrenceType()
         {
             switch (this.recurrence.cycle)
@@ -102,6 +129,11 @@ namespace OutlookKolab.Kolab.Xml
             }
         }
 
+        /// <summary>
+        /// Translates Outlook DaysOfWeek to Kolab days collection
+        /// </summary>
+        /// <param name="days">OlDaysOfWeek</param>
+        /// <returns>collection of days, default: null</returns>
         public string[] GetDay(Outlook.OlDaysOfWeek days)
         {
             List<string> result = new List<string>();
@@ -137,6 +169,10 @@ namespace OutlookKolab.Kolab.Xml
             return result.Count > 0 ? result.ToArray() : null;
         }
 
+        /// <summary>
+        /// Translates Kolab days collection to Outlook DaysOfWeek
+        /// </summary>
+        /// <returns>OlDaysOfWeek, default: olMonday</returns>
         public Outlook.OlDaysOfWeek GetDayOfWeekMask()
         {
             Outlook.OlDaysOfWeek result = 0;
@@ -159,6 +195,11 @@ namespace OutlookKolab.Kolab.Xml
 
         public static List<string> months = new List<string>() { "january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december" };
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="month"></param>
+        /// <returns></returns>
         public string GetMonth(int month)
         {
             if (month >= 1 && month <= 12)

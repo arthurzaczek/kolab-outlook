@@ -28,13 +28,31 @@ namespace OutlookKolab.Kolab.Sync
     using OutlookKolab.Kolab.Provider;
     using Outlook = Microsoft.Office.Interop.Outlook;
     
+    /// <summary>
+    /// Represents the current item which is been syncing
+    /// </summary>
     public class SyncContext
     {
+        /// <summary>
+        /// Current local item or null if not exists. Can only be null for new remote items.
+        /// </summary>
         public object LocalItem { get; set; }
+        /// <summary>
+        /// Current cache entry or null if not exists. Can only be null for new remote items.
+        /// </summary>
         public DSLocalCache.CacheEntryRow CacheEntry { get; set; }
+        /// <summary>
+        /// Current IMAP Message or null if not exists. Can only be null for new local items.
+        /// </summary>
         public Outlook.MailItem Message { get; set; }
 
+        /// <summary>
+        /// Short text of the current local item used for the conflict dialog
+        /// </summary>
         public string LocalItemText { get; set; }
+        /// <summary>
+        /// Short text of the current remote item used for the conflict dialog
+        /// </summary>
         public string RemoteItemText { get; set; }
     }
 }

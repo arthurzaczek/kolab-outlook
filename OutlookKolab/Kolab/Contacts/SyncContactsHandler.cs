@@ -32,10 +32,22 @@ namespace OutlookKolab.Kolab.Constacts
     using OutlookKolab.Kolab.Sync;
     using Outlook = Microsoft.Office.Interop.Outlook;
 
+    /// <summary>
+    /// Contacts sync handler
+    /// </summary>
     public class SyncContactsHandler : AbstractSyncHandler
     {
+        /// <summary>
+        /// Local cache provider
+        /// </summary>
         LocalCacheProvider cache = null;
 
+        /// <summary>
+        /// Creates a new contacts sync handler
+        /// </summary>
+        /// <param name="settings">current settings</param>
+        /// <param name="dsStatus">current row</param>
+        /// <param name="app">Outlook Application Object</param>
         public SyncContactsHandler(DSSettings settings, DSStatus dsStatus, Outlook.Application app)
             : base(settings, dsStatus, app)
         {
@@ -43,34 +55,63 @@ namespace OutlookKolab.Kolab.Constacts
             status.task = "Contacts";
         }
 
+        /// <summary>
+        /// Returns all Entry IDs of all local items
+        /// </summary>
+        /// <returns>List of Entry IDs</returns>
         public override IEnumerable<string> getAllLocalItemIDs()
         {
             return Folder.Items.OfType<Outlook.ContactItem>().Select(i => i.EntryID);
         }
 
+        /// <summary>
+        /// Current handlers IMAP Folder Entry ID = Remote Items
+        /// </summary>
+        /// <returns>Entry ID</returns>
         public override string GetIMAPFolderName()
         {
             return settings.Settings[0].ContactsIMAPFolder;
         }
+        /// <summary>
+        /// Current handlers IMAP Folder Store ID = Remote Items
+        /// </summary>
+        /// <returns>Store ID</returns>
         public override string GetIMAPStoreID()
         {
             return settings.Settings[0].ContactsIMAPStore;
         }
 
+        /// <summary>
+        /// Current handlers local Folder Entry ID = Local Items
+        /// </summary>
+        /// <returns>Entry ID</returns>
         public override string GetOutlookFolderName()
         {
             return settings.Settings[0].ContactsOutlookFolder;
         }
+        /// <summary>
+        /// Current handlers local Folder Store ID = Local Items
+        /// </summary>
+        /// <returns>Store ID</returns>
         public override string GetOutlookStoreID()
         {
             return settings.Settings[0].ContactsOutlookStore;
         }
 
+        /// <summary>
+        /// Returns the local cache provider of the current handler
+        /// </summary>
+        /// <returns>LocalCacheProvider</returns>
         public override LocalCacheProvider getLocalCacheProvider()
         {
             return cache;
         }
 
+        /// <summary>
+        /// Retreives a local contact item. SyncContext will be updated
+        /// </summary>
+        /// <param name="sync">current sync context.</param>
+        /// <returns>Outlook.ContactItem or null if not found or item was deleted or moved</returns>
         private Outlook.ContactItem getLocalItem(SyncContext sync)
         {
             if (sync.LocalItem != null) return (Outlook.ContactItem)sync.LocalItem;
@@ -93,6 +134,11 @@ namespace OutlookKolab.Kolab.Constacts
             return result;
         }
 
+        /// <summary>
+        /// Computes the local hash of the given Outlook ContactItem
+        /// </summary>
+        /// <param name="item">Outlook ContactItem</param>
+        /// <returns>Hash as string</returns>
         private String getLocalHash(Outlook.ContactItem item)
         {
             List<String> contents = new List<String>();
@@ -128,6 +174,11 @@ namespace OutlookKolab.Kolab.Constacts
             return String.Join("|", contents.ToArray());
         }
 
+        /// <summary>
+        /// checks for local changes
+        /// </summary>
+        /// <param name="sync">current sync context</param>
+        /// <returns>true if the local item changes since last sync</returns>
         public override bool hasLocalChanges(SyncContext sync)
         {
             if (sync == null) { throw new ArgumentNullException("sync"); }
@@ -139,6 +190,22 @@ namespace OutlookKolab.Kolab.Constacts
             return entryHash != contactHash;
         }
 
+        /// <summary>
+        /// checks if the local item exits
+        /// </summary>
+        /// <param name="sync">current sync context</param>
+        /// <returns>true if the local item exits</returns>
+        public override bool hasLocalItem(SyncContext sync)
+        {
+            return getLocalItem(sync) != null;
+        }
+
+        /// <summary>
+        /// update or create the Kolab XML for a server item from a given local item and server xml
+        /// </summary>
+        /// <param name="sync">current sync context</param>
+        /// <param name="xml">actual Kolab XML</param>
+        /// <returns>new/updated Kolab XML</returns>
         protected override string updateServerItemFromLocal(SyncContext sync, string xml)
         {
             if (sync == null) { throw new ArgumentNullException("sync"); }
@@ -151,26 +218,35 @@ namespace OutlookKolab.Kolab.Constacts
             return writeXml(source, contact, sync.CacheEntry.remoteChangedDate);
         }
 
+        /// <summary>
+        /// Returns the Kolab Mime Type
+        /// </summary>
+        /// <returns>Mime Type - application/x-vnd.kolab.contact</returns>
         protected override string getMimeType()
         {
             return "application/x-vnd.kolab.contact";
         }
 
+        /// <summary>
+        /// Deletes a local item
+        /// </summary>
+        /// <param name="localId">Entry ID</param>
         protected override void deleteLocalItem(string localId)
         {
             var e = app.Session.GetItemFromID(localId, Folder.StoreID) as Outlook.ContactItem;
             if (e != null) e.Delete();
         }
 
-        public override bool hasLocalItem(SyncContext sync)
-        {
-            return getLocalItem(sync) != null;
-        }
-
+        /// <summary>
+        /// Update or create a local item from a given server item
+        /// </summary>
+        /// <param name="sync">current sync context</param>
+        /// <param name="xml">Kolab XML representing the server item</param>
         protected override void updateLocalItemFromServer(SyncContext sync, string xml)
         {
             if (sync == null) { throw new ArgumentNullException("sync"); }
 
+            // Parse item from given xml
             Xml.contact contact = null;
             try
             {
@@ -178,9 +254,11 @@ namespace OutlookKolab.Kolab.Constacts
             }
             catch (Exception ex)
             {
+                // Unable to parse -> abort
                 throw new SyncException(GetItemText(sync), "Unable to parse XML Document", ex);
             }
 
+            // Get or add local item
             var person = (Outlook.ContactItem)sync.LocalItem;
             if (person == null)
             {
@@ -189,12 +267,16 @@ namespace OutlookKolab.Kolab.Constacts
 
             try
             {
+                // Basic properties
+                // TODO: Add more
                 if (contact.name != null) person.FullName = contact.name.fullname;
 
+                // Phone Contacts
                 if (contact.phone != null)
                 {
                     foreach (var phone in contact.phone)
                     {
+                        // Save based on type
                         switch (phone.type)
                         {
                             case "primary":
@@ -251,14 +333,17 @@ namespace OutlookKolab.Kolab.Constacts
                             case "car":
                                 person.CarTelephoneNumber = phone.number;
                                 break;
+                            // No default: dismiss
                         }
                     }
                 }
 
+                // Postal address
                 if (contact.address != null)
                 {
                     foreach (var adr in contact.address)
                     {
+                        // Save based on type
                         switch (adr.type)
                         {
                             case "home":
@@ -282,15 +367,18 @@ namespace OutlookKolab.Kolab.Constacts
                                 person.OtherAddressPostalCode = adr.postalcode;
                                 person.OtherAddressStreet = adr.street;
                                 break;
+                            // No default: dismiss
                         }
                     }
                 }
 
+                // Email
                 if (contact.email != null)
                 {
                     int counter = 1;
                     foreach (var email in contact.email)
                     {
+                        // Save based on type
                         switch (counter)
                         {
                             case 1:
@@ -305,6 +393,7 @@ namespace OutlookKolab.Kolab.Constacts
                                 person.Email3Address = email.smtpaddress;
                                 person.Email3DisplayName = email.displayname;
                                 break;
+                            // No default: dismiss
                         }
 
                         counter++;
@@ -313,6 +402,7 @@ namespace OutlookKolab.Kolab.Constacts
             }
             catch (COMException ex)
             {
+                // Unable to set properties -> abort
                 throw new SyncException(GetItemText(sync), "Unable to set basic ContactItem options", ex);
             }
 
@@ -322,17 +412,25 @@ namespace OutlookKolab.Kolab.Constacts
             }
             catch (COMException ex)
             {
+                // Unable to sace -> abort
                 throw new SyncException(GetItemText(sync), "Unable to save ContactItem", ex);
-            }            
+            }
 
+            // Create local cache entry if a new item was created
             if (sync.CacheEntry == null)
             {
                 sync.CacheEntry = getLocalCacheProvider().createEntry();
             }
+            // Upate local cache entry
             sync.CacheEntry.localId = person.EntryID;
             sync.CacheEntry.localHash = getLocalHash(person);
         }
 
+        /// <summary>
+        /// Create Application and Type specific id.
+        /// ko == Kolab Outlook
+        /// </summary>
+        /// <returns>new UID</returns>
         private String getNewUid()
         {
             // Create Application and Type specific id
@@ -340,6 +438,11 @@ namespace OutlookKolab.Kolab.Constacts
             return "ko-ct-" + Guid.NewGuid();
         }
 
+        /// <summary>
+        /// Creates a Kolab XML string. This method also must update the local cache entry.
+        /// </summary>
+        /// <param name="sync">current sync context</param>
+        /// <returns>xml string</returns>
         protected override string writeXml(SyncContext sync)
         {
             var item = getLocalItem(sync);
@@ -349,12 +452,21 @@ namespace OutlookKolab.Kolab.Constacts
             return writeXml(item, new OutlookKolab.Kolab.Xml.contact(), sync.CacheEntry.remoteChangedDate);
         }
 
+        /// <summary>
+        /// Creates a Kolab XML string.
+        /// </summary>
+        /// <param name="source">Outlook Item</param>
+        /// <param name="cal">destination calendar XML Object</param>
+        /// <param name="lastmodificationdate">last modification date</param>
+        /// <returns>xml string</returns>
         private string writeXml(Microsoft.Office.Interop.Outlook.ContactItem source, OutlookKolab.Kolab.Xml.contact contact, DateTime lastmodificationdate)
         {
+            // Basic properties
             contact.lastmodificationdate = lastmodificationdate;
             if (contact.name == null) contact.name = new OutlookKolab.Kolab.Xml.contactName();
             contact.name.fullname = source.FullName;
 
+            // Phone contact methods
             var phones = new List<OutlookKolab.Kolab.Xml.contactPhone>();
             if (!string.IsNullOrEmpty(source.PrimaryTelephoneNumber)) phones.Add(new OutlookKolab.Kolab.Xml.contactPhone() { type = "primary", number = source.PrimaryTelephoneNumber });
             if (!string.IsNullOrEmpty(source.BusinessTelephoneNumber)) phones.Add(new OutlookKolab.Kolab.Xml.contactPhone() { type = "business1", number = source.BusinessTelephoneNumber });
@@ -376,12 +488,14 @@ namespace OutlookKolab.Kolab.Constacts
             if (!string.IsNullOrEmpty(source.CarTelephoneNumber)) phones.Add(new OutlookKolab.Kolab.Xml.contactPhone() { type = "car", number = source.CarTelephoneNumber });
             contact.phone = phones.ToArray();
 
+            // Postal address contact methods
             var adrs = new List<OutlookKolab.Kolab.Xml.contactAddress>();
             if (!string.IsNullOrEmpty(source.HomeAddress)) adrs.Add(new OutlookKolab.Kolab.Xml.contactAddress() { type = "home", country = source.HomeAddressCountry, locality = source.HomeAddressCity, region = source.HomeAddressState, postalcode = source.HomeAddressPostalCode, street = source.HomeAddressStreet });
             if (!string.IsNullOrEmpty(source.BusinessAddress)) adrs.Add(new OutlookKolab.Kolab.Xml.contactAddress() { type = "business", country = source.BusinessAddressCountry, locality = source.BusinessAddressCity, region = source.BusinessAddressState, postalcode = source.BusinessAddressPostalCode, street = source.BusinessAddressStreet });
             if (!string.IsNullOrEmpty(source.OtherAddress)) adrs.Add(new OutlookKolab.Kolab.Xml.contactAddress() { type = "other", country = source.OtherAddressCountry, locality = source.OtherAddressCity, region = source.OtherAddressState, postalcode = source.OtherAddressPostalCode, street = source.OtherAddressStreet });
             contact.address = adrs.ToArray();
 
+            // EMail contact methods
             var emails = new List<OutlookKolab.Kolab.Xml.contactEmail>();
             if (!string.IsNullOrEmpty(source.Email1Address)) emails.Add(new OutlookKolab.Kolab.Xml.contactEmail() { displayname = source.Email1DisplayName, smtpaddress = source.Email1Address });
             if (!string.IsNullOrEmpty(source.Email2Address)) emails.Add(new OutlookKolab.Kolab.Xml.contactEmail() { displayname = source.Email2DisplayName, smtpaddress = source.Email2Address });
@@ -391,6 +505,11 @@ namespace OutlookKolab.Kolab.Constacts
             return Xml.XmlHelper.ToString(contact);
         }
 
+        /// <summary>
+        /// Creates a MailMessage body text
+        /// </summary>
+        /// <param name="sync">current sync context</param>
+        /// <returns>MailMessage body text</returns>
         public override string getMessageBodyText(SyncContext sync)
         {
             if (sync == null) { throw new ArgumentNullException("sync"); }
@@ -432,6 +551,11 @@ namespace OutlookKolab.Kolab.Constacts
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Short text of the current local item
+        /// </summary>
+        /// <param name="sync">current sync context</param>
+        /// <returns>short text</returns>
         public override string GetItemText(SyncContext sync)
         {
             if (sync == null) { throw new ArgumentNullException("sync"); }

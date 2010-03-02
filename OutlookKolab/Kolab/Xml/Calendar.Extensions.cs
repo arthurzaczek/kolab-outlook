@@ -196,10 +196,10 @@ namespace OutlookKolab.Kolab.Xml
         public static List<string> months = new List<string>() { "january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december" };
 
         /// <summary>
-        /// 
+        /// Transaltes a month number (1-12) to Kolab month string
         /// </summary>
-        /// <param name="month"></param>
-        /// <returns></returns>
+        /// <param name="month">month number (1-12)</param>
+        /// <returns>month as string</returns>
         public string GetMonth(int month)
         {
             if (month >= 1 && month <= 12)
@@ -212,11 +212,20 @@ namespace OutlookKolab.Kolab.Xml
             }
         }
 
+        /// <summary>
+        /// Translates a Kolab month string to a month number (1-12)
+        /// </summary>
+        /// <returns>month number (1-12)</returns>
         public int GetMonthOfYear()
         {
             return months.IndexOf(recurrence.month) + 1;
         }
 
+        /// <summary>
+        /// Translates a Outlook recurrence pattern to Kolab range type
+        /// </summary>
+        /// <param name="pattern">RecurrencePattern</param>
+        /// <returns>range type as string</returns>
         public string GetRangeType(Outlook.RecurrencePattern pattern)
         {
             if (pattern == null) { throw new ArgumentNullException("pattern"); }
@@ -237,6 +246,11 @@ namespace OutlookKolab.Kolab.Xml
             return "none";
         }
 
+        /// <summary>
+        /// Translates a Outlook recurrence pattern to Kolab range value
+        /// </summary>
+        /// <param name="pattern">RecurrencePattern</param>
+        /// <returns>range value as string</returns>
         public string GetRangeValue(Outlook.RecurrencePattern pattern)
         {
             if (pattern == null) { throw new ArgumentNullException("pattern"); }
@@ -246,6 +260,11 @@ namespace OutlookKolab.Kolab.Xml
             return "";
         }
 
+        /// <summary>
+        /// Translates a Outlook recurrence pattern to Kolab cycle type
+        /// </summary>
+        /// <param name="pattern">RecurrencePattern</param>
+        /// <returns>cycle type</returns>
         public string GetRecurrenceType(Microsoft.Office.Interop.Outlook.RecurrencePattern pattern)
         {
             if (pattern == null) { throw new ArgumentNullException("pattern"); }

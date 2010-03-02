@@ -42,6 +42,10 @@ namespace OutlookKolab
         Office.CommandBarButton syncButton;
         Office.CommandBarButton logButton;
         Office.CommandBarButton statusButton;
+
+        System.Threading.Timer timer = null;
+        private readonly int timerDueTime = 10000; // 10 seconds
+        private readonly int timerPeriod = 1000 * 60 * 30; // every half hour, TODO: Configure
         #endregion
 
         #region ToolBar
@@ -149,6 +153,8 @@ namespace OutlookKolab
             StatusHandler.SyncStatus += new SyncStatusHandler(StatusHandler_SyncStatus);
             StatusHandler.SyncStarted += new SyncNotifyHandler(StatusHandler_SyncStarted);
             StatusHandler.SyncFinished += new SyncNotifyHandler(StatusHandler_SyncFinished);
+
+            timer = new System.Threading.Timer(new System.Threading.TimerCallback(timer_Tick), null, timerDueTime, timerPeriod);
         }
 
         /// <summary>
@@ -171,6 +177,18 @@ namespace OutlookKolab
             OutlookKolab.Kolab.Sync.SyncWorker.Stop();
         }
         #endregion
+
+        #region Timer
+        void timer_Tick(object state)
+        {
+            if (!OutlookKolab.Kolab.Sync.SyncWorker.IsRunning)
+            {
+                var worker = new OutlookKolab.Kolab.Sync.SyncWorker(this.Application);
+                worker.Start();
+            }
+        }
+        #endregion
+
 
         #region StatusEvents
         void StatusHandler_SyncFinished()

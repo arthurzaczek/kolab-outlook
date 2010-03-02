@@ -27,26 +27,56 @@ namespace OutlookKolab.Kolab.Xml
     using System.Text;
     using System.Xml.Serialization;
 
+    /// <summary>
+    /// UTF8 String Writer
+    /// </summary>
     public sealed class Utf8StringWriter : StringWriter
     {
+        /// <summary>
+        /// Overrides the encoding
+        /// </summary>
         public override Encoding Encoding { get { return Encoding.UTF8; } }
     }
 
-    public class XmlHelper
+    /// <summary>
+    /// XML Helper
+    /// </summary>
+    public static class XmlHelper
     {
+        /// <summary>
+        /// Contact serializer
+        /// </summary>
         static XmlSerializer contactSer = new XmlSerializer(typeof(contact));
+        /// <summary>
+        /// Event/Calendar serializer
+        /// </summary>
         static XmlSerializer calendarSer = new XmlSerializer(typeof(@event));
 
+        /// <summary>
+        /// Parses a Kolab Contact XML
+        /// </summary>
+        /// <param name="xml">Kolab xml</param>
+        /// <returns>Kolab contact object</returns>
         public static contact ParseContact(string xml)
         {
             return (contact)contactSer.Deserialize(new StringReader(xml));
         }
 
+        /// <summary>
+        /// Parses a Kolab Calendar XML
+        /// </summary>
+        /// <param name="xml">Kolab xml</param>
+        /// <returns>Kolab event/calendar object</returns>
         public static @event ParseCalendar(string xml)
         {
             return (@event)calendarSer.Deserialize(new StringReader(xml));
         }
 
+        /// <summary>
+        /// Serializes a Kolab Contact XML Object to XML String
+        /// </summary>
+        /// <param name="contact">Kolab Contact XML Object</param>
+        /// <returns>XML String</returns>
         public static string ToString(contact contact)
         {
             using (var sw = new Utf8StringWriter())
@@ -56,6 +86,11 @@ namespace OutlookKolab.Kolab.Xml
             }
         }
 
+        /// <summary>
+        /// Serializes a Kolab Calendar/Event XML Object to XML String
+        /// </summary>
+        /// <param name="contact">Kolab Calendar/Event XML Object</param>
+        /// <returns>XML String</returns>
         public static string ToString(@event contact)
         {
             using (var sw = new Utf8StringWriter())

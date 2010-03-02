@@ -29,135 +29,204 @@ using namespace System::Collections::Generic;
 #define HIDOUBLEWORD(x)    ((x>>32) & 0xffffffff)
 #define LODOUBLEWORD(x)    ((x)     & 0xffffffff)
 
+// Outlook managed C++ MAPI Helper
+// Contains static helper methods for getting/setting informations which Outlooks Object Model does not provide
 namespace OutlookKolabMAPIHelper {
 
 	public ref class IMAPHelper
 	{
 	public:
+		// Sets the SentDate on an Outlook IMessage object
+		// System::IntPtr^ outlookObject: Outlook IMessage MAPI object
+		// DateTime^ dt: DateTime to set
 		static void SetSentDate(System::IntPtr^ outlookObject, DateTime^ dt)
 		{
+			// Get IUnknown from IntPtr
 			IUnknown* iUnkn = static_cast<IUnknown*>(outlookObject->ToPointer());
 			LPMAPIPROP prop = 0;
 			HRESULT hr;
+			// Query for IMAPIProp
 			if(hr = iUnkn->QueryInterface(IID_IMAPIProp, (void**)&prop))
 			{
-				return;
+				throw gcnew InvalidOperationException(System::String::Format("Unable to query for IMAPIProp Interface: hr = 0x{0:X8}", hr));
 			}
 
-			SPropValue value;
-			memset(&value, 0, sizeof(SPropValue));
-			value.ulPropTag = PR_CLIENT_SUBMIT_TIME;
-			__int64 ft = dt->ToFileTimeUtc();
-			value.Value.ft.dwHighDateTime = HIDOUBLEWORD(ft);
-			value.Value.ft.dwLowDateTime = LODOUBLEWORD(ft);
-			
-			hr = prop->SetProps(1, &value, 0);
-
-			prop->Release();
+			try
+			{
+				// Construct Property Value
+				SPropValue value;
+				memset(&value, 0, sizeof(SPropValue));
+				// Property: SentDate
+				value.ulPropTag = PR_CLIENT_SUBMIT_TIME;
+				// Convert DateTime to FileTime (SysTime in MAPI)
+				__int64 ft = dt->ToFileTimeUtc();
+				value.Value.ft.dwHighDateTime = HIDOUBLEWORD(ft);
+				value.Value.ft.dwLowDateTime = LODOUBLEWORD(ft);
+				
+				// Set Property
+				if(hr = prop->SetProps(1, &value, 0))
+				{
+					throw gcnew InvalidOperationException(System::String::Format("Unable to set PR_CLIENT_SUBMIT_TIME Property: hr = 0x{0:X8}", hr));
+				}
+			}
+			finally
+			{
+				prop->Release();
+			}
 		}
 
+		// Reads and Outlook Attachment and returnes it content as string
+		// System::IntPtr^ outlookAttachment: Outlook IAttachment MAPI Object
+		// returnes: content as string
 		static System::String^ ReadAttachment(System::IntPtr^ outlookAttachment)
 		{
-			System::String^ result = "";
-
+			// Get IUnknown from IntPtr
 			IUnknown* iUnkn = static_cast<IUnknown*>(outlookAttachment->ToPointer());
 			LPATTACH a = 0;
 			HRESULT hr;
+			// Query for IAttachment
 			if(hr = iUnkn->QueryInterface(IID_IAttachment, (void**)&a))
 			{
-				return result;
+				throw gcnew InvalidOperationException(System::String::Format("Unable to query for IAttachment Interface: hr = 0x{0:X8}", hr));
 			}
 
+			System::String^ result = "";
 			LPSTREAM stream = 0;
-			if (SUCCEEDED(hr = a->OpenProperty(PR_ATTACH_DATA_BIN, (LPIID)&IID_IStream, 0, MAPI_MODIFY, (LPUNKNOWN*)&stream)))
+			try
 			{
+				// Get Content property
+				if (hr = a->OpenProperty(PR_ATTACH_DATA_BIN, (LPIID)&IID_IStream, 0, MAPI_MODIFY, (LPUNKNOWN*)&stream))
+				{
+					throw gcnew InvalidOperationException(System::String::Format("Unable to get PR_ATTACH_DATA_BIN Property: hr = 0x{0:X8}", hr));
+				}
+				// Get Attachment infos
 				STATSTG statInfo;
 				stream->Stat(&statInfo, STATFLAG_NONAME);
-				if(statInfo.cbSize.HighPart == 0) // dont read large attachments
+				// dont read large attachments
+				if(statInfo.cbSize.HighPart == 0) 
 				{
 					ULONG size = statInfo.cbSize.LowPart;
+					// Alloc buffer
 					unsigned char* buffer = (unsigned char*)malloc(size + 1);
 					memset(buffer, 0, size + 1);
+					// Read into buffer
 					ULONG readBytes;
 					stream->Read(buffer, size, &readBytes);
+					// Convert to managed string
 					System::IO::UnmanagedMemoryStream^ ms = gcnew System::IO::UnmanagedMemoryStream(buffer, size + 1);
 					System::IO::StreamReader^ sr = gcnew System::IO::StreamReader(ms, System::Text::Encoding::UTF8);
 					result = sr->ReadToEnd();
+					// Free buffer
 					free(buffer);
 				}
+				else
+				{
+					throw gcnew InvalidOperationException("Attachment too large");
+				}
 			}
-
-			if(stream) stream->Release();
-			if(a) a->Release();
+			finally
+			{
+				if(stream) stream->Release();
+				if(a) a->Release();
+			}
 
 			return result;
 		}
 
+		// Returnes a List of Entry IDs of deleted IMAP Messages
+		// System::IntPtr^ outlookFolder: Outlook IMAPIFolder MAPI Object
+		// returnes: List of deleted deleted IMAP Messages as List<String>
 		static List<System::String^>^ GetDeletedEntryIDs(System::IntPtr^ outlookFolder)
 		{
-			List<System::String^>^ result = gcnew List<System::String^>();
-			
+		
+			// Get IUnknown from IntPtr
 			IUnknown* iUnkn = static_cast<IUnknown*>(outlookFolder->ToPointer());
 			IMAPIFolder* fld;
 			HRESULT hr;
+			// Query for IMAPIFolder
 			if(hr = iUnkn->QueryInterface(IID_IMAPIFolder, (void**)&fld))
 			{
-				return result;
+				throw gcnew InvalidOperationException(System::String::Format("Unable to query for IMAPIFolder Interface: hr = 0x{0:X8}", hr));
 			}
-			LPMAPITABLE tbl;
-			fld->GetContentsTable(0, &tbl);
-			if(tbl)
+
+			List<System::String^>^ result = gcnew List<System::String^>();
+			try
 			{
-				// Loop until QueryRows returns 0 rows
-				while(1)
+				// Get ContentsTable
+				LPMAPITABLE tbl;
+				if(hr = fld->GetContentsTable(0, &tbl))
 				{
-					LPSRowSet rows;
-					tbl->QueryRows(1024, 0, &rows);
-					if(rows->cRows == 0) 
-					{
-						MAPIFreeBuffer(rows);
-						break;
-					}
-
-					for(UINT i=0;i<rows->cRows;i++)
-					{
-						SRow r = rows->aRow[i];
-						long outlook_flag = 0;
-						SBinary outlook_entryid;
-						outlook_entryid.cb = 0;
-
-						for(UINT c=0;c<r.cValues;c++)
-						{
-							UINT tag = HIWORD(r.lpProps[c].ulPropTag);
-							_PV val = r.lpProps[c].Value;
-
-							if(tag == 0x8019) // Message Flags
-							{
-								outlook_flag = val.l;
-							}
-							if(tag == 0x0FFF) // ENTRY_ID
-							{
-								outlook_entryid = val.bin;
-							}
-						}
-
-						if(outlook_entryid.cb && (outlook_flag & 4))
-						{
-							System::Text::StringBuilder^ sb = gcnew System::Text::StringBuilder();
-							for(unsigned int i=0;i<outlook_entryid.cb;i++)
-							{
-								sb->AppendFormat("{0:X2}", outlook_entryid.lpb[i]);
-							}
-							result->Add(sb->ToString());
-						}
-
-					}
-					MAPIFreeBuffer(rows);
+					throw gcnew InvalidOperationException(System::String::Format("Unable to get content table: hr = 0x{0:X8}", hr));
 				}
+				else
+				{
+					// Loop until QueryRows returns 0 rows
+					while(1)
+					{
+						// Query for rows
+						LPSRowSet rows;
+						tbl->QueryRows(1024, 0, &rows);
+						if(rows->cRows == 0) 
+						{
+							// No more rows - break
+							MAPIFreeBuffer(rows);
+							break;
+						}
 
-				tbl->Release();
+						// foreach row
+						for(UINT i=0;i<rows->cRows;i++)
+						{
+							// Read row
+							SRow r = rows->aRow[i];
+							long outlook_flag = 0;
+							SBinary outlook_entryid;
+							outlook_entryid.cb = 0;
+
+							// Search for interesting values (Message Flags, ENTRY_ID)
+							for(UINT c=0;c<r.cValues;c++)
+							{
+								UINT tag = HIWORD(r.lpProps[c].ulPropTag);
+								_PV val = r.lpProps[c].Value;
+
+								// Message Flags
+								if(tag == 0x8019) 
+								{
+									outlook_flag = val.l;
+								}
+								// ENTRY_ID
+								if(tag == 0x0FFF) 
+								{
+									outlook_entryid = val.bin;
+								}
+							}
+
+							// If found both and bit 4 is set -> save in list
+							// Bit 4 seams to be the marker for deleted messages
+							if(outlook_entryid.cb && (outlook_flag & 4))
+							{
+								// Convert EntryID to a String
+								System::Text::StringBuilder^ sb = gcnew System::Text::StringBuilder();
+								for(unsigned int i=0;i<outlook_entryid.cb;i++)
+								{
+									sb->AppendFormat("{0:X2}", outlook_entryid.lpb[i]);
+								}
+								// Add to result
+								result->Add(sb->ToString());
+							}
+
+						}
+						// Free row
+						MAPIFreeBuffer(rows);
+					}
+					// Release table
+					tbl->Release();
+				}
 			}
-			fld->Release();
+			finally
+			{
+				// Release folder
+				fld->Release();
+			}
 
 			return result;
 		}

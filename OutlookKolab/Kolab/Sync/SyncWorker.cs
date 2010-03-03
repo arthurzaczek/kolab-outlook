@@ -433,13 +433,16 @@ namespace OutlookKolab.Kolab.Sync
                 Outlook.Folder imapFolder = (Outlook.Folder)app.Session.GetFolderFromID(handler.GetIMAPFolderName(), handler.GetIMAPStoreID());
                 imapFolder.InAppFolderSyncObject = true;
 
+                bool error = false;
+                string errorMsg = null;
                 // Creates a "Sync is ready" delegate
                 var del = new Microsoft.Office.Interop.Outlook.SyncObjectEvents_SyncEndEventHandler(delegate() { syncWait.Set(); });
-                var delError = new Microsoft.Office.Interop.Outlook.SyncObjectEvents_OnErrorEventHandler(delegate(int num, string error)
+                var delError = new Microsoft.Office.Interop.Outlook.SyncObjectEvents_OnErrorEventHandler(delegate(int num, string e)
                 {
+                    error = true;
+                    errorMsg = e;
                     // Log the error, but continue
                     Log.w("IMAP", "Error during folder refresh: " + error);
-                    MessageBox.Show("Error during folder refresh: " + error, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     syncWait.Set();
                 });
                 try
@@ -451,7 +454,12 @@ namespace OutlookKolab.Kolab.Sync
                     app.Session.SyncObjects.AppFolders.Start();
 
                     // Wait at most 10 minutes for Outlook
-                    if (!syncWait.WaitOne(new TimeSpan(0, 10, 0))) throw new SyncException("IMAP", "Folder Refresh timeout");
+                    // Ignore the timeout
+                    // Outlook sometimes does not fire the finished event
+                    syncWait.WaitOne(new TimeSpan(0, 10, 0));
+
+                    // Abort sync if Outlook reported an error
+                    if (error) throw new SyncException("IMAP", "Outlook reported an error during sync: " + errorMsg);
                 }
                 finally
                 {

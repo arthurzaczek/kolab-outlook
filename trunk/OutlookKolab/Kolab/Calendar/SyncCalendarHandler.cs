@@ -195,8 +195,8 @@ namespace OutlookKolab.Kolab.Calendar
 
             Log.i("sync", "Checking for local changes: #" + sync.CacheEntry.localId);
             var cal = getLocalItem(sync);
-            String entryHash = sync.CacheEntry.localHash;
-            String contactHash = cal != null ? getLocalHash(cal) : "";
+            string entryHash = sync.CacheEntry.localHash;
+            string contactHash = cal != null ? getLocalHash(cal) : "";
             return entryHash != contactHash;
         }
 

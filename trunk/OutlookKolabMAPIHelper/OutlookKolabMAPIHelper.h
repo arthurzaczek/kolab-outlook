@@ -25,6 +25,7 @@
 using namespace System;
 using namespace System::Collections;
 using namespace System::Collections::Generic;
+using namespace System::Diagnostics;
 
 #define HIDOUBLEWORD(x)    ((x>>32) & 0xffffffff)
 #define LODOUBLEWORD(x)    ((x)     & 0xffffffff)
@@ -107,13 +108,13 @@ namespace OutlookKolabMAPIHelper {
 				{
 					ULONG size = statInfo.cbSize.LowPart;
 					// Alloc buffer
-					unsigned char* buffer = (unsigned char*)malloc(size + 1);
-					memset(buffer, 0, size + 1);
+					unsigned char* buffer = (unsigned char*)malloc(size);
 					// Read into buffer
 					ULONG readBytes;
 					stream->Read(buffer, size, &readBytes);
+					Debug::Assert(size == readBytes);
 					// Convert to managed string
-					System::IO::UnmanagedMemoryStream^ ms = gcnew System::IO::UnmanagedMemoryStream(buffer, size + 1);
+					System::IO::UnmanagedMemoryStream^ ms = gcnew System::IO::UnmanagedMemoryStream(buffer, size);
 					System::IO::StreamReader^ sr = gcnew System::IO::StreamReader(ms, System::Text::Encoding::UTF8);
 					result = sr->ReadToEnd();
 					// Free buffer

@@ -107,9 +107,12 @@ namespace OutlookKolab.Kolab.Settings
             try
             {
                 var fld = app.Session.PickFolder();
-                settings.ContactsIMAPFolder = fld.EntryID;
-                settings.ContactsIMAPStore = fld.StoreID;
-                BindTo();
+                if (fld != null)
+                {
+                    settings.ContactsIMAPFolder = fld.EntryID;
+                    settings.ContactsIMAPStore = fld.StoreID;
+                    BindTo();
+                }
             }
             catch (Exception ex)
             {
@@ -122,9 +125,12 @@ namespace OutlookKolab.Kolab.Settings
             try
             {
                 var fld = app.Session.PickFolder();
-                settings.CalendarIMAPFolder = fld.EntryID;
-                settings.CalendarIMAPStore = fld.StoreID;
-                BindTo();
+                if (fld != null)
+                {
+                    settings.CalendarIMAPFolder = fld.EntryID;
+                    settings.CalendarIMAPStore = fld.StoreID;
+                    BindTo();
+                }
             }
             catch (Exception ex)
             {
@@ -137,9 +143,12 @@ namespace OutlookKolab.Kolab.Settings
             try
             {
                 var fld = app.Session.PickFolder();
-                settings.ContactsOutlookFolder = fld.EntryID;
-                settings.ContactsOutlookStore = fld.StoreID;
-                BindTo();
+                if (fld != null)
+                {
+                    settings.ContactsOutlookFolder = fld.EntryID;
+                    settings.ContactsOutlookStore = fld.StoreID;
+                    BindTo();
+                }
             }
             catch (Exception ex)
             {
@@ -152,9 +161,12 @@ namespace OutlookKolab.Kolab.Settings
             try
             {
                 var fld = app.Session.PickFolder();
-                settings.CalendarOutlookFolder = fld.EntryID;
-                settings.CalendarOutlookStore = fld.StoreID;
-                BindTo();
+                if (fld != null)
+                {
+                    settings.CalendarOutlookFolder = fld.EntryID;
+                    settings.CalendarOutlookStore = fld.StoreID;
+                    BindTo();
+                }
             }
             catch (Exception ex)
             {

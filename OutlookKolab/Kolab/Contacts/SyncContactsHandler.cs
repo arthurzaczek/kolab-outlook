@@ -215,6 +215,7 @@ namespace OutlookKolab.Kolab.Constacts
             sync.CacheEntry.remoteChangedDate = DateTime.Now.ToUniversalTime();
 
             var contact = Xml.XmlHelper.ParseContact(xml);
+            sync.CacheEntry.remoteId = contact.uid;
             return writeXml(source, contact, sync.CacheEntry.remoteChangedDate);
         }
 
@@ -428,7 +429,7 @@ namespace OutlookKolab.Kolab.Constacts
 
         /// <summary>
         /// Create Application and Type specific id.
-        /// ko == Kolab Outlook
+        /// ko == Kolab Outlook, ct == contact
         /// </summary>
         /// <returns>new UID</returns>
         private String getNewUid()
@@ -449,7 +450,7 @@ namespace OutlookKolab.Kolab.Constacts
             sync.CacheEntry.localHash = getLocalHash(item);
             sync.CacheEntry.remoteChangedDate = DateTime.Now.ToUniversalTime();
             sync.CacheEntry.remoteId = getNewUid();
-            return writeXml(item, new OutlookKolab.Kolab.Xml.contact(), sync.CacheEntry.remoteChangedDate);
+            return writeXml(item, new OutlookKolab.Kolab.Xml.contact() { uid = sync.CacheEntry.remoteId }, sync.CacheEntry.remoteChangedDate);
         }
 
         /// <summary>

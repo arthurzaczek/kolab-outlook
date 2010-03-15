@@ -223,6 +223,7 @@ namespace OutlookKolab.Kolab.Calendar
             sync.CacheEntry.remoteChangedDate = DateTime.Now.ToUniversalTime();
 
             var cal = Xml.XmlHelper.ParseCalendar(xml);
+            sync.CacheEntry.remoteId = cal.uid;
             return writeXml(source, cal, sync.CacheEntry.remoteChangedDate);
         }
 
@@ -328,7 +329,7 @@ namespace OutlookKolab.Kolab.Calendar
 
                     pattern.StartTime = DateTime.MinValue + startTime;
                     pattern.EndTime = DateTime.MinValue + endTime;
-                    pattern.Duration = (int)duration.TotalMinutes; 
+                    pattern.Duration = (int)duration.TotalMinutes;
 
                     // Only if valid or not yearly - only outlook 2007 does support yearly recurrences
                     if (cal.recurrence.interval != 0 &&
@@ -431,7 +432,7 @@ namespace OutlookKolab.Kolab.Calendar
 
         /// <summary>
         /// Create Application and Type specific id.
-        /// ko == Kolab Outlook
+        /// ko == Kolab Outlook, ev == Event
         /// </summary>
         /// <returns>new UID</returns>
         private string getNewUid()
@@ -450,7 +451,7 @@ namespace OutlookKolab.Kolab.Calendar
             sync.CacheEntry.localHash = getLocalHash(item);
             sync.CacheEntry.remoteChangedDate = DateTime.Now.ToUniversalTime();
             sync.CacheEntry.remoteId = getNewUid();
-            return writeXml(item, new OutlookKolab.Kolab.Xml.@event(), sync.CacheEntry.remoteChangedDate);
+            return writeXml(item, new OutlookKolab.Kolab.Xml.@event() { uid = sync.CacheEntry.remoteId }, sync.CacheEntry.remoteChangedDate);
         }
 
         /// <summary>

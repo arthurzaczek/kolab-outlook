@@ -429,24 +429,31 @@ namespace OutlookKolab.Kolab.Sync
         {
             using (var syncWait = new AutoResetEvent(false))
             {
-                // Get Imap Folder and mark for Outlook-Sync 
-                Outlook.Folder imapFolder = (Outlook.Folder)app.Session.GetFolderFromID(handler.GetIMAPFolderName(), handler.GetIMAPStoreID());
-                imapFolder.InAppFolderSyncObject = true;
+                // avoid exceptions if a event fires after the syncWait event is disposed
+                var eventActive = true;
 
-                bool error = false;
-                string errorMsg = null;
-                // Creates a "Sync is ready" delegate
-                var del = new Microsoft.Office.Interop.Outlook.SyncObjectEvents_SyncEndEventHandler(delegate() { syncWait.Set(); });
-                var delError = new Microsoft.Office.Interop.Outlook.SyncObjectEvents_OnErrorEventHandler(delegate(int num, string e)
-                {
-                    error = true;
-                    errorMsg = e;
-                    // Log the error, but continue
-                    Log.w("IMAP", "Error during folder refresh: " + error);
-                    syncWait.Set();
-                });
+                // prepare a proper default return value
+                Outlook.Folder imapFolder = null;
+
                 try
                 {
+                    // Get Imap Folder and mark for Outlook-Sync 
+                    imapFolder = (Outlook.Folder)app.Session.GetFolderFromID(handler.GetIMAPFolderName(), handler.GetIMAPStoreID());
+                    imapFolder.InAppFolderSyncObject = true;
+
+                    bool error = false;
+                    string errorMsg = null;
+                    // Creates a "Sync is ready" delegate
+                    var del = new Microsoft.Office.Interop.Outlook.SyncObjectEvents_SyncEndEventHandler(delegate() { if (eventActive) syncWait.Set(); });
+                    var delError = new Microsoft.Office.Interop.Outlook.SyncObjectEvents_OnErrorEventHandler(delegate(int num, string e)
+                    {
+                        error = true;
+                        errorMsg = e;
+                        // Log the error, but continue
+                        Log.w("IMAP", "Error during folder refresh: " + error);
+                        if (eventActive) syncWait.Set();
+                    });
+
                     // Starts Outlook-Sync
                     // If this is not happening outlook will use a cached version of the imap folder
                     app.Session.SyncObjects.AppFolders.SyncEnd += del;
@@ -456,13 +463,22 @@ namespace OutlookKolab.Kolab.Sync
                     // Wait at most 10 minutes for Outlook
                     // Ignore the timeout
                     // Outlook sometimes does not fire the finished event
-                    syncWait.WaitOne(new TimeSpan(0, 10, 0));
+#if DEBUG
+                    // wait only 5 seconds when debugging
+                    var timeOut = new TimeSpan(0, 0, 5);
+#else 
+                    var timeOut = new TimeSpan(0, 10, 0);
+#endif
+                    syncWait.WaitOne(timeOut);
+                    eventActive = false;
 
                     // Abort sync if Outlook reported an error
                     if (error) throw new SyncException("IMAP", "Outlook reported an error during sync: " + errorMsg);
                 }
                 finally
                 {
+                    eventActive = false;
+
                     // This causes a nullref exception? 
                     //outlook.exe Error: 0 : generic: System.NullReferenceException: Object reference not set to an instance of an object.
                     //   at Microsoft.Office.Interop.Outlook.SyncObjectEvents_EventProvider.remove_SyncEnd(SyncObjectEvents_SyncEndEventHandler )

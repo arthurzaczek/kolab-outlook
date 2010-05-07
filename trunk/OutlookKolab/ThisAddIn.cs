@@ -43,6 +43,8 @@ namespace OutlookKolab
         Office.CommandBarButton logButton;
         Office.CommandBarButton statusButton;
 
+        RibbonSyncKolab ribbon;
+
         System.Threading.Timer timer = null;
         private readonly int timerDueTime = 10000; // 10 seconds
         private readonly int timerPeriod = 1000 * 60 * 30; // every half hour, TODO: Configure
@@ -138,6 +140,15 @@ namespace OutlookKolab
         }
         #endregion
 
+        #region Ribbon
+        protected override Microsoft.Office.Core.IRibbonExtensibility CreateRibbonExtensibilityObject()
+        {
+            ribbon = new RibbonSyncKolab(this);
+            return new Microsoft.Office.Tools.Ribbon.RibbonManager(
+                new Microsoft.Office.Tools.Ribbon.OfficeRibbon[] { ribbon });
+        }
+        #endregion
+
         #region Start/Stop
         /// <summary>
         /// AddIn Startup code
@@ -189,7 +200,6 @@ namespace OutlookKolab
         }
         #endregion
 
-
         #region StatusEvents
         void StatusHandler_SyncFinished()
         {
@@ -197,7 +207,7 @@ namespace OutlookKolab
             {
                 if (statusButton != null && syncButton != null)
                 {
-                    syncButton.Caption = "Sync";
+                    SetSyncButtonText("Sync");
                 }
             }
         }
@@ -208,7 +218,7 @@ namespace OutlookKolab
             {
                 if (statusButton != null && syncButton != null)
                 {
-                    syncButton.Caption = "Stop";
+                    SetSyncButtonText("Stop");
                 }
             }
         }
@@ -219,11 +229,28 @@ namespace OutlookKolab
             {
                 if (statusButton != null)
                 {
-                    statusButton.Caption = text;
+                    SetStatusButtonText(text);
                 }
             }
         }
 
+        private void SetStatusButtonText(string text)
+        {
+            statusButton.Caption = text;
+            if (ribbon != null && ribbon.buttonStatus != null)
+            {
+                ribbon.buttonStatus.Label = text;
+            }
+        }
+
+        private void SetSyncButtonText(string text)
+        {
+            syncButton.Caption = text;
+            if (ribbon != null && ribbon.buttonSync != null)
+            {
+                ribbon.buttonSync.Label = text;
+            }
+        }
         #endregion
 
         #region ButtonEvents
@@ -254,9 +281,14 @@ namespace OutlookKolab
         /// <param name="cancel"></param>
         private void syncButton_Click(Office.CommandBarButton ctrl, ref bool cancel)
         {
+            Sync();
+        }
+
+        public void Sync()
+        {
             if (OutlookKolab.Kolab.Sync.SyncWorker.IsRunning)
             {
-                syncButton.Caption = "Stopping";
+                SetStatusButtonText("Stopping");
                 OutlookKolab.Kolab.Sync.SyncWorker.Stop();
             }
             else

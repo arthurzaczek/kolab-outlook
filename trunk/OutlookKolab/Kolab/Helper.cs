@@ -99,7 +99,6 @@ namespace OutlookKolab.Kolab
             if (ex == null) { throw new ArgumentNullException("ex"); }
 
             Log.e("generic", ex.ToString());
-            MessageBox.Show(ex.ToString(), caption, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         /// <summary>

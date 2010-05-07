@@ -1,4 +1,5 @@
 #summary Release Notes for kolab-outlook
+#labels Featured
 
 = 0.0.2 =
   * Support Outlook 2010

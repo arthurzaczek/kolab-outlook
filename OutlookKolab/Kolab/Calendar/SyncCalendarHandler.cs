@@ -223,7 +223,7 @@ namespace OutlookKolab.Kolab.Calendar
             sync.CacheEntry.remoteChangedDate = DateTime.Now.ToUniversalTime();
 
             var cal = Xml.XmlHelper.ParseCalendar(xml);
-            sync.CacheEntry.remoteId = cal.uid;
+            sync.CacheEntry.remoteId = cal.uid ?? getNewUid();
             return writeXml(source, cal, sync.CacheEntry.remoteChangedDate);
         }
 
@@ -293,8 +293,15 @@ namespace OutlookKolab.Kolab.Calendar
                 localCal.Categories = cal.categories;
                 // localCal.Duration = calculated by start/end;
                 // localCal.Organizer = cal.organizer != null ? cal.organizer.displayname : string.Empty; ReadOnly ???
-                localCal.ReminderSet = cal.alarm != 0;
-                localCal.ReminderMinutesBeforeStart = cal.alarm;
+                if (cal.alarm != 0)
+                {
+                    localCal.ReminderSet = true;
+                    localCal.ReminderMinutesBeforeStart = cal.alarm;
+                }
+                else
+                {
+                    localCal.ReminderSet = false;
+                }
                 localCal.Sensitivity = cal.GetSensitivity();
             }
             catch (COMException ex)
@@ -331,7 +338,7 @@ namespace OutlookKolab.Kolab.Calendar
                     pattern.EndTime = DateTime.MinValue + endTime;
                     pattern.Duration = (int)duration.TotalMinutes;
 
-                    // Only if valid or not yearly - only outlook 2007 does support yearly recurrences
+                    // Only if valid or not yearly - only outlook 2007 & 2010 does support yearly recurrences
                     if (cal.recurrence.interval != 0 &&
                         pattern.RecurrenceType != Microsoft.Office.Interop.Outlook.OlRecurrenceType.olRecursYearly &&
                         pattern.RecurrenceType != Microsoft.Office.Interop.Outlook.OlRecurrenceType.olRecursYearNth)
@@ -340,7 +347,10 @@ namespace OutlookKolab.Kolab.Calendar
                     }
                     else
                     {
-                        pattern.Interval = 1;
+                        // Ignore Intervals on Years - only Outlook 2007 uses that. 
+                        // Outlook < 2007 does not set this property. 
+                        // Even worse - Outlook 2007 and 2010 sets the interval value in Months (!) not in years!
+                        //pattern.Interval = 1;
                     }
 
                     // set properties dependeing on recurrence type
@@ -479,7 +489,7 @@ namespace OutlookKolab.Kolab.Calendar
             // newCal.Duration = calculated by start/end;
             // newCal.Organizer = cal.organizer != null ? cal.organizer.displayname : string.Empty; ReadOnly ???
             // cal.alarm != 0 = source.ReminderSet;
-            cal.alarm = source.ReminderMinutesBeforeStart;
+            cal.alarm = source.ReminderSet ? source.ReminderMinutesBeforeStart : 0;
             cal.sensitivity = cal.GetSensitivity(source.Sensitivity);
 
             // TODO: Recurring
@@ -502,7 +512,7 @@ namespace OutlookKolab.Kolab.Calendar
                 {
                     // Ignore Intervals on Years - only Outlook 2007 uses that. 
                     // Outlook < 2007 does not set this property. 
-                    // Even worse - Outlook 2007 sets the interval value in Months (!) not in years!
+                    // Even worse - Outlook 2007 and 2010 sets the interval value in Months (!) not in years!
                     cal.recurrence.interval = 1;
                 }
                 else

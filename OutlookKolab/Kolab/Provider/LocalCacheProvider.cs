@@ -109,6 +109,15 @@ namespace OutlookKolab.Kolab.Provider
             if (File.Exists(filename))
             {
                 cache.ReadXml(filename);
+
+                // Clean up invalid items
+                // These are items created during a error state
+                var invalidItems = cache.CacheEntry.Where(i => i.IsremoteIdNull() || i.IslocalIdNull() || i.IslocalHashNull() || i.IsremoteChangedDateNull()).ToList();
+                foreach (var i in invalidItems)
+                {
+                    i.Delete();
+                }
+                cache.AcceptChanges();
             }
             return cache;
         }

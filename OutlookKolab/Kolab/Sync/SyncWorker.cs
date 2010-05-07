@@ -125,10 +125,14 @@ namespace OutlookKolab.Kolab.Sync
                     // Notify about sync has finished or errors
                     StatusHandler.writeStatus(hasErrors ? "Sync errors" : "Sync finished");
                 }
+                catch (ThreadAbortException)
+                {
+                    // this can be ignored
+                }
                 catch (Exception ex)
                 {
                     // Very bad - report to user
-                    StatusHandler.writeStatus("Sync error");
+                    StatusHandler.writeStatus("Fatal sync error: " + ex.Message);
                     Helper.HandleError("Fatal error during sync", ex);
                 }
                 finally
@@ -326,11 +330,6 @@ namespace OutlookKolab.Kolab.Sync
                         Log.e("sync", ex.ToString());
                         status.incrementErrors(ex);
                     }
-                    finally
-                    {
-                        // Save local cache
-                        cache.Save();
-                    }
 
                     // Save message as processed - if it was not deleted
                     if (sync.CacheEntry != null && sync.CacheEntry.RowState != System.Data.DataRowState.Detached)
@@ -398,11 +397,6 @@ namespace OutlookKolab.Kolab.Sync
                         // Sync Exceptions are thrown by the handlers. This could be a parsing error or something else.
                         Log.e("sync", ex.ToString());
                         status.incrementErrors(ex);
-                    }
-                    finally
-                    {
-                        // Save local cache
-                        cache.Save();
                     }
                 }
 

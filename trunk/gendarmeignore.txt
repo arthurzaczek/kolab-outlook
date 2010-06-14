@@ -34,12 +34,20 @@ M: System.Xml.Schema.XmlSchemaComplexType OutlookKolab.Kolab.Provider.DSLocalCac
 M: System.Xml.Schema.XmlSchemaComplexType OutlookKolab.Kolab.Provider.DSLocalCache/CacheEntryDataTable::GetTypedTableSchema(System.Xml.Schema.XmlSchemaSet)
 # false positive: local variable is not scope of IDispoable
 M: System.Void OutlookKolab.Kolab.Sync.SyncWorker::sync(OutlookKolab.Kolab.Sync.ISyncHandler)
+M: Microsoft.Office.Core.IRibbonExtensibility OutlookKolab.ThisAddIn::CreateRibbonExtensibilityObject()
 
 R: Gendarme.Rules.Serialization.CallBaseMethodsOnISerializableTypesRule
 # generated code
 T: OutlookKolab.Kolab.Settings.DSSettings
 T: OutlookKolab.Kolab.Provider.DSStatus
 T: OutlookKolab.Kolab.Provider.DSLocalCache
+
+# generated code
+R: Gendarme.Rules.Design.TypesWithDisposableFieldsShouldBeDisposableRule
+T: OutlookKolab.Kolab.Provider.DSLocalCache/CacheEntryDataTable OutlookKolab.Kolab.Provider.DSLocalCache/CacheEntryRow
+T: OutlookKolab.Kolab.Provider.DSStatus/StatusEntryDataTable OutlookKolab.Kolab.Provider.DSStatus/StatusEntryRow
+T: OutlookKolab.Kolab.Provider.DSStatus/ErrorDataTable OutlookKolab.Kolab.Provider.DSStatus/ErrorRow
+T: OutlookKolab.Kolab.Settings.DSSettings/SettingsDataTable OutlookKolab.Kolab.Settings.DSSettings/SettingsRow
 
 ###############################################################################
 ##  GLOBAL IGNORES  ###########################################################

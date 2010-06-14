@@ -34,6 +34,17 @@ namespace OutlookKolab
 
     public partial class ThisAddIn
     {
+        protected override void Dispose(bool disposing)
+        {
+            if (ribbon != null) ribbon.Dispose();
+            ribbon = null;
+
+            if (ribbonMgr != null) ribbonMgr.Dispose();
+            ribbonMgr = null;
+
+            base.Dispose(disposing);
+        }
+
         #region Properties/Fields
         private static readonly object _lock = new object();
 
@@ -44,6 +55,7 @@ namespace OutlookKolab
         Office.CommandBarButton statusButton;
 
         RibbonSyncKolab ribbon;
+        Microsoft.Office.Tools.Ribbon.RibbonManager ribbonMgr;
 
         System.Threading.Timer timer = null;
         private readonly int timerDueTime = 10000; // 10 seconds
@@ -144,8 +156,8 @@ namespace OutlookKolab
         protected override Microsoft.Office.Core.IRibbonExtensibility CreateRibbonExtensibilityObject()
         {
             ribbon = new RibbonSyncKolab(this);
-            return new Microsoft.Office.Tools.Ribbon.RibbonManager(
-                new Microsoft.Office.Tools.Ribbon.OfficeRibbon[] { ribbon });
+            ribbonMgr = new Microsoft.Office.Tools.Ribbon.RibbonManager(new Microsoft.Office.Tools.Ribbon.OfficeRibbon[] { ribbon });
+            return ribbonMgr;
         }
         #endregion
 

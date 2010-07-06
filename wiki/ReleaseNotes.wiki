@@ -1,5 +1,7 @@
 #summary Release Notes for kolab-outlook
 #labels Featured
+= 0.0.3 =
+  * Added a sort of "file transaction" to protected file write operations
 
 = 0.0.2 =
   * Support Outlook 2010

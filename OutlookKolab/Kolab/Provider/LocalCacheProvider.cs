@@ -106,6 +106,7 @@ namespace OutlookKolab.Kolab.Provider
         private static DSLocalCache Load(string filename)
         {
             DSLocalCache cache = new DSLocalCache();
+            FileTransaction.FixBrokenTransaction(filename);
             if (File.Exists(filename))
             {
                 cache.ReadXml(filename);
@@ -128,7 +129,11 @@ namespace OutlookKolab.Kolab.Provider
         public void Save()
         {
             Helper.EnsureStorePath();
-            cache.WriteXml(filename);
+            using (var tx = new FileTransaction(filename))
+            {
+                cache.WriteXml(tx.FullTempFileName);
+                tx.Commit();
+            }
         }
 
         /// <summary>

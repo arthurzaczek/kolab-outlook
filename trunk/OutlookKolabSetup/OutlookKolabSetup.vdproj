@@ -136,13 +136,13 @@
         "Entry"
         {
         "MsmKey" = "8:_F562D0DBA68FD56ECFC2FD614E38D260"
-        "OwnerKey" = "8:_E4D87F63C63D3DC0C09BFA2611947605"
+        "OwnerKey" = "8:_F73F4E0AB8334EBD9DAA940354616F14"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_F562D0DBA68FD56ECFC2FD614E38D260"
-        "OwnerKey" = "8:_F73F4E0AB8334EBD9DAA940354616F14"
+        "OwnerKey" = "8:_E4D87F63C63D3DC0C09BFA2611947605"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -160,13 +160,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_E4D87F63C63D3DC0C09BFA2611947605"
+        "OwnerKey" = "8:_F73F4E0AB8334EBD9DAA940354616F14"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_2DDD400893A9EB7EDC1EE9E0B1C348D0"
+        "OwnerKey" = "8:_E4D87F63C63D3DC0C09BFA2611947605"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -196,19 +196,19 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_353EE9A31B70E7F10AD5B238F56C8910"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_F73F4E0AB8334EBD9DAA940354616F14"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_F44AA36730C4F703101FC34E188FAEAD"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_2DDD400893A9EB7EDC1EE9E0B1C348D0"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_353EE9A31B70E7F10AD5B238F56C8910"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -511,7 +511,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:OutlookKolabMAPIHelper, Version=1.0.3779.17884, Culture=neutral, processorArchitecture=x86"
+            "AssemblyAsmDisplayName" = "8:OutlookKolabMAPIHelper, Version=1.0.3817.30651, Culture=neutral, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
                     "_ABF662983171313242ECCE550D974BBC"
@@ -738,15 +738,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Kolab sync for Outlook"
-        "ProductCode" = "8:{3FB95E78-9426-4C5E-BFC3-3A74BDA8A137}"
-        "PackageCode" = "8:{8CDA5E87-48C5-4459-9D04-4501378476D3}"
+        "ProductCode" = "8:{9A49C60F-3D4E-4B49-B193-D31416265DA5}"
+        "PackageCode" = "8:{1C1987C6-975A-40A1-8E61-E036112546D1}"
         "UpgradeCode" = "8:{2B8BB3E4-8604-4585-912B-147C17DC1E51}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.14"
+        "ProductVersion" = "8:1.0.15"
         "Manufacturer" = "8:dasz.at OG"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"

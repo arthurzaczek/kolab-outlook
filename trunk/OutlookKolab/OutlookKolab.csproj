@@ -201,6 +201,7 @@
     can be found.
   -->
   <ItemGroup>
+    <Compile Include="FileTransaction.cs" />
     <Compile Include="Kolab\Calendar\SyncCalendarHandler.cs">
       <SubType>Code</SubType>
     </Compile>

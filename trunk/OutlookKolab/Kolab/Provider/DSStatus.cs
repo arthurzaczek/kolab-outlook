@@ -37,6 +37,7 @@ namespace OutlookKolab.Kolab.Provider
 
         public void ReLoad()
         {
+            FileTransaction.FixBrokenTransaction(Helper.StatusPath);
             if (File.Exists(Helper.StatusPath))
             {
                 this.ReadXml(Helper.StatusPath);
@@ -46,7 +47,11 @@ namespace OutlookKolab.Kolab.Provider
         public void Save()
         {
             Helper.EnsureStorePath();
-            this.WriteXml(Helper.StatusPath);
+            using (var tx = new FileTransaction(Helper.StatusPath))
+            {
+                this.WriteXml(tx.FullTempFileName);
+                tx.Commit();
+            }
         }
 
         partial class StatusEntryRow

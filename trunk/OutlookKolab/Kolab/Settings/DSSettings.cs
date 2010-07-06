@@ -31,6 +31,7 @@ namespace OutlookKolab.Kolab.Settings
         public static DSSettings Load()
         {
             DSSettings settings = new DSSettings();
+            FileTransaction.FixBrokenTransaction(Helper.SettingsPath);
             if (File.Exists(Helper.SettingsPath))
             {
                 settings.ReadXml(Helper.SettingsPath);
@@ -45,7 +46,11 @@ namespace OutlookKolab.Kolab.Settings
         public void Save()
         {
             Helper.EnsureStorePath();
-            this.WriteXml(Helper.SettingsPath);
+            using (var tx = new FileTransaction(Helper.SettingsPath))
+            {
+                this.WriteXml(tx.FullTempFileName);
+                tx.Commit();
+            }
         }
     }
 }

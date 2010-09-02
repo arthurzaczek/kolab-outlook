@@ -406,6 +406,11 @@ namespace OutlookKolab.Kolab.Constacts
                 // Unable to set properties -> abort
                 throw new SyncException(GetItemText(sync), "Unable to set basic ContactItem options", ex);
             }
+            catch (ArgumentException ex)
+            {
+                // Unable to set properties -> abort
+                throw new SyncException(GetItemText(sync), "Unable to set basic ContactItem options", ex);
+            }
 
             try
             {

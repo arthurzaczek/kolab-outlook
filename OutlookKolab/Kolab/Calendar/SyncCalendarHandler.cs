@@ -309,6 +309,11 @@ namespace OutlookKolab.Kolab.Calendar
                 // Troubles setting properties -> abort
                 throw new SyncException(GetItemText(sync), "Unable to set basic AppointmentItem options", ex);
             }
+            catch (ArgumentException ex)
+            {
+                // Troubles setting properties -> abort
+                throw new SyncException(GetItemText(sync), "Unable to set basic AppointmentItem options", ex);
+            }
 
             // Recurring
             if (isRecurring)
@@ -407,6 +412,11 @@ namespace OutlookKolab.Kolab.Calendar
                     }
                 }
                 catch (COMException ex)
+                {
+                    // Troubles setting properties -> abort
+                    throw new SyncException(GetItemText(sync), "Unable to set AppointmentItem recurrence", ex);
+                }
+                catch (ArgumentException ex)
                 {
                     // Troubles setting properties -> abort
                     throw new SyncException(GetItemText(sync), "Unable to set AppointmentItem recurrence", ex);

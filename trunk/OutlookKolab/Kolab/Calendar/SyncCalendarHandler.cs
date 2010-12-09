@@ -293,7 +293,7 @@ namespace OutlookKolab.Kolab.Calendar
                 localCal.Categories = cal.categories;
                 // localCal.Duration = calculated by start/end;
                 // localCal.Organizer = cal.organizer != null ? cal.organizer.displayname : string.Empty; ReadOnly ???
-                if (cal.alarm != 0)
+                if (cal.alarm > 0)
                 {
                     localCal.ReminderSet = true;
                     localCal.ReminderMinutesBeforeStart = cal.alarm;
@@ -333,15 +333,23 @@ namespace OutlookKolab.Kolab.Calendar
                     if (startDate.Kind == DateTimeKind.Utc) startDate = startDate.ToLocalTime();
                     var startTime = startDate.TimeOfDay;
 
-                    DateTime endDate = cal.enddate;
-                    if (endDate.Kind == DateTimeKind.Utc) endDate = endDate.ToLocalTime();
-                    var endTime = startDate.TimeOfDay;
-
-                    var duration = endDate - startDate;
-
                     pattern.StartTime = DateTime.MinValue + startTime;
-                    pattern.EndTime = DateTime.MinValue + endTime;
-                    pattern.Duration = (int)duration.TotalMinutes;
+
+                    if (cal.enddate > new DateTime(1980, 1, 1))
+                    {
+                        DateTime endDate = cal.enddate;
+                        if (endDate.Kind == DateTimeKind.Utc) endDate = endDate.ToLocalTime();
+                        var endTime = startDate.TimeOfDay;
+
+                        var duration = endDate - startDate;
+
+                        pattern.EndTime = DateTime.MinValue + endTime;
+                        pattern.Duration = (int)duration.TotalMinutes;
+                    }
+                    else
+                    {
+                        System.Diagnostics.Debug.WriteLine("Found recurring calendar entry without end time: " + cal.ToString());
+                    }
 
                     // Only if valid or not yearly - only outlook 2007 & 2010 does support yearly recurrences
                     if (cal.recurrence.interval != 0 &&

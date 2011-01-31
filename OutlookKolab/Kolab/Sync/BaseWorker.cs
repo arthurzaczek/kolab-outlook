@@ -1,3 +1,5 @@
+//#define MULTI_THREADED
+
 /*
  * Copyright 2010 Arthur Zaczek <arthur@dasz.at>, dasz.at OG; All rights reserved.
  * Copyright 2010 David Schmitt <david@dasz.at>, dasz.at OG; All rights reserved.
@@ -38,10 +40,12 @@ namespace OutlookKolab.Kolab.Sync
         /// </summary>
         private static readonly object _lock = new object();
 
+#if MULTI_THREADED
         /// <summary>
         /// Worker Thread
         /// </summary>
         private static Thread thread;
+#endif
 
         /// <summary>
         /// Saved Outlook Application Object
@@ -98,8 +102,12 @@ namespace OutlookKolab.Kolab.Sync
                 if (_isRunning) return;
                 _isRunning = true;
                 _isStopping = false;
+#if MULTI_THREADED
                 thread = new Thread(new ThreadStart(RunInternal));
                 thread.Start();
+#else
+                RunInternal();
+#endif
             }
         }
 
@@ -108,13 +116,19 @@ namespace OutlookKolab.Kolab.Sync
         /// </summary>
         public static void Stop()
         {
+#if MULTI_THREADED
             Thread tmp;
+#endif
             lock (_lock)
             {
                 if(_isRunning) _isStopping = true;
+#if MULTI_THREADED
                 tmp = thread;
+#endif
             }
+#if MULTI_THREADED
             if (tmp != null) tmp.Join(2000);
+#endif
         }
 
         /// <summary>

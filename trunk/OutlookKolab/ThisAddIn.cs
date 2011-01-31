@@ -57,8 +57,8 @@ namespace OutlookKolab
         RibbonSyncKolab ribbon;
         Microsoft.Office.Tools.Ribbon.RibbonManager ribbonMgr;
 
-        System.Threading.Timer timer = null;
-        private readonly int timerDueTime = 10000; // 10 seconds
+        System.Windows.Forms.Timer timer = null;
+        //private readonly int timerDueTime = 10000; // 10 seconds
         private readonly int timerPeriod = 1000 * 60 * 30; // every half hour, TODO: Configure
         #endregion
 
@@ -176,9 +176,13 @@ namespace OutlookKolab
             StatusHandler.SyncStatus += new SyncStatusHandler(StatusHandler_SyncStatus);
             StatusHandler.SyncStarted += new SyncNotifyHandler(StatusHandler_SyncStarted);
             StatusHandler.SyncFinished += new SyncNotifyHandler(StatusHandler_SyncFinished);
-
-            timer = new System.Threading.Timer(new System.Threading.TimerCallback(timer_Tick), null, timerDueTime, timerPeriod);
+            //timer = new System.Windows.Forms.Timer(new System.Threading.TimerCallback(timer_Tick), null, timerDueTime, timerPeriod);
+            timer = new System.Windows.Forms.Timer();
+            timer.Interval = timerPeriod;
+            timer.Tick += new EventHandler(timer_Tick);
+            timer.Start();
         }
+
 
         /// <summary>
         /// AddIn Shutdown code
@@ -202,13 +206,9 @@ namespace OutlookKolab
         #endregion
 
         #region Timer
-        void timer_Tick(object state)
+        void timer_Tick(object sender, EventArgs e)
         {
-            if (!OutlookKolab.Kolab.Sync.SyncWorker.IsRunning)
-            {
-                var worker = new OutlookKolab.Kolab.Sync.SyncWorker(this.Application);
-                worker.Start();
-            }
+            Sync();
         }
         #endregion
 

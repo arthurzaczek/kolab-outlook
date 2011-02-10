@@ -176,11 +176,15 @@ namespace OutlookKolab
             StatusHandler.SyncStatus += new SyncStatusHandler(StatusHandler_SyncStatus);
             StatusHandler.SyncStarted += new SyncNotifyHandler(StatusHandler_SyncStarted);
             StatusHandler.SyncFinished += new SyncNotifyHandler(StatusHandler_SyncFinished);
-            //timer = new System.Windows.Forms.Timer(new System.Threading.TimerCallback(timer_Tick), null, timerDueTime, timerPeriod);
+
+            // Register timer
             timer = new System.Windows.Forms.Timer();
             timer.Interval = timerPeriod;
             timer.Tick += new EventHandler(timer_Tick);
             timer.Start();
+
+            // Sync now
+            Sync();
         }
 
 

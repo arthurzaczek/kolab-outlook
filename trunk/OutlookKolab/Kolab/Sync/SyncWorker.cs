@@ -25,7 +25,6 @@ namespace OutlookKolab.Kolab.Sync
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
-    using System.Threading;
     using System.Windows.Forms;
     using System.Xml;
 
@@ -68,8 +67,12 @@ namespace OutlookKolab.Kolab.Sync
             StatusHandler.notifySyncStarted();
 
             // Load Status Dataset and Settings
-            using (var dsStatus = DSStatus.Load())
-            using (var settings = Settings.DSSettings.Load())
+            var dsStatus = DSStatus.Load();
+            var settings = Settings.DSSettings.Load();
+
+            var handlers = new List<ISyncHandler>() { new SyncContactsHandler(settings, dsStatus, app), new SyncCalendarHandler(settings, dsStatus, app) };
+
+            UpdateIMAPFolder(handlers, () =>
             {
                 // Remember errors - used to update Status
                 bool hasErrors = false;
@@ -82,8 +85,7 @@ namespace OutlookKolab.Kolab.Sync
                         return;
                     }
 
-                    // Creates a new Contacts Handler
-                    using (var handler = new SyncContactsHandler(settings, dsStatus, app))
+                    foreach (var handler in handlers)
                     {
                         if (shouldProcess(handler))
                         {
@@ -97,37 +99,10 @@ namespace OutlookKolab.Kolab.Sync
                             dsStatus.Save();
                         }
 
-                    }
-
-                    // If stopsignal arrives return
-                    if (IsStopping)
-                    {
-                        StatusHandler.writeStatus("Sync aborted");
-                        return;
-                    }
-
-                    // Creates a new Calendar Handler
-                    using (var handler = new SyncCalendarHandler(settings, dsStatus, app))
-                    {
-                        if (shouldProcess(handler))
-                        {
-                            // Remember Status
-                            _status = handler.getStatus();
-                            // Start sync with current handler
-                            sync(handler);
-                            // Update error flag
-                            hasErrors |= _status.errors > 0;
-                            // Save status
-                            dsStatus.Save();
-                        }
                     }
 
                     // Notify about sync has finished or errors
                     StatusHandler.writeStatus(hasErrors ? "Sync errors" : "Sync finished");
-                }
-                catch (ThreadAbortException)
-                {
-                    // this can be ignored
                 }
                 catch (Exception ex)
                 {
@@ -140,9 +115,13 @@ namespace OutlookKolab.Kolab.Sync
                     // Clear current status
                     _status = null;
                     dsStatus.Save();
+                    dsStatus.Dispose();
+                    settings.Dispose();
+
+                    Stopped();
                     StatusHandler.notifySyncFinished();
                 }
-            }
+            });
         }
 
         /// <summary>
@@ -163,13 +142,12 @@ namespace OutlookKolab.Kolab.Sync
         {
             // Get local cache provider
             LocalCacheProvider cache = handler.getLocalCacheProvider();
-
-            // 1. retrieve list of all imap message headers
-            StatusHandler.writeStatus("Fetching messages");
             try
             {
-                Outlook.Folder imapFolder = GetIMAPFolder(handler);
+                var imapFolder = GetIMAPFolder(handler);
 
+                // 1. retrieve list of all imap message headers
+                StatusHandler.writeStatus("Fetching messages");
                 // cache processed entires
                 Dictionary<string, bool> processedEntries = new Dictionary<string, bool>();
                 // remember current status
@@ -414,75 +392,42 @@ namespace OutlookKolab.Kolab.Sync
         }
 
         /// <summary>
-        /// Gets and refreshes the IMAP Folder
-        /// TODO: Do this for all IMAP Folder at once
+        /// refreshes all IMAP Folder used by sync
         /// </summary>
         /// <param name="handler">Sync handler</param>
         /// <returns>fresh IMAP Folder</returns>
+        private void UpdateIMAPFolder(IEnumerable<ISyncHandler> handlers, Action action)
+        {
+            foreach (var handler in handlers)
+            {
+                Outlook.Folder imapFolder = GetIMAPFolder(handler);
+                imapFolder.InAppFolderSyncObject = true;
+            }
+
+            // Creates a "Sync is ready" delegate
+            var delSyncEnd = new Microsoft.Office.Interop.Outlook.SyncObjectEvents_SyncEndEventHandler(delegate() { action(); });
+            var delError = new Microsoft.Office.Interop.Outlook.SyncObjectEvents_OnErrorEventHandler(delegate(int num, string e)
+            {
+                // Log the error, but continue
+                Log.w("IMAP", "Error during folder refresh: " + e);
+                StatusHandler.writeStatus("Fatal sync error: " + e);
+            });
+
+            // Starts Outlook-Sync
+            // If this is not happening outlook will use a cached version of the imap folder
+            app.Session.SyncObjects.AppFolders.SyncEnd += delSyncEnd;
+            app.Session.SyncObjects.AppFolders.OnError += delError;
+            app.Session.SyncObjects.AppFolders.Start();
+        }
+
+        /// <summary>
+        /// Gets
+        /// </summary>
+        /// <param name="handler"></param>
+        /// <returns></returns>
         private Outlook.Folder GetIMAPFolder(ISyncHandler handler)
         {
-            using (var syncWait = new AutoResetEvent(false))
-            {
-                // avoid exceptions if a event fires after the syncWait event is disposed
-                var eventActive = true;
-
-                // prepare a proper default return value
-                Outlook.Folder imapFolder = null;
-
-                try
-                {
-                    // Get Imap Folder and mark for Outlook-Sync 
-                    imapFolder = (Outlook.Folder)app.Session.GetFolderFromID(handler.GetIMAPFolderName(), handler.GetIMAPStoreID());
-                    imapFolder.InAppFolderSyncObject = true;
-
-                    bool error = false;
-                    string errorMsg = null;
-                    // Creates a "Sync is ready" delegate
-                    var del = new Microsoft.Office.Interop.Outlook.SyncObjectEvents_SyncEndEventHandler(delegate() { if (eventActive) syncWait.Set(); });
-                    var delError = new Microsoft.Office.Interop.Outlook.SyncObjectEvents_OnErrorEventHandler(delegate(int num, string e)
-                    {
-                        error = true;
-                        errorMsg = e;
-                        // Log the error, but continue
-                        Log.w("IMAP", "Error during folder refresh: " + error);
-                        if (eventActive) syncWait.Set();
-                    });
-
-                    // Starts Outlook-Sync
-                    // If this is not happening outlook will use a cached version of the imap folder
-                    app.Session.SyncObjects.AppFolders.SyncEnd += del;
-                    app.Session.SyncObjects.AppFolders.OnError += delError;
-                    app.Session.SyncObjects.AppFolders.Start();
-
-                    // Wait at most 10 minutes for Outlook
-                    // Ignore the timeout
-                    // Outlook sometimes does not fire the finished event
-#if DEBUG
-                    // wait only 5 seconds when debugging
-                    var timeOut = new TimeSpan(0, 0, 5);
-#else 
-                    var timeOut = new TimeSpan(0, 10, 0);
-#endif
-                    syncWait.WaitOne(timeOut);
-                    eventActive = false;
-
-                    // Abort sync if Outlook reported an error
-                    if (error) throw new SyncException("IMAP", "Outlook reported an error during sync: " + errorMsg);
-                }
-                finally
-                {
-                    eventActive = false;
-
-                    // This causes a nullref exception? 
-                    //outlook.exe Error: 0 : generic: System.NullReferenceException: Object reference not set to an instance of an object.
-                    //   at Microsoft.Office.Interop.Outlook.SyncObjectEvents_EventProvider.remove_SyncEnd(SyncObjectEvents_SyncEndEventHandler )
-                    //   at Microsoft.Office.Interop.Outlook.SyncObjectClass.remove_SyncEnd(SyncObjectEvents_SyncEndEventHandler )
-                    //   at OutlookKolab.Kolab.Sync.SyncWorker.sync(ISyncHandler handler) in P:\OutlookKolab\OutlookKolab\Kolab\Sync\SyncWorker.cs:line 141
-                    //   at OutlookKolab.Kolab.Sync.SyncWorker.Run() in P:\OutlookKolab\OutlookKolab\Kolab\Sync\SyncWorker.cs:line 71
-                    // app.Session.SyncObjects.AppFolders.SyncEnd -= del;
-                }
-                return imapFolder;
-            }
+            return (Outlook.Folder)app.Session.GetFolderFromID(handler.GetIMAPFolderName(), handler.GetIMAPStoreID());
         }
     }
 }

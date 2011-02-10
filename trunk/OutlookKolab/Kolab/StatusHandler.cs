@@ -21,7 +21,6 @@
 namespace OutlookKolab.Kolab
 {
     using System;
-    using System.Threading;
     using System.Xml;
     using OutlookKolab.Kolab.Provider;
     using Outlook = Microsoft.Office.Interop.Outlook;
@@ -64,7 +63,7 @@ namespace OutlookKolab.Kolab
             var temp = SyncStatus;
             if (temp != null)
             {
-                temp.BeginInvoke(text, null, null);
+                temp(text);
             }
         }
 
@@ -76,7 +75,7 @@ namespace OutlookKolab.Kolab
             var temp = SyncFinished;
             if (temp != null)
             {
-                temp.BeginInvoke(null, null);
+                temp();
             }
         }
 
@@ -88,7 +87,7 @@ namespace OutlookKolab.Kolab
             var temp = SyncStarted;
             if (temp != null)
             {
-                temp.BeginInvoke(null, null);
+                temp();
             }
         }
     }

@@ -1,5 +1,3 @@
-//#define MULTI_THREADED
-
 /*
  * Copyright 2010 Arthur Zaczek <arthur@dasz.at>, dasz.at OG; All rights reserved.
  * Copyright 2010 David Schmitt <david@dasz.at>, dasz.at OG; All rights reserved.
@@ -23,30 +21,16 @@
 namespace OutlookKolab.Kolab.Sync
 {
     using System;
-    using System.Threading;
     using System.Xml;
 
     using Outlook = Microsoft.Office.Interop.Outlook;
-    
+
     /// <summary>
     /// Abstract base class for all workers. 
-    /// Implements threading and locking.
     /// This class ensurses that only one worker is running at the same time.
     /// </summary>
     public abstract class BaseWorker
     {
-        /// <summary>
-        /// lock object
-        /// </summary>
-        private static readonly object _lock = new object();
-
-#if MULTI_THREADED
-        /// <summary>
-        /// Worker Thread
-        /// </summary>
-        private static Thread thread;
-#endif
-
         /// <summary>
         /// Saved Outlook Application Object
         /// </summary>
@@ -60,10 +44,7 @@ namespace OutlookKolab.Kolab.Sync
         {
             get
             {
-                lock (_lock)
-                {
-                    return _isRunning;
-                }
+                return _isRunning;
             }
         }
 
@@ -75,11 +56,22 @@ namespace OutlookKolab.Kolab.Sync
         {
             get
             {
-                lock (_lock)
-                {
-                    return _isStopping;
-                }
+                return _isStopping;
             }
+        }
+
+        /// <summary>
+        /// Stops a running worker. If no worker is running this method does nothing
+        /// </summary>
+        public static void Stop()
+        {
+            if (_isRunning) _isStopping = true;
+        }
+
+        protected void Stopped()
+        {
+            _isRunning = false;
+            _isStopping = false;
         }
 
         /// <summary>
@@ -97,45 +89,9 @@ namespace OutlookKolab.Kolab.Sync
         /// </summary>
         public void Start()
         {
-            lock (_lock)
-            {
-                if (_isRunning) return;
-                _isRunning = true;
-                _isStopping = false;
-#if MULTI_THREADED
-                thread = new Thread(new ThreadStart(RunInternal));
-                thread.Start();
-#else
-                RunInternal();
-#endif
-            }
-        }
-
-        /// <summary>
-        /// Stops a running worker. If no worker is running this method does nothing
-        /// </summary>
-        public static void Stop()
-        {
-#if MULTI_THREADED
-            Thread tmp;
-#endif
-            lock (_lock)
-            {
-                if(_isRunning) _isStopping = true;
-#if MULTI_THREADED
-                tmp = thread;
-#endif
-            }
-#if MULTI_THREADED
-            if (tmp != null) tmp.Join(2000);
-#endif
-        }
-
-        /// <summary>
-        /// Internal Thread Run Method
-        /// </summary>
-        private void RunInternal()
-        {
+            if (_isRunning) return;
+            _isRunning = true;
+            _isStopping = false;
             try
             {
                 Run();
@@ -143,11 +99,6 @@ namespace OutlookKolab.Kolab.Sync
             catch (Exception ex)
             {
                 Log.e("worker", ex.ToString());
-            }
-            lock (_lock)
-            {
-                _isRunning = false;
-                _isStopping = false;
             }
         }
 

@@ -36,11 +36,11 @@ namespace OutlookKolab.Kolab.Sync
         /// </summary>
         protected Outlook.Application app;
 
-        private static bool _isRunning = false;
+        private bool _isRunning = false;
         /// <summary>
         /// Returnes true if a worker is running. Only one worker can run a the same time
         /// </summary>
-        public static bool IsRunning
+        public bool IsRunning
         {
             get
             {
@@ -48,11 +48,11 @@ namespace OutlookKolab.Kolab.Sync
             }
         }
 
-        private static bool _isStopping = false;
+        private bool _isStopping = false;
         /// <summary>
         /// Returnes true if a worker is stopping.
         /// </summary>
-        public static bool IsStopping
+        public bool IsStopping
         {
             get
             {
@@ -63,7 +63,7 @@ namespace OutlookKolab.Kolab.Sync
         /// <summary>
         /// Stops a running worker. If no worker is running this method does nothing
         /// </summary>
-        public static void Stop()
+        public void Stop()
         {
             if (_isRunning) _isStopping = true;
         }

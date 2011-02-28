@@ -46,7 +46,6 @@ namespace OutlookKolab
         }
 
         #region Properties/Fields
-        private static readonly object _lock = new object();
 
         Office.CommandBar toolBar;
         Office.CommandBarButton settingsButton;
@@ -60,6 +59,9 @@ namespace OutlookKolab
         System.Windows.Forms.Timer timer = null;
         //private readonly int timerDueTime = 10000; // 10 seconds
         private readonly int timerPeriod = 1000 * 60 * 30; // every half hour, TODO: Configure
+
+        OutlookKolab.Kolab.Sync.SyncWorker worker;
+
         #endregion
 
         #region ToolBar
@@ -169,6 +171,9 @@ namespace OutlookKolab
         /// <param name="e"></param>
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
+            // Create worker
+            worker = new OutlookKolab.Kolab.Sync.SyncWorker(this.Application);
+
             // Create Toolbar
             CreateToolbar();
 
@@ -182,11 +187,7 @@ namespace OutlookKolab
             timer.Interval = timerPeriod;
             timer.Tick += new EventHandler(timer_Tick);
             timer.Start();
-
-            // Sync now
-            Sync();
         }
-
 
         /// <summary>
         /// AddIn Shutdown code
@@ -196,16 +197,14 @@ namespace OutlookKolab
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
         {
             // Remove buttons
-            lock (_lock)
-            {
-                statusButton = null;
-                syncButton = null;
-                logButton = null;
-                settingsButton = null;
-            }
+            statusButton = null;
+            syncButton = null;
+            logButton = null;
+            settingsButton = null;
 
             // Stop a running sync
-            OutlookKolab.Kolab.Sync.SyncWorker.Stop();
+            worker.Stop();
+            worker.Close();
         }
         #endregion
 
@@ -219,34 +218,25 @@ namespace OutlookKolab
         #region StatusEvents
         void StatusHandler_SyncFinished()
         {
-            lock (_lock)
+            if (statusButton != null && syncButton != null)
             {
-                if (statusButton != null && syncButton != null)
-                {
-                    SetSyncButtonText("Sync");
-                }
+                SetSyncButtonText("Sync");
             }
         }
 
         void StatusHandler_SyncStarted()
         {
-            lock (_lock)
+            if (statusButton != null && syncButton != null)
             {
-                if (statusButton != null && syncButton != null)
-                {
-                    SetSyncButtonText("Stop");
-                }
+                SetSyncButtonText("Stop");
             }
         }
 
         void StatusHandler_SyncStatus(string text)
         {
-            lock (_lock)
+            if (statusButton != null)
             {
-                if (statusButton != null)
-                {
-                    SetStatusButtonText(text);
-                }
+                SetStatusButtonText(text);
             }
         }
 
@@ -302,14 +292,13 @@ namespace OutlookKolab
 
         public void Sync()
         {
-            if (OutlookKolab.Kolab.Sync.SyncWorker.IsRunning)
+            if (worker.IsRunning)
             {
                 SetStatusButtonText("Stopping");
-                OutlookKolab.Kolab.Sync.SyncWorker.Stop();
+                worker.Stop();
             }
             else
             {
-                var worker = new OutlookKolab.Kolab.Sync.SyncWorker(this.Application);
                 worker.Start();
             }
         }

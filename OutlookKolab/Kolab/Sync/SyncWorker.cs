@@ -47,6 +47,10 @@ namespace OutlookKolab.Kolab.Sync
         {
         }
 
+        public void Close()
+        {
+        }
+
         private static DSStatus.StatusEntryRow _status;
         /// <summary>
         /// Returnes the current status of a running SyncHandler. Returnes null if no Sync Handler is running. This happens during startup of a Sync Handler.
@@ -72,57 +76,58 @@ namespace OutlookKolab.Kolab.Sync
 
             var handlers = new List<ISyncHandler>() { new SyncContactsHandler(settings, dsStatus, app), new SyncCalendarHandler(settings, dsStatus, app) };
 
-            UpdateIMAPFolder(handlers, () =>
+            try
             {
+                UpdateIMAPFolder(handlers);
+
                 // Remember errors - used to update Status
                 bool hasErrors = false;
-                try
+                // If stopsignal arrives return
+                if (IsStopping)
                 {
-                    // If stopsignal arrives return
-                    if (IsStopping)
+                    StatusHandler.writeStatus("Sync aborted");
+                    return;
+                }
+
+                foreach (var handler in handlers)
+                {
+                    if (shouldProcess(handler))
                     {
-                        StatusHandler.writeStatus("Sync aborted");
-                        return;
+                        // Remember Status
+                        _status = handler.getStatus();
+                        // Start sync with current handler
+                        sync(handler);
+                        // Update error flag
+                        hasErrors |= _status.errors > 0;
+                        // Save status
+                        dsStatus.Save();
                     }
 
-                    foreach (var handler in handlers)
-                    {
-                        if (shouldProcess(handler))
-                        {
-                            // Remember Status
-                            _status = handler.getStatus();
-                            // Start sync with current handler
-                            sync(handler);
-                            // Update error flag
-                            hasErrors |= _status.errors > 0;
-                            // Save status
-                            dsStatus.Save();
-                        }
-
-                    }
-
-                    // Notify about sync has finished or errors
-                    StatusHandler.writeStatus(hasErrors ? "Sync errors" : "Sync finished");
                 }
-                catch (Exception ex)
-                {
-                    // Very bad - report to user
-                    StatusHandler.writeStatus("Fatal sync error: " + ex.Message);
-                    Helper.HandleError("Fatal error during sync", ex);
-                }
-                finally
-                {
-                    // Clear current status
-                    _status = null;
-                    dsStatus.Save();
-                    dsStatus.Dispose();
-                    settings.Dispose();
 
-                    Stopped();
-                    StatusHandler.notifySyncFinished();
-                }
-            });
+                // Notify about sync has finished or errors
+                StatusHandler.writeStatus(hasErrors ? "Sync errors" : "Sync finished");
+            }
+            catch (Exception ex)
+            {
+                // Very bad - report to user
+                StatusHandler.writeStatus("Fatal sync error: " + ex.Message);
+                Helper.HandleError("Fatal error during sync", ex);
+            }
+            finally
+            {
+                // Clear current status
+                _status = null;
+                dsStatus.Save();
+
+                dsStatus.Dispose();
+                settings.Dispose();
+
+                Stopped();
+                StatusHandler.notifySyncFinished();
+            }
         }
+
 
         /// <summary>
         /// Checks if a sync handler should run. If both folder names are empty no sync should run.
@@ -396,7 +401,7 @@ namespace OutlookKolab.Kolab.Sync
         /// </summary>
         /// <param name="handler">Sync handler</param>
         /// <returns>fresh IMAP Folder</returns>
-        private void UpdateIMAPFolder(IEnumerable<ISyncHandler> handlers, Action action)
+        private void UpdateIMAPFolder(IEnumerable<ISyncHandler> handlers)
         {
             foreach (var handler in handlers)
             {
@@ -404,19 +409,10 @@ namespace OutlookKolab.Kolab.Sync
                 imapFolder.InAppFolderSyncObject = true;
             }
 
-            // Creates a "Sync is ready" delegate
-            var delSyncEnd = new Microsoft.Office.Interop.Outlook.SyncObjectEvents_SyncEndEventHandler(delegate() { action(); });
-            var delError = new Microsoft.Office.Interop.Outlook.SyncObjectEvents_OnErrorEventHandler(delegate(int num, string e)
-            {
-                // Log the error, but continue
-                Log.w("IMAP", "Error during folder refresh: " + e);
-                StatusHandler.writeStatus("Fatal sync error: " + e);
-            });
-
-            // Starts Outlook-Sync
-            // If this is not happening outlook will use a cached version of the imap folder
-            app.Session.SyncObjects.AppFolders.SyncEnd += delSyncEnd;
-            app.Session.SyncObjects.AppFolders.OnError += delError;
+            // Starts a sync, but don'T wait
+            // It's possible to work with an cached version
+            // Sorry, but Outlook 2010 does not fire 
+            // the sync end event always
             app.Session.SyncObjects.AppFolders.Start();
         }
 

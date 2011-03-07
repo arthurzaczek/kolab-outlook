@@ -27,6 +27,7 @@ namespace OutlookKolab.Kolab.Sync
 
     using OutlookKolab.Kolab.Provider;
     using Outlook = Microsoft.Office.Interop.Outlook;
+    using System.Runtime.InteropServices;
     
     /// <summary>
     /// Represents the current item which is been syncing
@@ -54,5 +55,14 @@ namespace OutlookKolab.Kolab.Sync
         /// Short text of the current remote item used for the conflict dialog
         /// </summary>
         public string RemoteItemText { get; set; }
+
+        public void ReleaseMessage()
+        {
+            if (Message != null)
+            {
+                Marshal.ReleaseComObject(Message);
+                Message = null;
+            }
+        }
     }
 }

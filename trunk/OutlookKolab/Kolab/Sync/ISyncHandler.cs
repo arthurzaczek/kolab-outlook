@@ -42,7 +42,7 @@ namespace OutlookKolab.Kolab.Sync
         /// Returns all Entry IDs of all local items
         /// </summary>
         /// <returns>List of Entry IDs</returns>
-        IEnumerable<string> getAllLocalItemIDs();
+        IList<string> getAllLocalItemIDs();
 
         /// <summary>
         /// Current handlers IMAP Folder Entry ID = Remote Items

@@ -59,7 +59,10 @@ namespace OutlookKolab.Kolab.Xml
         /// <returns>Kolab contact object</returns>
         public static contact ParseContact(string xml)
         {
-            return (contact)contactSer.Deserialize(new StringReader(xml));
+            using (var sr = new StringReader(xml))
+            {
+                return (contact)contactSer.Deserialize(sr);
+            }
         }
 
         /// <summary>
@@ -69,7 +72,10 @@ namespace OutlookKolab.Kolab.Xml
         /// <returns>Kolab event/calendar object</returns>
         public static @event ParseCalendar(string xml)
         {
-            return (@event)calendarSer.Deserialize(new StringReader(xml));
+            using (var sr = new StringReader(xml))
+            {
+                return (@event)calendarSer.Deserialize(sr);
+            }
         }
 
         /// <summary>

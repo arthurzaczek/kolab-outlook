@@ -59,9 +59,12 @@ namespace OutlookKolab.Kolab.Constacts
         /// Returns all Entry IDs of all local items
         /// </summary>
         /// <returns>List of Entry IDs</returns>
-        public override IEnumerable<string> getAllLocalItemIDs()
+        public override IList<string> getAllLocalItemIDs()
         {
-            return Folder.Items.OfType<Outlook.ContactItem>().Select(i => i.EntryID);
+            var lst = Folder.Items.OfType<Outlook.ContactItem>().ToList();
+            var result = lst.Select(i => i.EntryID).ToList();
+            lst.ForEach(i => Marshal.ReleaseComObject(i));
+            return result;
         }
 
         /// <summary>

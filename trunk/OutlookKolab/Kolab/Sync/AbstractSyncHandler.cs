@@ -72,7 +72,7 @@ namespace OutlookKolab.Kolab.Sync
         /// Returns all Entry IDs of all local items
         /// </summary>
         /// <returns>List of Entry IDs</returns>
-        public abstract IEnumerable<string> getAllLocalItemIDs();
+        public abstract IList<string> getAllLocalItemIDs();
         /// <summary>
         /// Returns the local cache provider of the current handler
         /// </summary>
@@ -244,10 +244,9 @@ namespace OutlookKolab.Kolab.Sync
 
             // initialize cache entry with values that should go
             // into the new server item
-            DSLocalCache.CacheEntryRow entry = getLocalCacheProvider().createEntry();
-            sync.CacheEntry = entry;
+            sync.CacheEntry = getLocalCacheProvider().createEntry();
 
-            entry.localId = localId;
+            sync.CacheEntry.localId = localId;
             String xml = writeXml(sync);
             sync.Message = wrapXmlInMessage(imapFolder, sync, xml);
 

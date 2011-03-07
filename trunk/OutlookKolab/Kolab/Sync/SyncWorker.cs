@@ -32,6 +32,7 @@ namespace OutlookKolab.Kolab.Sync
     using OutlookKolab.Kolab.Constacts;
     using OutlookKolab.Kolab.Provider;
     using Outlook = Microsoft.Office.Interop.Outlook;
+    using System.Runtime.InteropServices;
 
     /// <summary>
     /// Worker for synchronizing Outlook folder with Kolab folder
@@ -74,8 +75,7 @@ namespace OutlookKolab.Kolab.Sync
             var dsStatus = DSStatus.Load();
             var settings = Settings.DSSettings.Load();
 
-            var handlers = new List<ISyncHandler>() { new SyncContactsHandler(settings, dsStatus, app), new SyncCalendarHandler(settings, dsStatus, app) };
-
+            List<ISyncHandler> handlers = new List<ISyncHandler>() { new SyncContactsHandler(settings, dsStatus, app), new SyncCalendarHandler(settings, dsStatus, app) };
             try
             {
                 UpdateIMAPFolder(handlers);
@@ -123,6 +123,11 @@ namespace OutlookKolab.Kolab.Sync
                 dsStatus.Dispose();
                 settings.Dispose();
 
+                foreach (IDisposable handler in handlers)
+                {
+                    handler.Dispose();
+                }
+
                 Stopped();
                 StatusHandler.notifySyncFinished();
             }
@@ -147,9 +152,10 @@ namespace OutlookKolab.Kolab.Sync
         {
             // Get local cache provider
             LocalCacheProvider cache = handler.getLocalCacheProvider();
+            Outlook.Folder imapFolder = null;
             try
             {
-                var imapFolder = GetIMAPFolder(handler);
+                imapFolder = GetIMAPFolder(handler);
 
                 // 1. retrieve list of all imap message headers
                 StatusHandler.writeStatus("Fetching messages");
@@ -186,148 +192,167 @@ namespace OutlookKolab.Kolab.Sync
                 // Saves all conflics. Ask the user later.
                 var conflictList = new List<SyncContext>();
 
-                // Retreive a IMAP Message list and save this list.
-                // We do not want to update this list during sync.
-                // Messages will be created or deleted during sync.
-                var msgList = imapFolder.Items.OfType<Outlook.MailItem>().ToList();
-                foreach (var msg in msgList)
+                #region sync imap messages
                 {
-                    // If stopsignal arrives return
-                    if (IsStopping) return;
-
-                    // Opens a new Sync Context
-                    SyncContext sync = new SyncContext();
+                    // Retreive a IMAP Message list and save this list.
+                    // We do not want to update this list during sync.
+                    // Messages will be created or deleted during sync.
+                    var msgList = imapFolder.Items.OfType<Outlook.MailItem>().ToList();
                     try
                     {
-                        // Assing current message
-                        sync.Message = msg;
-
-                        // Report Status
-                        StatusHandler.writeStatus(string.Format("Processing message {0}/{1}", status.incrementItems(), msgList.Count));
-
-                        // if deleted -> continue
-                        if (deletedEntryIDs.Contains(msg.EntryID))
+                        foreach (var msg in msgList)
                         {
-                            Log.d("sync", "Found deleted IMAP Message, continue");
-                            continue;
-                        }
+                            // If stopsignal arrives return
+                            if (IsStopping) return;
 
-                        // 2. check message headers for changes
-                        String subject = msg.Subject;
-                        Log.d("sync", "2. Checking message " + subject);
-                        // Check subject
-                        if (string.IsNullOrEmpty(msg.Subject))
-                        {
-                            Log.d("sync", "Subject is empty - not a valid item. continue");
-                            continue;
-                        }
-
-                        // 5. fetch local cache entry
-                        sync.CacheEntry = cache.getEntryFromRemoteId(subject);
-
-                        if (sync.CacheEntry == null)
-                        {
-                            // 6. found no local entry => must be a new one
-                            Log.i("sync", "6. found no local entry => save");
-                            status.incrementLocalNew();
-                            // create a local item from server item
-                            handler.createLocalItemFromServer(sync);
-                            if (sync.CacheEntry == null)
+                            // Opens a new Sync Context
+                            SyncContext sync = new SyncContext();
+                            try
                             {
-                                // This indicates parsing errors
-                                Log.w("sync", "createLocalItemFromServer returned a null object! See Logfile for parsing errors");
-                            }
+                                // Assing current message
+                                sync.Message = msg;
 
-                        }
-                        else
-                        {
-                            // Found a local cache item => server and local knows about this item
-                            // do some more checks
-                            Log.d("sync", "7. compare data to figure out what happened");
-                            if (LocalCacheProvider.isSame(sync.CacheEntry, msg))
-                            {
-                                // Local cacheitem and server item are same => no changes on server made
-                                Log.d("sync", "7.a/d cur=localdb");
-                                if (handler.hasLocalItem(sync))
+                                // Report Status
+                                StatusHandler.writeStatus(string.Format("Processing message {0}/{1}", status.incrementItems(), msgList.Count));
+
+                                // if deleted -> continue
+                                if (deletedEntryIDs.Contains(msg.EntryID))
                                 {
-                                    // the item exists locally
-                                    Log.d("sync", "7.a check for local changes");
-                                    if (handler.hasLocalChanges(sync))
+                                    Log.d("sync", "Found deleted IMAP Message, continue");
+                                    continue;
+                                }
+
+                                // 2. check message headers for changes
+                                String subject = msg.Subject;
+                                Log.d("sync", "2. Checking message " + subject);
+                                // Check subject
+                                if (string.IsNullOrEmpty(msg.Subject))
+                                {
+                                    Log.d("sync", "Subject is empty - not a valid item. continue");
+                                    continue;
+                                }
+
+                                // 5. fetch local cache entry
+                                sync.CacheEntry = cache.getEntryFromRemoteId(subject);
+
+                                if (sync.CacheEntry == null)
+                                {
+                                    // 6. found no local entry => must be a new one
+                                    Log.i("sync", "6. found no local entry => save");
+                                    status.incrementLocalNew();
+                                    // create a local item from server item
+                                    handler.createLocalItemFromServer(sync);
+                                    if (sync.CacheEntry == null)
                                     {
-                                        // The item has changed locally => udpate server item from local item
-                                        Log.i("sync", "local changes found => updating ServerItem from Local");
-                                        status.incrementRemoteChanged();
-                                        handler.updateServerItemFromLocal(imapFolder, sync);
+                                        // This indicates parsing errors
+                                        Log.w("sync", "createLocalItemFromServer returned a null object! See Logfile for parsing errors");
                                     }
+
                                 }
                                 else
                                 {
-                                    // local item is missing and no changes on the server where detected
-                                    // It's save to delete the server item.
-                                    Log.i("sync", "7.d entry missing => delete on server");
-                                    status.incrementRemoteDeleted();
-                                    handler.deleteServerItem(sync);
-                                }
-                            }
-                            else
-                            {
-                                // Local cacheitem and server item are NOT same => changes where made on server
-                                Log.d("sync", "7.b/c check for local changes and \"resolve\" the conflict");
-                                if (handler.hasLocalChanges(sync))
-                                {
-                                    // Also local changes => conflict
-                                    Log.i("sync", "local changes found: conflicting");
-                                    status.incrementConflicted();
-
-                                    // Get local ItemText - displayed in sync conflict dialogs list
-                                    if (sync.LocalItem != null)
+                                    // Found a local cache item => server and local knows about this item
+                                    // do some more checks
+                                    Log.d("sync", "7. compare data to figure out what happened");
+                                    if (LocalCacheProvider.isSame(sync.CacheEntry, msg))
                                     {
-                                        sync.LocalItemText = handler.GetItemText(sync);
+                                        // Local cacheitem and server item are same => no changes on server made
+                                        Log.d("sync", "7.a/d cur=localdb");
+                                        if (handler.hasLocalItem(sync))
+                                        {
+                                            // the item exists locally
+                                            Log.d("sync", "7.a check for local changes");
+                                            if (handler.hasLocalChanges(sync))
+                                            {
+                                                // The item has changed locally => udpate server item from local item
+                                                Log.i("sync", "local changes found => updating ServerItem from Local");
+                                                status.incrementRemoteChanged();
+                                                handler.updateServerItemFromLocal(imapFolder, sync);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            // local item is missing and no changes on the server where detected
+                                            // It's save to delete the server item.
+                                            Log.i("sync", "7.d entry missing => delete on server");
+                                            status.incrementRemoteDeleted();
+                                            handler.deleteServerItem(sync);
+                                        }
                                     }
                                     else
                                     {
-                                        sync.LocalItemText = "<deleted>";
+                                        // Local cacheitem and server item are NOT same => changes where made on server
+                                        Log.d("sync", "7.b/c check for local changes and \"resolve\" the conflict");
+                                        if (handler.hasLocalChanges(sync))
+                                        {
+                                            // Also local changes => conflict
+                                            Log.i("sync", "local changes found: conflicting");
+                                            status.incrementConflicted();
+
+                                            // Get local ItemText - displayed in sync conflict dialogs list
+                                            if (sync.LocalItem != null)
+                                            {
+                                                sync.LocalItemText = handler.GetItemText(sync);
+                                            }
+                                            else
+                                            {
+                                                sync.LocalItemText = "<deleted>";
+                                            }
+
+                                            // No idea what to write here. would need to parse XML, but thats only the text for the list.
+                                            // Details are shown by the Dialog itself.
+                                            sync.RemoteItemText = "remote changed";
+
+                                            // Save conflicting item
+                                            // USer will be asked later
+                                            conflictList.Add(sync);
+                                        }
+                                        else
+                                        {
+                                            // Item changed on server but not local => updating local item from server
+                                            Log.i("sync", "no local changes found => updating local item from server");
+                                            status.incrementLocalChanged();
+                                            handler.updateLocalItemFromServer(sync);
+                                        }
                                     }
-
-                                    // No idea what to write here. would need to parse XML, but thats only the text for the list.
-                                    // Details are shown by the Dialog itself.
-                                    sync.RemoteItemText = "remote changed";
-
-                                    // Save conflicting item
-                                    // USer will be asked later
-                                    conflictList.Add(sync);
                                 }
-                                else
-                                {
-                                    // Item changed on server but not local => updating local item from server
-                                    Log.i("sync", "no local changes found => updating local item from server");
-                                    status.incrementLocalChanged();
-                                    handler.updateLocalItemFromServer(sync);
-                                }
+                            }
+                            catch (SyncException ex)
+                            {
+                                // Sync Exceptions are thrown by the handlers. This could be a parsing error or something else.
+                                Log.e("sync", ex.ToString());
+                                status.incrementErrors(ex);
+                            }
+                            finally
+                            {
+                                sync.ReleaseMessage();
+                            }
+
+                            // Save message as processed - if it was not deleted
+                            if (sync.CacheEntry != null && sync.CacheEntry.RowState != System.Data.DataRowState.Detached)
+                            {
+                                Log.d("sync", "8. remember message as processed (item id=" + sync.CacheEntry.localId + ")");
+                                processedEntries[sync.CacheEntry.localId] = true;
                             }
                         }
                     }
-                    catch (SyncException ex)
+                    finally
                     {
-                        // Sync Exceptions are thrown by the handlers. This could be a parsing error or something else.
-                        Log.e("sync", ex.ToString());
-                        status.incrementErrors(ex);
-                    }
-
-                    // Save message as processed - if it was not deleted
-                    if (sync.CacheEntry != null && sync.CacheEntry.RowState != System.Data.DataRowState.Detached)
-                    {
-                        Log.d("sync", "8. remember message as processed (item id=" + sync.CacheEntry.localId + ")");
-                        processedEntries[sync.CacheEntry.localId] = true;
+                        foreach (var msg in msgList)
+                        {
+                            Marshal.ReleaseComObject(msg);
+                        }
                     }
                 }
+#endregion
 
+                #region sync local messages
                 // 9. for all unprocessed local items
                 // 9.a upload/delete
                 Log.d("sync", "9. process unprocessed local items");
 
                 // Get a list of all local item IDs
-                var items = handler.getAllLocalItemIDs().ToList();
+                var items = handler.getAllLocalItemIDs();
                 // Cache count
                 int localItemsCount = items.Count();
                 // init counter
@@ -381,7 +406,12 @@ namespace OutlookKolab.Kolab.Sync
                         Log.e("sync", ex.ToString());
                         status.incrementErrors(ex);
                     }
+                    finally
+                    {
+                        sync.ReleaseMessage();
+                    }
                 }
+                #endregion
 
                 // Conflict resolution
                 if (conflictList.Count > 0)
@@ -391,6 +421,7 @@ namespace OutlookKolab.Kolab.Sync
             }
             finally
             {
+                if (imapFolder != null) Marshal.ReleaseComObject(imapFolder);
                 // Save local cache
                 cache.Save();
             }
@@ -403,17 +434,17 @@ namespace OutlookKolab.Kolab.Sync
         /// <returns>fresh IMAP Folder</returns>
         private void UpdateIMAPFolder(IEnumerable<ISyncHandler> handlers)
         {
-            foreach (var handler in handlers)
-            {
-                Outlook.Folder imapFolder = GetIMAPFolder(handler);
-                imapFolder.InAppFolderSyncObject = true;
-            }
+            //foreach (var handler in handlers)
+            //{
+            //    Outlook.Folder imapFolder = GetIMAPFolder(handler);
+            //    imapFolder.InAppFolderSyncObject = true;
+            //}
 
-            // Starts a sync, but don'T wait
-            // It's possible to work with an cached version
-            // Sorry, but Outlook 2010 does not fire 
-            // the sync end event always
-            app.Session.SyncObjects.AppFolders.Start();
+            //// Starts a sync, but don'T wait
+            //// It's possible to work with an cached version
+            //// Sorry, but Outlook 2010 does not fire 
+            //// the sync end event always
+            //app.Session.SyncObjects.AppFolders.Start();
         }
 
         /// <summary>

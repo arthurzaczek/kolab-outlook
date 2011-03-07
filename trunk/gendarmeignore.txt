@@ -35,6 +35,10 @@ M: System.Xml.Schema.XmlSchemaComplexType OutlookKolab.Kolab.Provider.DSLocalCac
 # false positive: local variable is not scope of IDispoable
 M: System.Void OutlookKolab.Kolab.Sync.SyncWorker::sync(OutlookKolab.Kolab.Sync.ISyncHandler)
 M: Microsoft.Office.Core.IRibbonExtensibility OutlookKolab.ThisAddIn::CreateRibbonExtensibilityObject()
+M: System.Void OutlookKolab.Kolab.Sync.AbstractSyncHandler::createServerItemFromLocal(Microsoft.Office.Interop.Outlook.Folder,OutlookKolab.Kolab.Sync.SyncContext,System.String)
+M: System.Void OutlookKolab.Kolab.Constacts.SyncContactsHandler::updateLocalItemFromServer(OutlookKolab.Kolab.Sync.SyncContext,System.String)
+M: System.Void OutlookKolab.Kolab.Sync.SyncWorker::Run()
+M: System.Void OutlookKolab.Kolab.Calendar.SyncCalendarHandler::updateLocalItemFromServer(OutlookKolab.Kolab.Sync.SyncContext,System.String)
 
 R: Gendarme.Rules.Serialization.CallBaseMethodsOnISerializableTypesRule
 # generated code
@@ -55,4 +59,8 @@ T: OutlookKolab.Kolab.Settings.DSSettings/SettingsDataTable OutlookKolab.Kolab.S
 
 # Flags mostly generated code, which generally has little cohesion.
 R: Gendarme.Rules.Maintainability.AvoidLackOfCohesionOfMethodsRule
+A: OutlookKolab
+
+# Unneeded boxing was found for concatening a string.
+R: Gendarme.Rules.Performance.AvoidConcatenatingCharsRule
 A: OutlookKolab

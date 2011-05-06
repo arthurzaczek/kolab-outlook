@@ -56,12 +56,23 @@ namespace OutlookKolab.Kolab.Sync
         /// </summary>
         public string RemoteItemText { get; set; }
 
+        private bool _hasConflicts = false;
+        public void HasConflicts()
+        {
+            _hasConflicts = true;
+        }
         public void ReleaseMessage()
         {
-            if (Message != null)
+            ReleaseMessage(false);
+        }
+
+        public void ReleaseMessage(bool final)
+        {
+            if (Message != null && (final || !_hasConflicts))
             {
                 Marshal.ReleaseComObject(Message);
                 Message = null;
+                _hasConflicts = false;
             }
         }
     }

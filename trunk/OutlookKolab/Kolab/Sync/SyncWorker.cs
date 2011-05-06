@@ -198,8 +198,6 @@ namespace OutlookKolab.Kolab.Sync
                     // We do not want to update this list during sync.
                     // Messages will be created or deleted during sync.
                     var msgList = imapFolder.Items.OfType<Outlook.MailItem>().ToList();
-                    try
-                    {
                         foreach (var msg in msgList)
                         {
                             // If stopsignal arrives return
@@ -288,6 +286,7 @@ namespace OutlookKolab.Kolab.Sync
                                             // Also local changes => conflict
                                             Log.i("sync", "local changes found: conflicting");
                                             status.incrementConflicted();
+                                            sync.HasConflicts();
 
                                             // Get local ItemText - displayed in sync conflict dialogs list
                                             if (sync.LocalItem != null)
@@ -316,6 +315,12 @@ namespace OutlookKolab.Kolab.Sync
                                         }
                                     }
                                 }
+                                // Save message as processed - if it was not deleted
+                                if (sync.CacheEntry != null && sync.CacheEntry.RowState != System.Data.DataRowState.Detached)
+                                {
+                                    Log.d("sync", "8. remember message as processed (item id=" + sync.CacheEntry.localId + ")");
+                                    processedEntries[sync.CacheEntry.localId] = true;
+                                }
                             }
                             catch (SyncException ex)
                             {
@@ -327,22 +332,7 @@ namespace OutlookKolab.Kolab.Sync
                             {
                                 sync.ReleaseMessage();
                             }
-
-                            // Save message as processed - if it was not deleted
-                            if (sync.CacheEntry != null && sync.CacheEntry.RowState != System.Data.DataRowState.Detached)
-                            {
-                                Log.d("sync", "8. remember message as processed (item id=" + sync.CacheEntry.localId + ")");
-                                processedEntries[sync.CacheEntry.localId] = true;
-                            }
                         }
-                    }
-                    finally
-                    {
-                        foreach (var msg in msgList)
-                        {
-                            Marshal.ReleaseComObject(msg);
-                        }
-                    }
                 }
 #endregion
 
@@ -417,6 +407,11 @@ namespace OutlookKolab.Kolab.Sync
                 if (conflictList.Count > 0)
                 {
                     DlgConflictDialog.Show(handler, imapFolder, conflictList);
+
+                    foreach (var s in conflictList)
+                    {
+                        s.ReleaseMessage(true);
+                    }
                 }
             }
             finally

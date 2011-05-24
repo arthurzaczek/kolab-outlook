@@ -277,6 +277,7 @@ namespace OutlookKolab.Kolab.Calendar
 
             // Remember reccuring
             bool isRecurring = cal.recurrence != null && !string.IsNullOrEmpty(cal.recurrence.cycle);
+            bool isAllDay = cal.startdate.TimeOfDay == TimeSpan.Zero && cal.enddate.TimeOfDay == TimeSpan.Zero;
 
             try
             {
@@ -285,8 +286,8 @@ namespace OutlookKolab.Kolab.Calendar
                 if (!isRecurring)
                 {
                     localCal.StartUTC = cal.startdate.ToUniversalTime();
-                    localCal.EndUTC = cal.enddate.ToUniversalTime();
-                    localCal.AllDayEvent = cal.startdate.TimeOfDay == TimeSpan.Zero;
+                    localCal.EndUTC = isAllDay ? cal.enddate.ToUniversalTime().AddDays(1) : cal.enddate.ToUniversalTime();
+                    localCal.AllDayEvent = isAllDay;
                 }
                 localCal.Body = cal.body;
                 localCal.Location = cal.location;
@@ -344,7 +345,7 @@ namespace OutlookKolab.Kolab.Calendar
                         if (endDate.Kind == DateTimeKind.Utc) endDate = endDate.ToLocalTime();
                         var endTime = startDate.TimeOfDay;
 
-                        var duration = endDate - startDate;
+                        var duration = (isAllDay ? endDate.AddDays(1) : endDate) - startDate;
 
                         pattern.EndTime = DateTime.MinValue + endTime;
                         pattern.Duration = (int)duration.TotalMinutes;
@@ -497,9 +498,12 @@ namespace OutlookKolab.Kolab.Calendar
             // Basic properties
             cal.lastmodificationdate = lastmodificationdate;
             cal.summary = source.Subject;
-            // StartUTC/EndUTC does not specify DateTime.Kind == Utc!
-            cal.startdate = source.AllDayEvent ? source.Start.Date : source.Start.ToUniversalTime();
-            cal.enddate = source.AllDayEvent ? source.End.Date : source.End.ToUniversalTime();
+            if (!source.IsRecurring)
+            {
+                // StartUTC/EndUTC does not specify DateTime.Kind == Utc!
+                cal.startdate = source.AllDayEvent ? source.Start.Date : source.Start.ToUniversalTime();
+                cal.enddate = source.AllDayEvent ? source.End.Date.AddDays(-1) : source.End.ToUniversalTime();
+            }
             // cal.startdate.TimeOfDay == TimeSpan.Zero = source.AllDayEvent; 
             cal.body = source.Body;
             cal.location = source.Location;
@@ -517,6 +521,14 @@ namespace OutlookKolab.Kolab.Calendar
             if (source.IsRecurring)
             {
                 var pattern = source.GetRecurrencePattern();
+
+                cal.startdate = source.AllDayEvent ? source.Start.Date : source.Start.ToUniversalTime();
+                cal.enddate = cal.startdate.AddMinutes(pattern.Duration);
+                if (source.AllDayEvent)
+                {
+                    cal.enddate = cal.enddate.AddDays(-1);
+                }
+
                 if (cal.recurrence == null) cal.recurrence = new OutlookKolab.Kolab.Xml.eventRecurrence();
                 cal.recurrence.cycle = cal.GetCycle(pattern.RecurrenceType);
                 cal.recurrence.day = cal.GetDay(pattern.DayOfWeekMask);

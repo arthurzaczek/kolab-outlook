@@ -106,13 +106,7 @@
         "Entry"
         {
         "MsmKey" = "8:_F44AA36730C4F703101FC34E188FAEAD"
-        "OwnerKey" = "8:_F562D0DBA68FD56ECFC2FD614E38D260"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_F44AA36730C4F703101FC34E188FAEAD"
-        "OwnerKey" = "8:_DCA594CDBAFB9BA285A260CA987E177B"
+        "OwnerKey" = "8:_90BB24F4227D45E43B9627048DC048AE"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -124,7 +118,13 @@
         "Entry"
         {
         "MsmKey" = "8:_F44AA36730C4F703101FC34E188FAEAD"
-        "OwnerKey" = "8:_90BB24F4227D45E43B9627048DC048AE"
+        "OwnerKey" = "8:_DCA594CDBAFB9BA285A260CA987E177B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F44AA36730C4F703101FC34E188FAEAD"
+        "OwnerKey" = "8:_F562D0DBA68FD56ECFC2FD614E38D260"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -136,13 +136,13 @@
         "Entry"
         {
         "MsmKey" = "8:_F562D0DBA68FD56ECFC2FD614E38D260"
-        "OwnerKey" = "8:_E4D87F63C63D3DC0C09BFA2611947605"
+        "OwnerKey" = "8:_90BB24F4227D45E43B9627048DC048AE"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_F562D0DBA68FD56ECFC2FD614E38D260"
-        "OwnerKey" = "8:_90BB24F4227D45E43B9627048DC048AE"
+        "OwnerKey" = "8:_E4D87F63C63D3DC0C09BFA2611947605"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -160,43 +160,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_F73F4E0AB8334EBD9DAA940354616F14"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_9A55CAAE46901DA67D1BA7F2D48FDCB2"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_F562D0DBA68FD56ECFC2FD614E38D260"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_E4D87F63C63D3DC0C09BFA2611947605"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_90BB24F4227D45E43B9627048DC048AE"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_DCA594CDBAFB9BA285A260CA987E177B"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_F44AA36730C4F703101FC34E188FAEAD"
+        "OwnerKey" = "8:_353EE9A31B70E7F10AD5B238F56C8910"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -208,7 +172,43 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_353EE9A31B70E7F10AD5B238F56C8910"
+        "OwnerKey" = "8:_F44AA36730C4F703101FC34E188FAEAD"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_DCA594CDBAFB9BA285A260CA987E177B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_90BB24F4227D45E43B9627048DC048AE"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_E4D87F63C63D3DC0C09BFA2611947605"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_F562D0DBA68FD56ECFC2FD614E38D260"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_9A55CAAE46901DA67D1BA7F2D48FDCB2"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_F73F4E0AB8334EBD9DAA940354616F14"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -370,11 +370,6 @@
             "AssemblyAsmDisplayName" = "8:Microsoft.Vbe.Interop.Forms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_2DDD400893A9EB7EDC1EE9E0B1C348D0"
-                    {
-                    "Name" = "8:Microsoft.Vbe.Interop.Forms.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:Microsoft.Vbe.Interop.Forms.dll"
             "TargetName" = "8:"
@@ -401,11 +396,6 @@
             "AssemblyAsmDisplayName" = "8:Microsoft.Office.Interop.SmartTag, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c"
                 "ScatterAssemblies"
                 {
-                    "_353EE9A31B70E7F10AD5B238F56C8910"
-                    {
-                    "Name" = "8:Microsoft.Office.Interop.SmartTag.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:Microsoft.Office.Interop.SmartTag.dll"
             "TargetName" = "8:"
@@ -452,11 +442,6 @@
             "AssemblyAsmDisplayName" = "8:Microsoft.Office.Tools.Common.v9.0, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_90BB24F4227D45E43B9627048DC048AE"
-                    {
-                    "Name" = "8:Microsoft.Office.Tools.Common.v9.0.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:Microsoft.Office.Tools.Common.v9.0.dll"
             "TargetName" = "8:"
@@ -483,11 +468,6 @@
             "AssemblyAsmDisplayName" = "8:Microsoft.VisualStudio.Tools.Applications.Hosting.v9.0, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_9A55CAAE46901DA67D1BA7F2D48FDCB2"
-                    {
-                    "Name" = "8:Microsoft.VisualStudio.Tools.Applications.Hosting.v9.0.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:Microsoft.VisualStudio.Tools.Applications.Hosting.v9.0.dll"
             "TargetName" = "8:"
@@ -514,11 +494,6 @@
             "AssemblyAsmDisplayName" = "8:OutlookKolabMAPIHelper, Version=1.0.3995.29565, Culture=neutral, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
-                    "_ABF662983171313242ECCE550D974BBC"
-                    {
-                    "Name" = "8:OutlookKolabMAPIHelper.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:OutlookKolabMAPIHelper.dll"
             "TargetName" = "8:"
@@ -565,11 +540,6 @@
             "AssemblyAsmDisplayName" = "8:Microsoft.VisualStudio.Tools.Applications.ServerDocument.v9.0, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_DCA594CDBAFB9BA285A260CA987E177B"
-                    {
-                    "Name" = "8:Microsoft.VisualStudio.Tools.Applications.ServerDocument.v9.0.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:Microsoft.VisualStudio.Tools.Applications.ServerDocument.v9.0.dll"
             "TargetName" = "8:"
@@ -596,11 +566,6 @@
             "AssemblyAsmDisplayName" = "8:Microsoft.Office.Tools.Outlook.v9.0, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_E4D87F63C63D3DC0C09BFA2611947605"
-                    {
-                    "Name" = "8:Microsoft.Office.Tools.Outlook.v9.0.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:Microsoft.Office.Tools.Outlook.v9.0.dll"
             "TargetName" = "8:"
@@ -627,11 +592,6 @@
             "AssemblyAsmDisplayName" = "8:Microsoft.VisualStudio.Tools.Applications.Runtime.v9.0, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_F44AA36730C4F703101FC34E188FAEAD"
-                    {
-                    "Name" = "8:Microsoft.VisualStudio.Tools.Applications.Runtime.v9.0.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:Microsoft.VisualStudio.Tools.Applications.Runtime.v9.0.dll"
             "TargetName" = "8:"
@@ -658,11 +618,6 @@
             "AssemblyAsmDisplayName" = "8:Microsoft.Office.Tools.v9.0, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_F562D0DBA68FD56ECFC2FD614E38D260"
-                    {
-                    "Name" = "8:Microsoft.Office.Tools.v9.0.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:Microsoft.Office.Tools.v9.0.dll"
             "TargetName" = "8:"
@@ -738,15 +693,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Kolab sync for Outlook"
-        "ProductCode" = "8:{17F03A0C-4856-4174-BD30-0FBFDB577B86}"
-        "PackageCode" = "8:{86190E36-A7AA-455E-BC70-544F87B9BD6C}"
+        "ProductCode" = "8:{3AE28417-BC0B-4D0C-A256-75B562AE4E43}"
+        "PackageCode" = "8:{744583B5-8156-4C9B-8671-F1B431744647}"
         "UpgradeCode" = "8:{2B8BB3E4-8604-4585-912B-147C17DC1E51}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.20"
+        "ProductVersion" = "8:1.0.21"
         "Manufacturer" = "8:dasz.at OG"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"

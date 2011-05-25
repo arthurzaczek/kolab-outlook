@@ -1,5 +1,10 @@
 #summary Release Notes for kolab-outlook
 #labels Featured
+= 0.0.5 =
+  * Support Outlook 2010
+  * Sync on UI Thread (sad, but true, UI will block during sync. Will repair in next version)
+  * Handle All Day Events correctls
+
 = 0.0.3 =
   * Added a sort of "file transaction" to protected file write operations
 

@@ -37,7 +37,7 @@
         <xs:element name="assistant" type="xs:string" />
         <xs:element name="nick-name" type="xs:string" />
         <xs:element name="spouse-name" type="xs:string" />
-        <xs:element name="birthday" type="xs:dateTime" />
+        <xs:element name="birthday" type="xs:dateTime" minOccurs="0" maxOccurs="1" />
         <xs:element name="anniversary" type="xs:string" />
         <xs:element name="picture" type="xs:string" />
         <xs:element name="children" type="xs:string" />

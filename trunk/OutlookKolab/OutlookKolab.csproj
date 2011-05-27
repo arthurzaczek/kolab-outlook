@@ -277,6 +277,7 @@
     <Compile Include="Kolab\Xml\Contact.cs">
       <DependentUpon>Contact.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Kolab\Xml\Contact.Extensions.cs" />
     <Compile Include="Kolab\Xml\XmlHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -342,6 +343,9 @@
     <Compile Include="Kolab\Xml\Calendar.Extensions.cs" />
     <None Include="Kolab\Xml\Calendar.xsd" />
     <None Include="Kolab\Xml\Contact.xsd" />
+    <None Include="Kolab\Xml\XMLSchema1.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="OutlookKolab_TemporaryKey.pfx" />
     <None Include="Properties\DataSources\OutlookKolab.Kolab.Sync.SyncContext.datasource" />
     <None Include="Properties\Settings.settings">

@@ -131,7 +131,7 @@ namespace OutlookKolab.Kolab.Sync
         /// </summary>
         /// <param name="sync">current sync context</param>
         /// <returns>xml string</returns>
-        protected abstract String writeXml(SyncContext sync);
+        protected abstract String createNewXml(SyncContext sync);
         /// <summary>
         /// Creates a MailMessage body text
         /// </summary>
@@ -247,7 +247,7 @@ namespace OutlookKolab.Kolab.Sync
             sync.CacheEntry = getLocalCacheProvider().createEntry();
 
             sync.CacheEntry.localId = localId;
-            String xml = writeXml(sync);
+            String xml = createNewXml(sync);
             sync.Message = wrapXmlInMessage(imapFolder, sync, xml);
 
             updateCacheEntryFromMessage(sync);

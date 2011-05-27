@@ -279,6 +279,9 @@ namespace OutlookKolab.Kolab.Constacts
                     person.LastName = contact.name.lastname;
                     person.MiddleName = contact.name.middlenames;
                     person.FirstName = contact.name.givenname;
+                    person.Initials = contact.name.initials;
+                    person.Title = contact.name.prefix;
+                    person.Suffix = contact.name.suffix;
                 }
 
                 person.Birthday = contact.GetBirthday();
@@ -486,6 +489,9 @@ namespace OutlookKolab.Kolab.Constacts
             contact.name.givenname = source.FirstName;
             contact.name.lastname = source.LastName;
             contact.name.middlenames = source.MiddleName;
+            contact.name.initials = source.Initials;
+            contact.name.prefix = source.Title;
+            contact.name.suffix = source.Suffix;
 
             contact.webpage = source.WebPage;
             contact.SetBirthday(source.Birthday);

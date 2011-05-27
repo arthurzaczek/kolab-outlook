@@ -273,7 +273,16 @@ namespace OutlookKolab.Kolab.Constacts
             {
                 // Basic properties
                 // TODO: Add more
-                if (contact.name != null) person.FullName = contact.name.fullname;
+                if (contact.name != null)
+                {
+                    person.FullName = contact.name.fullname;
+                    person.LastName = contact.name.lastname;
+                    person.MiddleName = contact.name.middlenames;
+                    person.FirstName = contact.name.givenname;
+                }
+
+                person.Birthday = contact.GetBirthday();
+                person.WebPage = contact.webpage;
 
                 // Phone Contacts
                 if (contact.phone != null)
@@ -452,7 +461,7 @@ namespace OutlookKolab.Kolab.Constacts
         /// </summary>
         /// <param name="sync">current sync context</param>
         /// <returns>xml string</returns>
-        protected override string writeXml(SyncContext sync)
+        protected override string createNewXml(SyncContext sync)
         {
             var item = getLocalItem(sync);
             sync.CacheEntry.localHash = getLocalHash(item);
@@ -474,6 +483,12 @@ namespace OutlookKolab.Kolab.Constacts
             contact.lastmodificationdate = lastmodificationdate;
             if (contact.name == null) contact.name = new OutlookKolab.Kolab.Xml.contactName();
             contact.name.fullname = source.FullName;
+            contact.name.givenname = source.FirstName;
+            contact.name.lastname = source.LastName;
+            contact.name.middlenames = source.MiddleName;
+
+            contact.webpage = source.WebPage;
+            contact.SetBirthday(source.Birthday);
 
             // Phone contact methods
             var phones = new List<OutlookKolab.Kolab.Xml.contactPhone>();

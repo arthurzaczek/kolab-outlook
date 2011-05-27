@@ -477,7 +477,7 @@ namespace OutlookKolab.Kolab.Calendar
         /// </summary>
         /// <param name="sync">current sync context</param>
         /// <returns>xml string</returns>
-        protected override string writeXml(SyncContext sync)
+        protected override string createNewXml(SyncContext sync)
         {
             var item = getLocalItem(sync);
             sync.CacheEntry.localHash = getLocalHash(item);

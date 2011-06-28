@@ -29,6 +29,7 @@ namespace OutlookKolab.Kolab
     using System.Xml;
     using System.Windows.Forms;
     using Outlook = Microsoft.Office.Interop.Outlook;
+    using OutlookKolab.Kolab.Sync;
     
     /// <summary>
     /// Static class with helper methods
@@ -116,6 +117,49 @@ namespace OutlookKolab.Kolab
                 result = item.ReceivedTime;
             }
             return result;
+        }
+
+        /// <summary>
+        /// Exstract the Kolab XML Document from the given MailMessage
+        /// </summary>
+        /// <param name="message">Outlooks MailMessage item</param>
+        /// <returns>Kolab XML String</returns>
+        public static string ExtractXml(this Outlook.MailItem message)
+        {
+            if (message == null) throw new ArgumentNullException("message");
+
+            // Take the first attachment
+            // TODO: Look for the first attachment with current Kolab MimeType
+            Outlook.Attachment a = message.Attachments.Cast<Outlook.Attachment>().FirstOrDefault();
+            if (a != null)
+            {
+                // Get an IUnknown Pointer of that attachment
+                IntPtr ptr = System.Runtime.InteropServices.Marshal.GetIUnknownForObject(a.MAPIOBJECT);
+                try
+                {
+                    // Call our little C++ helper to extract the attachment in memory
+                    // Calling a.SaveAs(...) would lead to a bunch of troubles
+                    // If all Attachments has the same name (like on a kolab server)
+                    // then Outlook is only able to store 100 (yes! 100!) Attachments
+                    // Why? Because it saves the attachment in a TempFolder (see Registry)
+                    // Then it opens a FileSystemWatcher (or the Win32 API equivalent)
+                    // But: If that filename already exists Outlook behaves like the Windows Explorer
+                    // It creates kolab (1).xml, kolab (2).xml, ..., kolab (99).xml files
+                    // Outlook is'nt able to save kolab (100).xml - I dont know why, 
+                    // but here is our 100 Attachments limit
+                    return OutlookKolabMAPIHelper.IMAPHelper.ReadAttachment(ptr);
+                }
+                finally
+                {
+                    // Release that COM Pointer
+                    System.Runtime.InteropServices.Marshal.Release(ptr);
+                }
+            }
+            else
+            {
+                // No Attachment found -> throw a SyncException an continue
+                throw new SyncException(message.Subject, "Message " + message.Subject + " has not attachment");
+            }
         }
     }
 }

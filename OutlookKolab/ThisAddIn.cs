@@ -187,7 +187,11 @@ namespace OutlookKolab
             timer.Interval = timerPeriod;
             timer.Tick += new EventHandler(timer_Tick);
             timer.Start();
+
+            this.Application.ItemContextMenuDisplay += new ApplicationEvents_11_ItemContextMenuDisplayEventHandler(Application_ItemContextMenuDisplay);
+            this.Application.FolderContextMenuDisplay += new ApplicationEvents_11_FolderContextMenuDisplayEventHandler(Application_FolderContextMenuDisplay);
         }
+
 
         /// <summary>
         /// AddIn Shutdown code
@@ -205,6 +209,49 @@ namespace OutlookKolab
             // Stop a running sync
             worker.Stop();
             worker.Close();
+        }
+        #endregion
+
+        #region Custom Context Menu
+        private MAPIFolder selectedFolder;
+        void Application_FolderContextMenuDisplay(Office.CommandBar cmdBar, MAPIFolder folder)
+        {
+            Office.CommandBarButton btn = (Office.CommandBarButton)cmdBar.Controls.Add();
+            btn.Caption = "Add new Kolab Message";
+            selectedFolder = folder;
+            btn.Click += new Office._CommandBarButtonEvents_ClickEventHandler(btnFolderMenu_Click);
+        }
+
+        void btnFolderMenu_Click(Office.CommandBarButton Ctrl, ref bool CancelDefault)
+        {
+            if (selectedFolder != null)
+            {
+                Debugging.EditKolabMessage.Show(Application, selectedFolder);
+            }
+        }
+
+
+        private MailItem selectedMail;
+        void Application_ItemContextMenuDisplay(Office.CommandBar cmdBar, Selection selection)
+        {
+            if (selection.Count > 0)
+            {
+                selectedMail = selection[1] as MailItem;
+                if (selectedMail != null)
+                {
+                    Office.CommandBarButton btn = (Office.CommandBarButton)cmdBar.Controls.Add();
+                    btn.Caption = "Edit Kolab Message";
+                    btn.Click += new Office._CommandBarButtonEvents_ClickEventHandler(btnItemMenu_Click);
+                }
+            }
+        }
+
+        void btnItemMenu_Click(Office.CommandBarButton Ctrl, ref bool CancelDefault)
+        {
+            if (selectedMail != null)
+            {
+                Debugging.EditKolabMessage.Show(Application, selectedMail);
+            }
         }
         #endregion
 

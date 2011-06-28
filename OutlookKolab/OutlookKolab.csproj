@@ -201,6 +201,12 @@
     can be found.
   -->
   <ItemGroup>
+    <Compile Include="Debugging\EditKolabMessage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Debugging\EditKolabMessage.Designer.cs">
+      <DependentUpon>EditKolabMessage.cs</DependentUpon>
+    </Compile>
     <Compile Include="FileTransaction.cs" />
     <Compile Include="Kolab\Calendar\SyncCalendarHandler.cs">
       <SubType>Code</SubType>
@@ -282,6 +288,9 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <EmbeddedResource Include="Debugging\EditKolabMessage.resx">
+      <DependentUpon>EditKolabMessage.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Kolab\DlgShowLog.resx">
       <DependentUpon>DlgShowLog.cs</DependentUpon>
       <SubType>Designer</SubType>

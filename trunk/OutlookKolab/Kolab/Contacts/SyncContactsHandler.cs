@@ -31,6 +31,7 @@ namespace OutlookKolab.Kolab.Constacts
     using OutlookKolab.Kolab.Settings;
     using OutlookKolab.Kolab.Sync;
     using Outlook = Microsoft.Office.Interop.Outlook;
+    using System.IO;
 
     /// <summary>
     /// Contacts sync handler
@@ -146,6 +147,10 @@ namespace OutlookKolab.Kolab.Constacts
         {
             List<String> contents = new List<String>();
             contents.Add(item.FullName == null ? "no name" : item.FullName);
+
+            contents.Add(item.WebPage);
+            contents.Add(item.CompanyName);
+            contents.Add(item.Body);
 
             contents.Add(item.PrimaryTelephoneNumber);
             contents.Add(item.BusinessTelephoneNumber);
@@ -286,6 +291,27 @@ namespace OutlookKolab.Kolab.Constacts
 
                 person.Birthday = contact.GetBirthday();
                 person.WebPage = contact.webpage;
+                person.Body = contact.body;
+                person.CompanyName = contact.organization;
+
+                bool removePicture = true;
+                if (!string.IsNullOrEmpty(contact.picture))
+                {
+                    var a = sync.Message.Attachments.Cast<Outlook.Attachment>().FirstOrDefault(i => i.FileName.ToLower() == contact.picture.ToLower());
+                    if (a != null)
+                    {
+                        var tmp = Path.GetTempFileName() + Path.GetExtension(contact.picture);
+                        // TODO: Move to MAPI Helper
+                        a.SaveAsFile(tmp);
+                        person.AddPicture(tmp);
+                        removePicture = false;
+                    }
+                }
+                
+                if(removePicture && person.HasPicture)
+                {
+                    person.RemovePicture();
+                }
 
                 // Phone Contacts
                 if (contact.phone != null)
@@ -493,7 +519,9 @@ namespace OutlookKolab.Kolab.Constacts
             contact.name.prefix = source.Title;
             contact.name.suffix = source.Suffix;
 
+            contact.organization = source.CompanyName;
             contact.webpage = source.WebPage;
+            contact.body = source.Body;
             contact.SetBirthday(source.Birthday);
 
             // Phone contact methods

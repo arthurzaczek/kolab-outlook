@@ -130,7 +130,7 @@ namespace OutlookKolab.Kolab
 
             // Take the first attachment
             // TODO: Look for the first attachment with current Kolab MimeType
-            Outlook.Attachment a = message.Attachments.Cast<Outlook.Attachment>().FirstOrDefault();
+            Outlook.Attachment a = message.Attachments.Cast<Outlook.Attachment>().FirstOrDefault(i => i.FileName.ToLower().EndsWith(".xml"));
             if (a != null)
             {
                 // Get an IUnknown Pointer of that attachment

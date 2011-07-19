@@ -65,23 +65,26 @@ namespace OutlookKolab.Kolab.Settings
 
         private void BindTo()
         {
-            if (!string.IsNullOrEmpty(settings.ContactsIMAPFolder) && !string.IsNullOrEmpty(settings.ContactsIMAPStore))
-                txtContactsIMAPFolder.Text = app.Session.GetFolderFromID(settings.ContactsIMAPFolder, settings.ContactsIMAPStore).FullFolderPath;
-            else
-                txtContactsIMAPFolder.Text = "";
-            if (!string.IsNullOrEmpty(settings.ContactsOutlookFolder) && !string.IsNullOrEmpty(settings.ContactsOutlookStore))
-                txtContactsOutlookFolder.Text = app.Session.GetFolderFromID(settings.ContactsOutlookFolder, settings.ContactsOutlookStore).FullFolderPath;
-            else
-                txtContactsOutlookFolder.Text = "";
+            BindToFolder(settings.ContactsIMAPFolder, settings.ContactsIMAPStore, txtContactsIMAPFolder);
+            BindToFolder(settings.ContactsOutlookFolder, settings.ContactsOutlookStore, txtContactsOutlookFolder);
 
-            if (!string.IsNullOrEmpty(settings.CalendarIMAPFolder) && !string.IsNullOrEmpty(settings.CalendarIMAPStore))
-                txtCalendarIMAPFolder.Text = app.Session.GetFolderFromID(settings.CalendarIMAPFolder, settings.CalendarIMAPStore).FullFolderPath;
-            else
-                txtCalendarIMAPFolder.Text = "";
-            if (!string.IsNullOrEmpty(settings.CalendarOutlookFolder) && !string.IsNullOrEmpty(settings.CalendarOutlookStore))
-                txtCalendarOutlookFolder.Text = app.Session.GetFolderFromID(settings.CalendarOutlookFolder, settings.CalendarOutlookStore).FullFolderPath;
-            else
-                txtCalendarOutlookFolder.Text = "";
+            BindToFolder(settings.CalendarIMAPFolder, settings.CalendarIMAPStore, txtCalendarIMAPFolder);
+            BindToFolder(settings.CalendarOutlookFolder, settings.CalendarOutlookStore, txtCalendarOutlookFolder);
+        }
+
+        private void BindToFolder(string folder, string store, TextBox txt)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(folder) && !string.IsNullOrEmpty(store))
+                    txt.Text = app.Session.GetFolderFromID(folder, store).FullFolderPath;
+                else
+                    txt.Text = "";
+            }
+            catch (Exception ex)
+            {
+                Helper.HandleError(ex);
+            }
         }
 
         private void btnOK_Click(object sender, EventArgs e)

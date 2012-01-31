@@ -56,6 +56,7 @@ namespace OutlookKolab.Kolab.Sync
         {
             get
             {
+                System.Windows.Forms.Application.DoEvents();
                 return _isStopping;
             }
         }

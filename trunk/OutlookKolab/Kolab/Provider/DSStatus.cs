@@ -24,6 +24,9 @@ namespace OutlookKolab.Kolab.Provider
     using System.IO;
 
     using OutlookKolab.Kolab.Sync;
+    using System.Data;
+    using System;
+    using System.Linq;
 
     public partial class DSStatus
     {
@@ -47,10 +50,21 @@ namespace OutlookKolab.Kolab.Provider
         public void Save()
         {
             Helper.EnsureStorePath();
+            DeleteOld();
             using (var tx = new FileTransaction(Helper.StatusPath))
             {
                 this.WriteXml(tx.FullTempFileName);
                 tx.Commit();
+            }
+        }
+
+        public void DeleteOld()
+        {
+            var dt = DateTime.Today.AddMonths(-1);
+            foreach (var id in StatusEntry.Where(i => i.time < dt).Select(i => i.ID).ToArray())
+            {
+                var row = StatusEntry.Single(i => i.ID == id);
+                StatusEntry.RemoveStatusEntryRow(row);
             }
         }
 

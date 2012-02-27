@@ -49,6 +49,9 @@ namespace OutlookKolab.Kolab
         /// </summary>
         public static readonly string StatusPath;
 
+        // WTF?
+        public static readonly DateTime OutlookInvalidDate = new DateTime(4501, 1, 1); 
+
         /// <summary>
         /// Static constructor
         /// fills path/filename caches

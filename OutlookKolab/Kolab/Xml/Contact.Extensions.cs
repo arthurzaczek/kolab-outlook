@@ -31,7 +31,7 @@ namespace OutlookKolab.Kolab.Xml
     {
         public DateTime GetBirthday()
         {
-            return birthdaySpecified ? birthday : DateTime.MinValue;
+            return birthdaySpecified ? birthday : Helper.OutlookInvalidDate;
         }
 
         public void SetBirthday(DateTime v)

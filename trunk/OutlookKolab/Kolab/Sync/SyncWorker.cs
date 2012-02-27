@@ -191,6 +191,7 @@ namespace OutlookKolab.Kolab.Sync
 
                 // Saves all conflics. Ask the user later.
                 var conflictList = new List<SyncContext>();
+                var doubleItemsList = new List<SyncContext>();
 
                 #region sync imap messages
                 {
@@ -249,6 +250,14 @@ namespace OutlookKolab.Kolab.Sync
                                 }
                                 else
                                 {
+                                    if (processedEntries.ContainsKey(sync.CacheEntry.localId))
+                                    {
+                                        Log.w("sync", "7. already processed from server: skipping");
+                                        sync.HasConflicts();
+                                        doubleItemsList.Add(sync);
+                                        continue;
+                                    }
+
                                     // Found a local cache item => server and local knows about this item
                                     // do some more checks
                                     Log.d("sync", "7. compare data to figure out what happened");
@@ -315,12 +324,6 @@ namespace OutlookKolab.Kolab.Sync
                                         }
                                     }
                                 }
-                                // Save message as processed - if it was not deleted
-                                if (sync.CacheEntry != null && sync.CacheEntry.RowState != System.Data.DataRowState.Detached)
-                                {
-                                    Log.d("sync", "8. remember message as processed (item id=" + sync.CacheEntry.localId + ")");
-                                    processedEntries[sync.CacheEntry.localId] = true;
-                                }
                             }
                             catch (SyncException ex)
                             {
@@ -330,6 +333,13 @@ namespace OutlookKolab.Kolab.Sync
                             }
                             finally
                             {
+                                // Save message as processed - if it was not deleted
+                                if (sync.CacheEntry != null && sync.CacheEntry.RowState != System.Data.DataRowState.Detached)
+                                {
+                                    Log.d("sync", "8. remember message as processed (item id=" + sync.CacheEntry.localId + ")");
+                                    processedEntries[sync.CacheEntry.localId] = true;
+                                }
+
                                 sync.ReleaseMessage();
                             }
                         }
@@ -409,6 +419,16 @@ namespace OutlookKolab.Kolab.Sync
                     DlgConflictDialog.Show(handler, imapFolder, conflictList);
 
                     foreach (var s in conflictList)
+                    {
+                        s.ReleaseMessage(true);
+                    }
+                }
+
+                if (doubleItemsList.Count > 0)
+                {
+                    DlgDoubleItems.Show(handler, imapFolder, doubleItemsList);
+
+                    foreach (var s in doubleItemsList)
                     {
                         s.ReleaseMessage(true);
                     }

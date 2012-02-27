@@ -180,6 +180,27 @@
     <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug x86|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug x86\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug x86|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug x86\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoWarn>1607</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
   <!--
     This section specifies references for the project.
   -->
@@ -293,6 +314,12 @@
     <Compile Include="Kolab\Sync\DlgConflictDialog.Designer.cs">
       <DependentUpon>DlgConflictDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Kolab\Sync\DlgDoubleItems.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Kolab\Sync\DlgDoubleItems.Designer.cs">
+      <DependentUpon>DlgDoubleItems.cs</DependentUpon>
+    </Compile>
     <Compile Include="Kolab\Sync\SyncContext.cs" />
     <Compile Include="Kolab\Sync\ISyncHandler.cs">
       <SubType>Code</SubType>
@@ -326,6 +353,9 @@
     <EmbeddedResource Include="Kolab\Sync\DlgConflictDialog.resx">
       <DependentUpon>DlgConflictDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Kolab\Sync\DlgDoubleItems.resx">
+      <DependentUpon>DlgDoubleItems.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -106,7 +106,13 @@
         "Entry"
         {
         "MsmKey" = "8:_F90746341C5E82772DD6A975321DBDD3"
-        "OwnerKey" = "8:_E504A231C7C18E7839FD2D0700E96571"
+        "OwnerKey" = "8:_FC8613DB0E7D7BACE6A52D6B5B8C4E83"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F90746341C5E82772DD6A975321DBDD3"
+        "OwnerKey" = "8:_221D3EF8F9DBD71DDACC813208FBB650"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -118,31 +124,25 @@
         "Entry"
         {
         "MsmKey" = "8:_F90746341C5E82772DD6A975321DBDD3"
-        "OwnerKey" = "8:_221D3EF8F9DBD71DDACC813208FBB650"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_F90746341C5E82772DD6A975321DBDD3"
-        "OwnerKey" = "8:_FC8613DB0E7D7BACE6A52D6B5B8C4E83"
+        "OwnerKey" = "8:_E504A231C7C18E7839FD2D0700E96571"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_FC8613DB0E7D7BACE6A52D6B5B8C4E83"
         "OwnerKey" = "8:_221D3EF8F9DBD71DDACC813208FBB650"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_FC8613DB0E7D7BACE6A52D6B5B8C4E83"
-        "OwnerKey" = "8:_5D47179765D5870B990A1B246858069F"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_FC8613DB0E7D7BACE6A52D6B5B8C4E83"
         "OwnerKey" = "8:_9998C94B0D5D4B9885584AF55AC8C51E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_FC8613DB0E7D7BACE6A52D6B5B8C4E83"
+        "OwnerKey" = "8:_5D47179765D5870B990A1B246858069F"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -154,37 +154,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_2A57F68A0116203F069B2A887A8FAB13"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_F90746341C5E82772DD6A975321DBDD3"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_3E47EC42E75D0BF6591DC478834C62BE"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_E504A231C7C18E7839FD2D0700E96571"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_FC8613DB0E7D7BACE6A52D6B5B8C4E83"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_221D3EF8F9DBD71DDACC813208FBB650"
+        "OwnerKey" = "8:_9998C94B0D5D4B9885584AF55AC8C51E"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -196,7 +166,37 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_9998C94B0D5D4B9885584AF55AC8C51E"
+        "OwnerKey" = "8:_221D3EF8F9DBD71DDACC813208FBB650"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_FC8613DB0E7D7BACE6A52D6B5B8C4E83"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_E504A231C7C18E7839FD2D0700E96571"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_3E47EC42E75D0BF6591DC478834C62BE"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_F90746341C5E82772DD6A975321DBDD3"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_2A57F68A0116203F069B2A887A8FAB13"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -571,15 +571,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Kolab sync for Outlook x64"
-        "ProductCode" = "8:{E6F77747-8A95-4996-843D-DA4D76825A06}"
-        "PackageCode" = "8:{3BDCEED3-1A5C-4884-BED3-4B26335BEDFE}"
+        "ProductCode" = "8:{7A9193F5-4776-4719-A2C7-42EDB1C5972A}"
+        "PackageCode" = "8:{72EEAB49-C0DA-4801-A7A2-53F11F8200E1}"
         "UpgradeCode" = "8:{6E1F0697-44E0-4CB1-A5AE-35C895EE799C}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
-        "RemovePreviousVersions" = "11:FALSE"
+        "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.0"
+        "ProductVersion" = "8:1.0.21"
         "Manufacturer" = "8:dasz.at OG"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -1153,7 +1153,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_9998C94B0D5D4B9885584AF55AC8C51E"
             {
-            "SourcePath" = "8:"
+            "SourcePath" = "8:..\\OutlookKolab\\obj\\x64\\Debug\\OutlookKolab.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_B4D5453F96DA4874A2D14F93060D4278"

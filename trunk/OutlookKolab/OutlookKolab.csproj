@@ -362,7 +362,7 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>powershell -command $(SolutionDir)gendarme.ps1 -SolutionDir:$(SolutionDir)
+    <PostBuildEvent>powershell -command $(SolutionDir)gendarme.ps1 -SolutionDir:$(SolutionDir) -Platform:$(Platform) -Configuration:$(Configuration)
 type $(SolutionDir)\OutlookKolab\bin\gendarme.txt</PostBuildEvent>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v10.0\OfficeTools\Microsoft.VisualStudio.Tools.Office.targets" />

@@ -106,13 +106,7 @@
         "Entry"
         {
         "MsmKey" = "8:_F90746341C5E82772DD6A975321DBDD3"
-        "OwnerKey" = "8:_FC8613DB0E7D7BACE6A52D6B5B8C4E83"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_F90746341C5E82772DD6A975321DBDD3"
-        "OwnerKey" = "8:_221D3EF8F9DBD71DDACC813208FBB650"
+        "OwnerKey" = "8:_E504A231C7C18E7839FD2D0700E96571"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -124,7 +118,13 @@
         "Entry"
         {
         "MsmKey" = "8:_F90746341C5E82772DD6A975321DBDD3"
-        "OwnerKey" = "8:_E504A231C7C18E7839FD2D0700E96571"
+        "OwnerKey" = "8:_221D3EF8F9DBD71DDACC813208FBB650"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F90746341C5E82772DD6A975321DBDD3"
+        "OwnerKey" = "8:_FC8613DB0E7D7BACE6A52D6B5B8C4E83"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -136,13 +136,13 @@
         "Entry"
         {
         "MsmKey" = "8:_FC8613DB0E7D7BACE6A52D6B5B8C4E83"
-        "OwnerKey" = "8:_9998C94B0D5D4B9885584AF55AC8C51E"
+        "OwnerKey" = "8:_5D47179765D5870B990A1B246858069F"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_FC8613DB0E7D7BACE6A52D6B5B8C4E83"
-        "OwnerKey" = "8:_5D47179765D5870B990A1B246858069F"
+        "OwnerKey" = "8:_9998C94B0D5D4B9885584AF55AC8C51E"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -154,37 +154,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_9998C94B0D5D4B9885584AF55AC8C51E"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_5D47179765D5870B990A1B246858069F"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_221D3EF8F9DBD71DDACC813208FBB650"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_FC8613DB0E7D7BACE6A52D6B5B8C4E83"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_E504A231C7C18E7839FD2D0700E96571"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_3E47EC42E75D0BF6591DC478834C62BE"
+        "OwnerKey" = "8:_2A57F68A0116203F069B2A887A8FAB13"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -196,7 +166,37 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_2A57F68A0116203F069B2A887A8FAB13"
+        "OwnerKey" = "8:_3E47EC42E75D0BF6591DC478834C62BE"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_E504A231C7C18E7839FD2D0700E96571"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_FC8613DB0E7D7BACE6A52D6B5B8C4E83"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_221D3EF8F9DBD71DDACC813208FBB650"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_5D47179765D5870B990A1B246858069F"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_9998C94B0D5D4B9885584AF55AC8C51E"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -226,10 +226,10 @@
             "ComponentsUrl" = "8:"
                 "Items"
                 {
-                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.0,Profile=Client"
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Net.Client.3.5"
                     {
-                    "Name" = "8:Microsoft .NET Framework 4 Client Profile (x86 and x64)"
-                    "ProductCode" = "8:.NETFramework,Version=v4.0,Profile=Client"
+                    "Name" = "8:.NET Framework 3.5 SP1 Client Profile"
+                    "ProductCode" = "8:Microsoft.Net.Client.3.5"
                     }
                     "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Windows.Installer.3.1"
                     {

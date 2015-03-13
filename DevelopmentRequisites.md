@@ -1,0 +1,3 @@
+For compiling this project you need Visual Studio 2010 Professional Edition (and others). All other dependencies are included in VS 2010.
+
+If you want to setup a build server without installing Visual Studio there, you can use the included BuildDependenciesInstaller project to package all necessary DLLs from a developer machine into an MSI for the build server. See the included README.txt for details.
